@@ -9,6 +9,7 @@ import GridLine from "./../GridLine";
 function EditorDemo(props: any) {
   const [state, setstate] = useState(0);
   const [fixed, setfixed] = useState(true);
+  const [wrapHeight, setWrapHeight] = useState(0);
   const rowHeight = 20;
   const cols = 12;
   const ref = useRef(null);
