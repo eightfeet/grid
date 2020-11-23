@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GridLayout from "react-grid-layout";
 import classNames from "classnames";
 import "react-grid-layout/css/styles.css";
@@ -11,6 +11,7 @@ function EditorDemo(props: any) {
   const [fixed, setfixed] = useState(true);
   const rowHeight = 20;
   const cols = 12;
+  const ref = useRef(null);
   useEffect(() => {
     setstate(window.innerWidth);
     setTimeout(() => {
@@ -48,13 +49,13 @@ function EditorDemo(props: any) {
     return null;
   }
   return (
-    <div className={s.layout}>
+    <div className={s.layout} ref={ref}>
       {!fixed ? (
         <GridLine
           width={window.innerWidth}
           cols={cols}
           rowHeight={rowHeight}
-          height={window.innerHeight}
+          height={(ref.current as any).scrollHeight}
           space={10}
         />
       ) : null}
