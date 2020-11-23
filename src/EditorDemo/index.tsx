@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import GridLayout from "react-grid-layout";
+import classNames from "classnames";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import s from "./test.module.scss";
+import GridLine from "./../GridLine";
 
 function EditorDemo(props: any) {
   const [state, setstate] = useState(0);
   const [fixed, setfixed] = useState(true);
-
+  const rowHeight = 20;
+  const cols = 12;
   useEffect(() => {
     setstate(window.innerWidth);
     setTimeout(() => {
@@ -16,7 +19,7 @@ function EditorDemo(props: any) {
   }, []);
   const layout = [
     { i: "a", x: 0, y: 0, w: 1, h: 2, static: fixed },
-    { i: "b", x: 1, y: 0, w: 10, h: 2, minW: 10, maxW: 10, static: fixed },
+    { i: "b", x: 1, y: 0, w: 10, h: 2, static: fixed },
     { i: "c", x: 11, y: 0, w: 1, h: 2, static: fixed },
   ];
 
@@ -38,26 +41,37 @@ function EditorDemo(props: any) {
   };
 
   const onLayoutChange = () => {
-    console.log("onchange")
-  }
+    console.log("onchange");
+  };
 
   if (state === 0) {
     return null;
   }
   return (
-    <div>
+    <div className={s.layout}>
+      {!fixed ? (
+        <GridLine
+          width={window.innerWidth}
+          cols={cols}
+          rowHeight={rowHeight}
+          height={window.innerHeight}
+          space={10}
+        />
+      ) : null}
       <GridLayout
         onDragStop={onDragStop}
         onLayoutChange={onLayoutChange}
-        className="layout"
         layout={layout}
-        cols={12}
-        rowHeight={state/12}
+        cols={cols}
+        rowHeight={rowHeight}
         width={state}
         autoSize
       >
         {layout.map((item) => (
-          <div className={s.block} key={item.i}>
+          <div
+            className={classNames(s.block, fixed ? null : s.modify)}
+            key={item.i}
+          >
             <div className={item.i === "b" ? s.blockcon : ""}>{item.i}</div>
           </div>
         ))}
