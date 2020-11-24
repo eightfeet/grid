@@ -79,7 +79,8 @@ function EditorDemo({ isEditing, rowHeight, cols, width, height, data}: EditorPr
     }
   }
 
-  const onLayoutChange = () => {
+  const onLayoutChange = (layouts:GridLayout.Layout[]) => {
+    console.log(333, layouts)
     setTimeout(() => {
       setSize()
     });
