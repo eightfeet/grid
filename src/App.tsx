@@ -1,8 +1,12 @@
 import React from 'react';
+import queryString from 'query-string'
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './App.scss';
 import EditorDemo from './EditorDemo';
+
+
+const isEditing = queryString.parse(window.location.search).isEditing === 'true';
 
 const data = [
   {
@@ -23,7 +27,7 @@ function App(props: any) {
     return (
         <div className="App">
             <EditorDemo
-                isEditing={false}
+                isEditing={isEditing}
                 rowHeight={20}
                 cols={12}
                 width={window.innerWidth}
