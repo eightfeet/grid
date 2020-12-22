@@ -1,5 +1,5 @@
-import React from 'react';
-import queryString from 'query-string'
+import React, { useCallback, useState } from 'react';
+import queryString from 'query-string';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './App.scss';
@@ -24,6 +24,13 @@ const data = [
 ]
 
 function App(props: any) {
+  // const [isEditing, setIsEditing] = useState(true);
+  //   const onClick = useCallback(
+  //     () => {
+  //       setIsEditing(!isEditing)
+  //     },
+  //     [isEditing],
+  //   )
     return (
         <div className="App">
             <EditorDemo
