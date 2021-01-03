@@ -5,7 +5,7 @@
   "dependencies": {
     "@babel/core": "7.12.3",
     "@eightfeet/form": "0.0.5",
-    "@eightfeet/modal": "^2.2.8",
+    "@eightfeet/modal": "^2.2.12",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
     "@svgr/webpack": "5.4.0",
     "@testing-library/jest-dom": "^5.11.4",
