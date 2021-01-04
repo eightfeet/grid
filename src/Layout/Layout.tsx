@@ -80,9 +80,6 @@ const Layout: React.FC<LayoutProps> = ({
     const [wrapWidth, setWrapWidth] = useState(0);
     const [wrapHeight, setWrapHeight] = useState(0);
     const ref = useRef(null);
-    useEffect(() => {
-        setSize();
-    }, [width, height]);
     
     const setSize = useCallback(
         () => {
@@ -98,17 +95,21 @@ const Layout: React.FC<LayoutProps> = ({
                 setWrapWidth(width);
             }
         },
-        [height, width],
+        [],
     );
 
+    useEffect(() => {
+        setSize();
+    }, [width, height, setSize]);
+
     const onLayoutChange = useCallback(
-        () => (layout: LayoutDataType[]) => {
+        (layout: LayoutDataType[]) => {
             if (onChange instanceof Function) {
                 onChange(layout);
             }
             setSize();
         },
-        [onChange],
+        [onChange, setSize],
     );
 
     return (
