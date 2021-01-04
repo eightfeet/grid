@@ -9,6 +9,18 @@ interface GridLineProps {
   space: number;
 }
 
+/**
+ * 编辑参考线
+ * @export
+ * @param {GridLineProps} {
+ *   height,
+ *   width,
+ *   cols,
+ *   rowHeight,
+ *   space,
+ * }
+ * @return {*} 
+ */
 export default function GridLine({
   height,
   width,

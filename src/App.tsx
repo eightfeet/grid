@@ -1,44 +1,74 @@
 import React, { useCallback, useState } from 'react';
 import queryString from 'query-string';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 import './App.scss';
-import EditorDemo from './EditorDemo';
+import Layout from './Layout';
+import { Layout as LayoutDataType } from 'react-grid-layout';
 
-
-const isEditing = queryString.parse(window.location.search).isEditing === 'true';
+const isEditing =
+    queryString.parse(window.location.search).isEditing === 'true';
 
 const data = [
-  {
-    layout: { i: "a", x: 1, y: 0, w: 10, h: 2 },
-    config: {name: '按钮'}
-  },
-  {
-    layout: { i: "b", x: 1, y: 0, w: 10, h: 2},
-    config: {name: '抽奖'}
-  },
-  {
-    layout: { i: "c", x: 1, y: 0, w: 10, h: 2},
-    config: {name: '报名'}
-  }
-]
+    {
+        layout: {
+            w: 10,
+            h: 2,
+            x: 1,
+            y: 19,
+            i: 'a',
+            moved: false,
+            static: false,
+        },
+        style: {},
+        content: { text: 'a' },
+        event: {},
+        type: 'base',
+    },
+    {
+        layout: {
+            w: 10,
+            h: 8,
+            x: 1,
+            y: 11,
+            i: 'b',
+            moved: false,
+            static: false,
+        },
+        style: {},
+        content: { text: 'b' },
+        event: {},
+        type: 'base',
+    },
+    {
+        layout: {
+            w: 10,
+            h: 11,
+            x: 1,
+            y: 0,
+            i: 'c',
+            moved: false,
+            static: false,
+        },
+        style: {},
+        content: { text: 'c' },
+        event: {},
+        type: 'base',
+    },
+];
+
+const onChange = (data: LayoutDataType[]) => {
+    console.log(data);
+};
 
 function App(props: any) {
-  // const [isEditing, setIsEditing] = useState(true);
-  //   const onClick = useCallback(
-  //     () => {
-  //       setIsEditing(!isEditing)
-  //     },
-  //     [isEditing],
-  //   )
     return (
         <div className="App">
-            <EditorDemo
+            <Layout
                 isEditing={isEditing}
                 rowHeight={20}
                 cols={12}
                 width={window.innerWidth}
                 data={data}
+                onChange={onChange}
             />
         </div>
     );
