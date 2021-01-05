@@ -2,19 +2,18 @@ import React from 'react';
 import { elementsTypes } from './../../types/appData';
 
 interface ElementsProps extends elementsTypes {
-    
+    id: string
 }
 
 const Elements: React.FC<ElementsProps> = ({
+    id,
     style,
     content,
     event,
     type,
-    ...other
 }) => {
     const { basic } = style;
-
-    return <div style={basic}>{content.text}</div>;
+    return <div id={id} style={basic}>{content.text}</div>;
 };
 
 export default Elements;

@@ -128,7 +128,7 @@ const Layout: React.FC<LayoutProps> = ({
                             static: !isEditing,
                         }}
                     >
-                        <Elements {...other} />
+                        <Elements id={layout.i} {...other} />
                     </div>
                 ))}
             </GridLayout>
