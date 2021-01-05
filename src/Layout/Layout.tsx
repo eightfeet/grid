@@ -49,6 +49,13 @@ interface LayoutProps {
      */
     data: appDataListTypes;
     onChange?: (layout: LayoutDataType[]) => void;
+    /**
+     * 设计模式 | 预览模式
+     * true | false 
+     * @type {boolean}
+     * @memberof LayoutProps
+     */
+    designModal?: boolean;
 }
 
 /**
@@ -64,6 +71,7 @@ const Layout: React.FC<LayoutProps> = ({
     width,
     height,
     data,
+    designModal,
     onChange,
 }) => {
     const [wrapWidth, setWrapWidth] = useState(0);
@@ -98,9 +106,15 @@ const Layout: React.FC<LayoutProps> = ({
         [onChange, setSize]
     );
 
+    // 目的
+    // 要求
+
+    const layoutsData = data.map(item => item.layout);
+    
+
     return (
         <div className={s.layout} ref={ref}>
-            {isEditing ? (
+            {designModal ? (
                 <GridLine
                     width={window.innerWidth}
                     cols={cols}
@@ -120,7 +134,7 @@ const Layout: React.FC<LayoutProps> = ({
                     <div
                         className={classNames(
                             s.block,
-                            !isEditing ? null : s.modify
+                            !designModal ? null : s.modify
                         )}
                         key={layout.i}
                         data-grid={{
