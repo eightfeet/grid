@@ -80,23 +80,20 @@ const Layout: React.FC<LayoutProps> = ({
     const [wrapWidth, setWrapWidth] = useState(0);
     const [wrapHeight, setWrapHeight] = useState(0);
     const ref = useRef(null);
-    
-    const setSize = useCallback(
-        () => {
-            let height = 0;
-            let width = 0;
-            if (ref !== null) {
-                if (!ref.current) {
-                    return;
-                }
-                height = (ref.current as any).scrollHeight;
-                width = (ref.current as any).scrollWidth;
-                setWrapHeight(height);
-                setWrapWidth(width);
+
+    const setSize = useCallback(() => {
+        let height = 0;
+        let width = 0;
+        if (ref !== null) {
+            if (!ref.current) {
+                return;
             }
-        },
-        [],
-    );
+            height = (ref.current as any).scrollHeight;
+            width = (ref.current as any).scrollWidth;
+            setWrapHeight(height);
+            setWrapWidth(width);
+        }
+    }, []);
 
     useEffect(() => {
         setSize();
@@ -109,7 +106,7 @@ const Layout: React.FC<LayoutProps> = ({
             }
             setSize();
         },
-        [onChange, setSize],
+        [onChange, setSize]
     );
 
     return (
@@ -130,7 +127,7 @@ const Layout: React.FC<LayoutProps> = ({
                 width={wrapWidth}
                 autoSize
             >
-                {data.map(({ layout, ...other }, index) => (
+                {data.map(({ layout, ...other }) => (
                     <div
                         className={classNames(
                             s.block,

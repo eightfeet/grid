@@ -17,7 +17,7 @@ const Elements: React.FC<ElementsProps> = ({
     ...other
 }) => {
     console.log(other);
-    return <div>{content.text}</div>;
+    return <div style={style}>{content.text}</div>;
 };
 
 export default Elements;
