@@ -1,12 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
-import s from './Elements.module.scss';
+import { elementsTypes } from './../../types/appData';
 
-interface ElementsProps {
-    style: { [keys: string]: any };
-    content: { [keys: string]: any };
-    event: { [keys: string]: any };
-    type: string;
+interface ElementsProps extends elementsTypes {
+    
 }
 
 const Elements: React.FC<ElementsProps> = ({
@@ -16,8 +12,9 @@ const Elements: React.FC<ElementsProps> = ({
     type,
     ...other
 }) => {
-    console.log(other);
-    return <div style={style}>{content.text}</div>;
+    const { basic } = style;
+
+    return <div style={basic}>{content.text}</div>;
 };
 
 export default Elements;

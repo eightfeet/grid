@@ -6,6 +6,7 @@ import s from './Layout.module.scss';
 import GridLine from '../GridLine';
 import Elements from '../Elements';
 import classNames from 'classnames';
+import { appDataListTypes } from '../../types/appData';
 
 interface LayoutProps {
     /**
@@ -46,19 +47,7 @@ interface LayoutProps {
      *   }[]}
      * @memberof LayoutProps
      */
-    data: {
-        layout: GridLayout.Layout;
-        style: {
-            [keys: string]: any;
-        };
-        content: {
-            [keys: string]: any;
-        };
-        event: {
-            [keys: string]: any;
-        };
-        type: string;
-    }[];
+    data: appDataListTypes;
     onChange?: (layout: LayoutDataType[]) => void;
 }
 

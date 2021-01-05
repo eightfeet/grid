@@ -9,9 +9,9 @@ const isEditing =
   queryString.parse(window.location.search).isEditing === "true";
 
 function App(props: any) {
-  const [appData, setAppData] = useState(data);
+  const [appData] = useState(data);
   const onChange = useCallback((data: LayoutDataType[]) => {
-    console.log(data);
+    console.log(data, 111);
   }, []);
   return (
     <div className="App">
