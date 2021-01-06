@@ -10,7 +10,7 @@
                 "number",
                 "起始位置",
                 "%",
-                [0, "{{middleTransition}} | {{endTransition}}"]
+                [0, "{{middleTransition | endTransition}}"]
             ],
             "endColor": [
                 "color",
@@ -21,7 +21,7 @@
                 "number",
                 "终点位置",
                 "%",
-                ["{{startTransition}} | {{middleTransition}}", 100]
+                ["{{startTransition | middleTransition}}", 100]
             ],
             "middleColor": [
                 "color",
