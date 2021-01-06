@@ -15,7 +15,9 @@ const appData: appDataListTypes = [
             basic: {
                 width: '100px',
                 height: '100px',
+                borderRadius: '20px',
                 backgroundColor: 'red',
+
             },
         },
         content: { text: 'a' },
