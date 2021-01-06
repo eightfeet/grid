@@ -2,12 +2,12 @@ import { useEffect, useRef, useCallback } from "react";
 import Modal, { ModalParameters } from "@eightfeet/modal";
 
 const useModal = (parameters: ModalParameters) => {
-  const ref = useRef(null);
+  const ref = useRef<Modal>();
   useEffect(() => {
-    ((ref.current as unknown) as Modal) = new Modal(parameters);
+    ref.current = new Modal(parameters);
     return () => {
       if (ref.current) {
-        const previousModal = ((ref.current as unknown) as Modal);
+        const previousModal = ref.current;
         if (document.getElementById(previousModal.state.id as string)) {
           previousModal.remove();
         }
@@ -16,14 +16,15 @@ const useModal = (parameters: ModalParameters) => {
   }, [parameters]);
 
   const createModal = useCallback<Modal['create']>((data) => {
-    return ((ref.current as unknown) as Modal).create(data);
+    return ref.current?.create(data) || Promise.reject('modal is not ready yet!');
   }, []);
 
-  const hideModal = useCallback<Modal["hide"]>((data) => {
-    return ((ref.current as unknown) as Modal).hide(data);
+  const hideModal = useCallback<Modal["hide"]>((doNotRemove) => {
+    return ref.current?.hide(doNotRemove) || Promise.reject('modal is not ready yet!');
   }, []);
 
   return { createModal, hideModal }
 };
 
 export default useModal;
+

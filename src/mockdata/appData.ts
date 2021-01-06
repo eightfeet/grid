@@ -20,7 +20,7 @@ const appData: appDataListTypes = [
         },
         content: { text: 'a' },
         event: {},
-        type: 'base',
+        type: 'Conterner',
     },
     {
         layout: {
@@ -41,7 +41,7 @@ const appData: appDataListTypes = [
         },
         content: { text: 'b' },
         event: {},
-        type: 'base',
+        type: 'Modal',
     },
     {
         layout: {
@@ -62,7 +62,7 @@ const appData: appDataListTypes = [
         },
         content: { text: 'c' },
         event: {},
-        type: 'base',
+        type: 'Conterner',
     },
 ];
 

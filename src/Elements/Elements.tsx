@@ -1,19 +1,31 @@
-import React from 'react';
+import React, {
+    Suspense,
+    lazy,
+    useEffect,
+} from 'react';
 import { elementsTypes } from './../../types/appData';
 
+/**
+ * To do list !!!
+ * step1: 元件按需加载处理
+ * step2: 元件框架与数据结构定义
+ * step3: 测试元件
+ *
+ * @interface ElementsProps
+ * @extends {elementsTypes}
+ */
 interface ElementsProps extends elementsTypes {
-    id: string
+    id: string;
 }
 
-const Elements: React.FC<ElementsProps> = ({
-    id,
-    style,
-    content,
-    event,
-    type,
-}) => {
-    const { basic } = style;
-    return <div id={id} style={basic}>{content.text}</div>;
+const Elements: React.FC<ElementsProps> = (props) => {
+    const { type } = props;
+    const Comp = lazy(() => import(`./../modules/${type}`));
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Comp {...props} />
+        </Suspense>
+    );
 };
 
 export default Elements;

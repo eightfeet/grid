@@ -51,6 +51,10 @@ function App(props: any) {
                     <button onClick={() => resultData.current ? setLocalStoreData(resultData.current) : null}>
                         保存
                     </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button onClick={() => {window.localStorage.clear(); window.location.reload()}}>
+                        重置
+                    </button>
                 </>
             ) : null}
             <Layout
