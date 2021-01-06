@@ -1,4 +1,5 @@
 import React from 'react';
+import s from './Conterner.module.scss';
 import { elementsTypes } from './../../../types/appData';
 
 interface paraments extends elementsTypes  {
