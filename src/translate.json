@@ -1,0 +1,10 @@
+{
+    "background": {
+        "backgroundGradient": "background: linear-gradient({{gradientDirections}}, {{startColor}} {{startTransition}}, {{middleColor}} {{middleTransition}}, {{endColor}} {{endTransition}});",
+        "backgroundCommon": "background:{{backgroundColor}} {{imageUrl}} {{repeat}} {{positionX}} {{positionY}}; {{sizeX}} {{sizeY}}"
+    },
+    "border": "border-radius: {{radiusTopLeft}} {{radiusTopRight}} {{radiusBottomLeft}} {{radiusBottomRight}}; border{{borderPosition}}: {{borderWidth}} {{borderStyle}} {{borderColor}};",
+    "shadow": "{{type}}:{{inset}} {{shifRight}} {{shiftDown}} {{spread}} {{blur}} {{color}};",
+    "font": "font: {{italic}} {{weight}} {{fontSize}}; {{lineHeight}} {{color}} {{letterSP}} {{wordSp}} {{decoration}}",
+    "transform": "transform: {{rotate}} translate({{translateX}}, {{translateY}}) skew({{skewX}}, {{skewY}});"
+}

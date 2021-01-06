@@ -1,51 +1,445 @@
 {
     "background": {
         "backgroundGradient": {
-            "startColor": "起点颜色",
-            "startTransition": "起始位%",
-            "endColor": "终点颜色",
-            "endTransition": "终点位%",
-            "middleColor": "中间色",
-            "middleTransition": "中间位%",
-            "gradientDirections": "left2right | top2bottom | diagonalDescending 反向对角线 | diagonalAscending 对角线 | radial 径向"
+            "startColor": [
+                "color",
+                "起始颜色",
+                "rgba"
+            ],
+            "startTransition": [
+                "number",
+                "起始位置",
+                "%",
+                [0, "{{middleTransition}} | {{endTransition}}"]
+            ],
+            "endColor": [
+                "color",
+                "起始颜色",
+                "rgba"
+            ],
+            "endTransition": [
+                "number",
+                "终点位置",
+                "%",
+                ["{{startTransition}} | {{middleTransition}}", 100]
+            ],
+            "middleColor": [
+                "color",
+                "中间颜色",
+                "rgba"
+            ],
+            "middleTransition": [
+                "number",
+                "中间位置",
+                "%",
+                ["{{startTransition}}", "{{endTransition}}"]
+            ],
+            "gradientDirections": [
+                "select",
+                "渐变样式",
+                null,
+                [
+                    {
+                        "name": "左右",
+                        "value": "left2right"
+                    },
+                    {
+                        "name": "上下",
+                        "value": "top2bottom"
+                    },
+                    {
+                        "name": "对角",
+                        "value": "diagonalAscending"
+                    },
+                    {
+                        "name": "反向对角",
+                        "value": "diagonalDescending"
+                    },
+                    {
+                        "name": "径向",
+                        "value": "radial"
+                    }
+                ]
+            ]
         },
         "backgroundCommon": {
-            "imageUrl": "背景图片",
-            "position": "leftTop% | centerTop% | rightTop% | leftCenter% | centerCenter% | rightCenter% |  leftBottom% | centerBottom% | rightBottom%",
-            "positionX": "x%",
-            "positionY": "y%",
-            "sizeX": "xpx",
-            "sizeY": "ypx",
-            "repeat": "no-repeat | repeat | repeat-x | repeat-y",
-            "backgroundColor": "背景色"
+            "imageUrl": [
+                "upload",
+                "背景图片"
+            ],
+            "position": [
+                "select",
+                "背景位置",
+                "%",
+                [
+                    {
+                        "name": "左上",
+                        "value": "leftTop"
+                    },
+                    {
+                        "name": "中上",
+                        "value": "centerTop"
+                    },
+                    {
+                        "name": "右上",
+                        "value": "rightTop"
+                    },
+                    {
+                        "name": "左中",
+                        "value": "leftCenter"
+                    },
+                    {
+                        "name": "中间",
+                        "value": "centerCenter"
+                    },
+                    {
+                        "name": "右中",
+                        "value": "rightCenter"
+                    },
+                    {
+                        "name": "左中",
+                        "value": "leftBottom"
+                    },
+                    {
+                        "name": "中间",
+                        "value": "centerBottom"
+                    },
+                    {
+                        "name": "右中",
+                        "value": "rightBottom"
+                    }
+                ]
+            ],
+            "positionX": [
+                "number",
+                "横向位置",
+                "%",
+                [0, 100]
+            ],
+            "positionY": [
+                "number",
+                "纵向位置",
+                "%",
+                [0, 100]
+            ],
+            "sizeX": [
+                "number",
+                "X尺寸",
+                "px",
+                [0, 1000]
+            ],
+            "sizeY": [
+                "number",
+                "Y尺寸",
+                "px",
+                [0, 1000]
+            ],
+            "repeat": [
+                "select",
+                "背景平铺",
+                null,
+                [
+                    {
+                        "name": "不平铺",
+                        "value": "no-repeat"
+                    },
+                    {
+                        "name": "平铺",
+                        "value": "repeat"
+                    },
+                    {
+                        "name": "横向平铺",
+                        "value": "repeat-x"
+                    },
+                    {
+                        "name": "纵向平铺",
+                        "value": "repeat-y"
+                    }
+                ]
+            ],
+            "backgroundColor": [
+                "color",
+                "背景色",
+                "rgba"
+            ]
         }
     },
     "border": {
-        "radius": "px",
-        "radiusTopLeft": "px",
-        "radiusTopRight": "px",
-        "radiusBottomLeft": "px",
-        "radiusBottomRight": "px",
-        "borderColor": "边框色",
-        "borderPosition": "all | top | right | bottom | left",
-        "borderStyle": "solid | dotted | dashed | double | groove | ridge | inset | outset | hidden | none",
-        "borderWidth": "px"
+        "radius": [
+            "number",
+            "圆角",
+            "px",
+            [0, 100]
+        ],
+        "radiusTopLeft": [
+            "number",
+            "左上圆角",
+            "px",
+            [0, 100]
+        ],
+        "radiusTopRight": [
+            "number",
+            "右上圆角",
+            "px",
+            [0, 100]
+        ],
+        "radiusBottomLeft": [
+            "number",
+            "左下圆角",
+            "px",
+            [0, 100]
+        ],
+        "radiusBottomRight": [
+            "number",
+            "右下圆角",
+            "px",
+            [0, 100]
+        ],
+        "borderColor": [
+            "color",
+            "边框色",
+            "rgba"
+        ],
+        "borderPosition": [
+            "select",
+            "边框",
+            null,
+            [
+                {
+                    "name": "全部",
+                    "value": "all"
+                },
+                {
+                    "name": "上",
+                    "value": "top"
+                },
+                {
+                    "name": "右",
+                    "value": "right"
+                },
+                {
+                    "name": "下",
+                    "value": "bottom"
+                },
+                {
+                    "name": "左",
+                    "value": "left"
+                }
+            ]
+        ],
+        "borderStyle": [
+            "select",
+            "样式",
+            null,
+            [
+                {
+                    "name": "solid",
+                    "value": "solid"
+                },
+                {
+                    "name": "dotted",
+                    "value": "dotted"
+                },
+                {
+                    "name": "dashed",
+                    "value": "dashed"
+                },
+                {
+                    "name": "double",
+                    "value": "double"
+                },
+                {
+                    "name": "groove",
+                    "value": "groove"
+                },
+                {
+                    "name": "ridge",
+                    "value": "ridge"
+                },
+                {
+                    "name": "inset",
+                    "value": "inset"
+                },
+                {
+                    "name": "outset",
+                    "value": "outset"
+                },
+                {
+                    "name": "hidden",
+                    "value": "hidden"
+                },
+                {
+                    "name": "none",
+                    "value": "none"
+                }
+            ]
+        ],
+        "borderWidth": [
+            "number",
+            "边宽",
+            "px",
+            [0, 30]
+        ]
     },
-    "shadow": [{
-        "type": "text | box",
-        "shifRight": "px",
-        "shiftDown": "px",
-        "spread": "px",
-        "blur": "px",
-        "color": "投影色"
-    }],
-    "text": {
-        "fontSize": "px",
-        "color": "文字颜色",
-        "letterSP": "英文字母间距px",
-        "wordSp": "字间距px",
-        "weight": "normal | bold",
-        "decoration": "none | underline | overline | lineThrough",
-        "italic": true
+    "shadow": [
+        {
+            "type": [
+                "select",
+                "投影类别",
+                null,
+                [
+                    {
+                        "name": "投影",
+                        "value": "boxshadow"
+                    },
+                    {
+                        "name": "文字投影",
+                        "value": "textshadow"
+                    }
+                ]
+            ],
+            "shifRight": [
+                "number",
+                "横向偏移",
+                "px",
+                [0, 100]
+            ],
+            "shiftDown": [
+                "number",
+                "纵向偏移",
+                "px",
+                [0, 100]
+            ],
+            "spread": [
+                "number",
+                "扩散",
+                "px",
+                [0, 100]
+            ],
+            "blur": [
+                "number",
+                "模糊",
+                "px",
+                [0, 100]
+            ],
+            "color": [
+                "color",
+                "颜色"
+            ],
+            "inset": [
+                "boolean",
+                "内阴影"
+            ]
+        }
+    ],
+    "font": {
+        "fontSize": [
+            "number",
+            "字体大小",
+            "px",
+            [10, 100]
+        ],
+        "lineHeight": [
+            "number",
+            "行间距",
+            "px",
+            [0, 10]
+        ],
+        "color": [
+            "color",
+            "文字颜色",
+            "rgba"
+        ],
+        "letterSP": [
+            "color",
+            "文字颜色",
+            "rgba"
+        ],
+        "wordSp": [
+            "number",
+            "字间距",
+            "px",
+            [0, 100]
+        ],
+        "weight": [
+            "select",
+            "粗体",
+            null,
+            [
+                {
+                    "name": "正常",
+                    "value": "normal"
+                },
+                {
+                    "name": "加粗",
+                    "value": "bold"
+                }
+            ]
+        ],
+        "decoration": [
+            "select",
+            "样式",
+            null,
+            [
+                {
+                    "name": "无",
+                    "value": "none"
+                },
+                {
+                    "name": "下划线",
+                    "value": "underline"
+                },
+                {
+                    "name": "上划线",
+                    "value": "overline"
+                },
+                {
+                    "name": "删除线",
+                    "value": "lineThrough"
+                }
+            ]
+        ],
+        "italic": [
+            "boolean",
+            "斜体"
+        ]
+    },
+    "transform": {
+        "scale": [
+            "number",
+            "缩放",
+            null,
+            [0, 10]
+        ],
+        "rotate": [
+            "number",
+            "旋转",
+            "deg",
+            [-360, 360]
+        ],
+        "translateX": [
+            "number",
+            "横向偏移",
+            "px",
+            [-100, 100]
+        ],
+        "translateY": [
+            "number",
+            "纵向偏移",
+            "px",
+            [-100, 100]
+        ],
+        "skewX": [
+            "number",
+            "横向倾斜",
+            "deg",
+            [-360, 360]
+        ],
+        "skewY": [
+            "number",
+            "纵向倾斜",
+            "deg",
+            [-360, 360]
+        ]
     }
 }
