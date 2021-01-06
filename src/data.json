@@ -1,0 +1,51 @@
+{
+    "background": {
+        "backgroundGradient": {
+            "startColor": "起点颜色",
+            "startTransition": "起始位%",
+            "endColor": "终点颜色",
+            "endTransition": "终点位%",
+            "middleColor": "中间色",
+            "middleTransition": "中间位%",
+            "gradientDirections": "left2right | top2bottom | diagonalDescending 反向对角线 | diagonalAscending 对角线 | radial 径向"
+        },
+        "backgroundCommon": {
+            "imageUrl": "背景图片",
+            "position": "leftTop% | centerTop% | rightTop% | leftCenter% | centerCenter% | rightCenter% |  leftBottom% | centerBottom% | rightBottom%",
+            "positionX": "x%",
+            "positionY": "y%",
+            "sizeX": "xpx",
+            "sizeY": "ypx",
+            "repeat": "no-repeat | repeat | repeat-x | repeat-y",
+            "backgroundColor": "背景色"
+        }
+    },
+    "border": {
+        "radius": "px",
+        "radiusTopLeft": "px",
+        "radiusTopRight": "px",
+        "radiusBottomLeft": "px",
+        "radiusBottomRight": "px",
+        "borderColor": "边框色",
+        "borderPosition": "all | top | right | bottom | left",
+        "borderStyle": "solid | dotted | dashed | double | groove | ridge | inset | outset | hidden | none",
+        "borderWidth": "px"
+    },
+    "shadow": [{
+        "type": "text | box",
+        "shifRight": "px",
+        "shiftDown": "px",
+        "spread": "px",
+        "blur": "px",
+        "color": "投影色"
+    }],
+    "text": {
+        "fontSize": "px",
+        "color": "文字颜色",
+        "letterSP": "英文字母间距px",
+        "wordSp": "字间距px",
+        "weight": "normal | bold",
+        "decoration": "none | underline | overline | lineThrough",
+        "italic": true
+    }
+}
