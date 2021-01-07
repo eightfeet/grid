@@ -16,8 +16,7 @@ const targets = {
     `,
   backgroundCommon: `
     background:{backgroundColor} {imageUrl} {repeat} {positionX} {positionY}; 
-    {sizeX}
-    {sizeY}
+    background-size:{sizeX} {sizeY};
     `,
   border: `
     border-radius: {radiusTopLeft} {radiusTopRight} {radiusBottomLeft} {radiusBottomRight}; 

@@ -1,18 +1,32 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import queryString from 'query-string';
 import useLocalStorage from './hooks/useLocalStorage';
 import './App.scss';
 import Layout from './Layout';
 import data from './mockdata/appData';
 import { Layout as LayoutDataType } from 'react-grid-layout';
+import hitChart from './target/hitTarget';
 
 const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
+
+const style: any = hitChart('backgroundCommon', {
+    imageUrl: 'http://www.by-health.com/static/index/tvc-jld.png',
+    position: 'leftTop',
+    positionX: 10,
+    positionY: 20,
+    backgroundColor: '#eee',
+    repeat: 'no-repeat',
+    sizeX: 100,
+    sizeY: 100,
+})
+
 
 function App(props: any) {
     const [appData, setAppData] = useState([]);
     const [designModal, setDesignModal] = useState(isEditing);
     const resultData = useRef();
+    const styleRef = useRef(null);
 
     const [localStoreData, setLocalStoreData] = useLocalStorage(
         'appData',
@@ -23,10 +37,13 @@ function App(props: any) {
         setAppData(localStoreData);
     }, [localStoreData]);
 
+    useEffect(() => {
+        (styleRef.current as any).setAttribute('style', style);
+    }, [appData])
+
     const onChange = useCallback((data: LayoutDataType[]) => {
         const mergeData = data.map((item, index) => {
             const otherData: LayoutDataType = appData[index];
-            console.log('otherData', otherData, appData)
             const result = {
                 ...otherData,
                 layout: item,
@@ -34,10 +51,14 @@ function App(props: any) {
             return result;
         });
         (resultData.current as any) = mergeData;
+        
     }, [appData]);
 
     return (
-        <div className="App">
+        <div className="App" >
+            <div ref={styleRef}>
+                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            </div>
             {isEditing ? (
                 <>
                     <span>
