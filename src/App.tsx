@@ -11,7 +11,7 @@ import hitChart from './target/hitTarget';
 const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
 
-const style = Object.keys(styleJson).map((key: any) => {
+const style = Object.keys({border: styleJson.border}).map((key: any) => {
     const styleObj = (styleJson as any)[key];
     return hitChart(key, styleObj);
 }).join(' ');

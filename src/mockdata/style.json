@@ -17,5 +17,16 @@
         "middleColor": "green",
         "middleTransition": "50",
         "gradientDirections": "-45deg"
+    },
+    "border": {
+        "radius": 20,
+        "radiusTopLeft": 20,
+        "radiusTopRight": 30,
+        "radiusBottomLeft": 40,
+        "radiusBottomRight": 50,
+        "borderColor": "green",
+        "borderPosition": "all",
+        "borderStyle": "solid",
+        "borderWidth": 5
     }
 }

@@ -54,6 +54,11 @@ const handleTarget: handleTargetType = ({
       const [newResBG, strBG] = handleStyle.backgroundGradient(data);
       setValue(newResBG, strBG);
       break;
+    case "border":
+      console.log(ruleItem);
+      const [newResBorder, strBorder] = handleStyle.border(data);
+      setValue(newResBorder, strBorder);
+      break;
     default:
       break;
   }

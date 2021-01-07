@@ -82,7 +82,20 @@ const backgroundCommon:fun = ({targetKey, targetValue, unit, result}) => {
 const border:fun = ({targetKey, targetValue, unit, result}) => {
     let str='';
     let newResult=result;
-    str = `${str}${unit || ''}`;
+    switch (targetKey) {
+        case 'borderPosition':
+            console.log(targetKey, targetValue, unit, result)
+            if (targetValue === 'all') {
+                str = '';
+            } else {
+                str = `-${targetValue}`;
+            }
+            
+            break;
+        default:
+            str = conversionValue(targetValue, unit);
+            break;
+    }
     return [newResult, str]
 }
 
