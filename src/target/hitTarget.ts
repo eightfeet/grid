@@ -59,6 +59,22 @@ const handleTarget: handleTargetType = ({
       const [newResBorder, strBorder] = handleStyle.border(data);
       setValue(newResBorder, strBorder);
       break;
+    case "shadow":
+      const [newResShadow, strShadow] = handleStyle.shadow(data);
+      setValue(newResShadow, strShadow);
+      break;
+    case "font":
+      const [newResFont, strFont] = handleStyle.font(data);
+      setValue(newResFont, strFont);
+      break;
+    case "transform":
+      const [newResTransform, strTransform] = handleStyle.transform(data);
+      setValue(newResTransform, strTransform);
+      break;
+    case "layout":
+      const [newResLayout, strLayout] = handleStyle.layout(data);
+      setValue(newResLayout, strLayout);
+      break;
     default:
       break;
   }
