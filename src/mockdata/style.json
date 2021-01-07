@@ -1,0 +1,21 @@
+{
+    "backgroundCommon": {
+        "imageUrl": "http: //www.by-health.com/static/index/tvc-jld.png",
+        "position": "leftTop",
+        "positionX": 0,
+        "positionY": 50,
+        "backgroundColor": "#fee",
+        "repeat": "no-repeat",
+        "sizeX": 100,
+        "sizeY": 100
+    },
+    "backgroundGradient": {
+        "startColor": "red",
+        "startTransition": "10",
+        "endColor": "yellow",
+        "endTransition": "90",
+        "middleColor": "green",
+        "middleTransition": "50",
+        "gradientDirections": "-45deg"
+    }
+}

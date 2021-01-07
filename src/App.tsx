@@ -4,22 +4,17 @@ import useLocalStorage from './hooks/useLocalStorage';
 import './App.scss';
 import Layout from './Layout';
 import data from './mockdata/appData';
+import styleJson from './mockdata/style.json';
 import { Layout as LayoutDataType } from 'react-grid-layout';
 import hitChart from './target/hitTarget';
 
 const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
 
-const style: any = hitChart('backgroundCommon', {
-    imageUrl: 'http://www.by-health.com/static/index/tvc-jld.png',
-    position: 'leftTop',
-    positionX: 10,
-    positionY: 20,
-    backgroundColor: '#eee',
-    repeat: 'no-repeat',
-    sizeX: 100,
-    sizeY: 100,
-})
+const style = Object.keys(styleJson).map((key: any) => {
+    const styleObj = (styleJson as any)[key];
+    return hitChart(key, styleObj);
+}).join(' ');
 
 
 function App(props: any) {

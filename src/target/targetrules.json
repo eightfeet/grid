@@ -131,23 +131,23 @@
             [
                 {
                     "name": "左右",
-                    "value": "left2right"
+                    "value": "left"
                 },
                 {
                     "name": "上下",
-                    "value": "top2bottom"
+                    "value": "top"
                 },
                 {
                     "name": "对角",
-                    "value": "diagonalAscending"
+                    "value": "-45deg"
                 },
                 {
                     "name": "反向对角",
-                    "value": "diagonalDescending"
+                    "value": "45deg"
                 },
                 {
                     "name": "径向",
-                    "value": "radial"
+                    "value": "center"
                 }
             ]
         ]
