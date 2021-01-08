@@ -28,5 +28,40 @@
         "borderPosition": "all",
         "borderStyle": "solid",
         "borderWidth": 5
+    },
+    "boxShadow": {
+        "shifRight": 12,
+        "shiftDown": 12,
+        "spread": 12,
+        "blur": 21,
+        "color": "#444",
+        "inset": ""
+    },
+    "textShadow": {
+        "shifRight": 12,
+        "shiftDown": 12,
+        "blur": 21,
+        "color": "#444"
+    },
+    "font": {
+        "fontSize":20,
+        "lineHeight":20,
+        "color":"#F00",
+        "letterSP":20,
+        "wordSp":-10,
+        "weight": "bold",
+        "decoration": "line-through",
+        "italic":"italic",
+        "align": "center"
+    },
+    "display": {
+        "width": 100,
+        "height": 100,
+        "zIndex": 100,
+        "position": "absolute",
+        "left": 10,
+        "right": 10,
+        "top": 10,
+        "bottom": 10
     }
 }

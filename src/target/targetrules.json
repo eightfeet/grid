@@ -1,5 +1,5 @@
 {
-    "layout": {
+    "display": {
         "width": [
             "number",
             "宽度",
@@ -390,67 +390,83 @@
             }
         ]
     },
-    "shadow": [
-        {
-            "type": [
-                "select",
-                "投影类别",
-                null,
-                [
-                    {
-                        "name": "投影",
-                        "value": "boxshadow"
-                    },
-                    {
-                        "name": "文字投影",
-                        "value": "textshadow"
-                    }
-                ]
-            ],
-            "shifRight": [
-                "number",
-                "横向偏移",
-                "px",
-                {
-                    "start": 0,
-                    "end": 100,
-                    "default": 0
-                }
-            ],
-            "shiftDown": [
-                "number",
-                "纵向偏移",
-                "px",
-                {
-                    "start": 0,
-                    "end": 100,
-                    "default": 0
-                }
-            ],
-            "spread": [
-                "number",
-                "扩散",
-                "px",
-                {
-                    "start": 0,
-                    "end": 100,
-                    "default": 0
-                }
-            ],
-            "blur": [
-                "number",
-                "模糊",
-                "px",
-                {
-                    "start": 0,
-                    "end": 100,
-                    "default": 0
-                }
-            ],
-            "color": ["color", "颜色"],
-            "inset": ["boolean", "内阴影"]
-        }
-    ],
+    "boxShadow": {
+        "shifRight": [
+            "number",
+            "横向偏移",
+            "px",
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
+        ],
+        "shiftDown": [
+            "number",
+            "纵向偏移",
+            "px",
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
+        ],
+        "spread": [
+            "number",
+            "扩散",
+            "px",
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
+        ],
+        "blur": [
+            "number",
+            "模糊",
+            "px",
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
+        ],
+        "color": ["color", "颜色"],
+        "inset": ["boolean", "内阴影"]
+    },
+    "textShadow": {
+        "shifRight": [
+            "number",
+            "横向偏移",
+            "px",
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
+        ],
+        "shiftDown": [
+            "number",
+            "纵向偏移",
+            "px",
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
+        ],
+        "blur": [
+            "number",
+            "模糊",
+            "px",
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
+        ],
+        "color": ["color", "颜色"]
+    },
     "font": {
         "fontSize": [
             "number",
@@ -473,7 +489,16 @@
             }
         ],
         "color": ["color", "文字颜色"],
-        "letterSP": ["color", "文字颜色"],
+        "letterSP": [
+            "number",
+            "字母间距",
+            "px",
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
+        ],
         "wordSp": [
             "number",
             "字间距",
@@ -518,11 +543,44 @@
                 },
                 {
                     "name": "删除线",
-                    "value": "lineThrough"
+                    "value": "line-through"
                 }
             ]
         ],
-        "italic": ["boolean", "斜体"]
+        "italic": [
+            "select",
+            "斜体",
+            null,
+            [
+                {
+                    "name": "正常",
+                    "value": "normal"
+                },
+                {
+                    "name": "斜体",
+                    "value": "italic"
+                }
+            ]
+        ],
+        "align": [
+            "select",
+            "对齐方式",
+            null,
+            [
+                {
+                    "name": "左对齐",
+                    "value": "left"
+                },
+                {
+                    "name": "居中",
+                    "value": "right"
+                },
+                {
+                    "name": "右对齐",
+                    "value": "right"
+                }
+            ]
+        ]
     },
     "transform": {
         "scale": [

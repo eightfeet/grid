@@ -1,5 +1,5 @@
 const targets = {
-  layout: `
+  display: `
     {width}
     {height}
     {zIndex}
@@ -22,17 +22,24 @@ const targets = {
     border-radius: {radiusTopLeft} {radiusTopRight} {radiusBottomLeft} {radiusBottomRight}; 
     border{borderPosition}: {borderWidth} {borderStyle} {borderColor};
     `,
-  shadow: `
-    -webkit-{type}:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
+  boxShadow: `
+    -webkit-box-shadow:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
     {type}:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
     `,
+  textShadow: `
+    -webkit-text-shadow:{shifRight} {shiftDown} {blur} {color};
+    text-shadow:{shifRight} {shiftDown} {blur} {color};
+    `,
   font: `
-    font: {italic} {weight} {fontSize}; 
+    {italic}
+    {weight}
+    {fontSize}
     {lineHeight} 
     {color} 
     {letterSP} 
     {wordSp} 
     {decoration}
+    {align}
     `,
   transform: `
     transform: {rotate} translate({translateX}, {translateY}) skew({skewX}, {skewY});

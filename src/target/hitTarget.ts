@@ -45,21 +45,20 @@ const handleTarget: handleTargetType = ({
   }
   switch (targetGroupName as string) {
     case "backgroundCommon":
-      console.log();
       const [newResBC, strBC] = handleStyle.backgroundCommon(data);
       setValue(newResBC, strBC);
       break;
     case "backgroundGradient":
-      console.log();
       const [newResBG, strBG] = handleStyle.backgroundGradient(data);
       setValue(newResBG, strBG);
       break;
     case "border":
-      console.log(ruleItem);
       const [newResBorder, strBorder] = handleStyle.border(data);
       setValue(newResBorder, strBorder);
       break;
-    case "shadow":
+    case "boxShadow":
+    case "textShadow":
+        
       const [newResShadow, strShadow] = handleStyle.shadow(data);
       setValue(newResShadow, strShadow);
       break;
@@ -71,9 +70,9 @@ const handleTarget: handleTargetType = ({
       const [newResTransform, strTransform] = handleStyle.transform(data);
       setValue(newResTransform, strTransform);
       break;
-    case "layout":
-      const [newResLayout, strLayout] = handleStyle.layout(data);
-      setValue(newResLayout, strLayout);
+    case "display":
+      const [newResDisplay, strDisplay] = handleStyle.display(data);
+      setValue(newResDisplay, strDisplay);
       break;
     default:
       break;
@@ -88,11 +87,12 @@ const handleTarget: handleTargetType = ({
  * @return {*}
  */
 export type targetNameType =
-  | "layout"
+  | "display"
   | "backgroundGradient"
   | "backgroundCommon"
   | "border"
-  | "shadow"
+  | "boxShadow"
+  | "textShadow"
   | "font"
   | "transform";
 
