@@ -4,17 +4,15 @@ import useLocalStorage from './hooks/useLocalStorage';
 import './App.scss';
 import Layout from './Layout';
 import data from './mockdata/appData';
-import styleJson from './mockdata/style.json';
+// import styleJson from './mockdata/style.json';
 import { Layout as LayoutDataType } from 'react-grid-layout';
-import hitChart from './target/hitTarget';
+import styleCompileJson from './mockdata/styleCompiler.json';
+import styleCompile from './compiler'
 
 const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
 
-const style = Object.keys(styleJson).map((key: any) => {
-    const styleObj = (styleJson as any)[key];
-    return hitChart(key, styleObj);
-}).join(' ');
+const style = styleCompile(styleCompileJson);
 
 
 function App(props: any) {
