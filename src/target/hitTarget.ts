@@ -107,10 +107,12 @@ const hitChart = (
   let result: string = targets[targetGroupName];
   if (!result) return "";
   const allTargets = Object.keys(rules[targetGroupName] || {});
+  
   // charting
-  allTargets.forEach((target) => {
-    console.log(target);
-    // target judger
+  for (let index = 0; index < allTargets.length; index++) {
+      const target = allTargets[index];
+      console.log(target);
+      // target judger
     const judger = new RegExp(`(\\[${target}\\])|(\\{${target}\\})`, "g");
     if (hitData[target] !== undefined) {
       // hit
@@ -126,7 +128,7 @@ const hitChart = (
       // miss
       result = result.replace(judger, `/*${target}*/`);
     }
-  });
+  }
 
   // count result
   console.log(result);
