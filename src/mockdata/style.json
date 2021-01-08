@@ -66,10 +66,13 @@
     },
     "transform": {
         "scale": 1.2,
-        "rotate": 40,
-        "translateX": 10,
-        "translateY": 16,
-        "skewX": 33,
-        "skewY": 22
+        "rotate": 30,
+        "translateX": 20,
+        "translateY": 20,
+        "skewX": 10,
+        "skewY": 10
     }
 }
+
+
+

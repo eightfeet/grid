@@ -91,6 +91,9 @@
         ]
     },
     "backgroundGradient": {
+        "list": {
+            "limit": 10
+        },
         "startColor": ["color", "起始颜色"],
         "startTransition": [
             "number",
@@ -391,6 +394,9 @@
         ]
     },
     "boxShadow": {
+        "list": {
+            "limit": 10
+        },
         "shifRight": [
             "number",
             "横向偏移",
@@ -435,6 +441,9 @@
         "inset": ["boolean", "内阴影"]
     },
     "textShadow": {
+        "list": {
+            "limit": 10
+        },
         "shifRight": [
             "number",
             "横向偏移",

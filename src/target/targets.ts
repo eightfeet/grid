@@ -1,3 +1,5 @@
+import { WidthProvider } from "react-grid-layout";
+
 const targets = {
     display: `
     {width}

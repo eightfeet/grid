@@ -110,8 +110,8 @@ const hitChart = (
   
   // charting
   for (let index = 0; index < allTargets.length; index++) {
+      // 
       const target = allTargets[index];
-      console.log(target);
       // target judger
     const judger = new RegExp(`(\\[${target}\\])|(\\{${target}\\})`, "g");
     if (hitData[target] !== undefined) {
@@ -133,19 +133,6 @@ const hitChart = (
   // count result
   console.log(result);
   result = result
-    .replace("background-size:/*sizeX*/ /*sizeY*/;", "") // 移除残留
-    .replace(
-      "background: -moz-linear-gradient(/*gradientDirections*/, /*startColor*/ /*startTransition*/, /*middleColor*/ /*middleTransition*/, /*endColor*/ /*endTransition*/);",
-      ""
-    )
-    .replace(
-      "background: -webkit-linear-gradient(/*gradientDirections*/, /*startColor*/ /*startTransition*/, /*middleColor*/ /*middleTransition*/, /*endColor*/ /*endTransition*/);",
-      ""
-    )
-    .replace(
-      "background: linear-gradient(/*gradientDirections*/, /*startColor*/ /*startTransition*/, /*middleColor*/ /*middleTransition*/, /*endColor*/ /*endTransition*/);",
-      ""
-    )
     .replace(/\/\*([\s\S]*?)\*\//g, "") // 移除注释
     .replace(/[\r\n]/g, "") // 移除换行
     .replace(/\s+/g, " ") // 移除多余空格
@@ -156,7 +143,7 @@ const hitChart = (
     .replace(/\s+\);/g, ');')
     .replace(/,\s+\)\s/g, '); ')
     .replace(/(^\s*)|(\s*$)/g, ""); // 移除首尾空格
-  console.log("styleResult  =", result);
+    console.log("styleResult  =", result);
   return result;
 };
 
