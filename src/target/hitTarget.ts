@@ -152,6 +152,7 @@ const hitChart = (
     .replace(/(,\s+,)/g, ",") // 移除逗号间的空格
     .replace(/\(,\s+/g, '(')
     .replace(/\s+\);/g, ');')
+    .replace(/,\s+\)\s/g, '); ')
     .replace(/(^\s*)|(\s*$)/g, ""); // 移除首尾空格
   console.log("styleResult  =", result);
   return result;

@@ -191,7 +191,29 @@ const font: fun = ({ targetKey, targetValue, unit, result }) => {
 const transform: fun = ({ targetKey, targetValue, unit, result }) => {
     let str = '';
     let newResult = result;
-    str = `${str}${unit || ''}`;
+    switch (targetKey) {
+        case 'scale':
+            str = `scale(${targetValue})`;
+            console.log('scale', str)
+            break;
+        case 'rotate':
+            str = `rotate(${conversionValue(targetValue, unit)})`;
+            break;
+        case 'translateX':
+        case 'skewX':
+            str = conversionValue(targetValue, unit);
+            break;
+        case 'translateY':
+            newResult = newResult.replace('/*positionX*/', '0');
+            str = conversionValue(targetValue, unit);
+            break;
+        case 'skewY':
+            newResult = newResult.replace('/*skewX*/', '0');
+            str = conversionValue(targetValue, unit);
+            break;
+        default:
+            break;
+    }
     return [newResult, str];
 };
 

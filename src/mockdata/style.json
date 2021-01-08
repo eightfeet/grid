@@ -11,11 +11,11 @@
     },
     "backgroundGradient": {
         "startColor": "red",
-        "startTransition": "10",
+        "startTransition": 10,
         "endColor": "yellow",
-        "endTransition": "90",
+        "endTransition": 90,
         "middleColor": "green",
-        "middleTransition": "50",
+        "middleTransition": 50,
         "gradientDirections": "-45deg"
     },
     "border": {
@@ -63,5 +63,13 @@
         "right": 10,
         "top": 10,
         "bottom": 10
+    },
+    "transform": {
+        "scale": 1.2,
+        "rotate": 40,
+        "translateX": 10,
+        "translateY": 16,
+        "skewX": 33,
+        "skewY": 22
     }
 }
