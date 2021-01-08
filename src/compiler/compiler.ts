@@ -13,7 +13,7 @@ const textShadow = function() {
 const font = function() {
 }
 
-export {
+export default {
     display,
     backgroundGradient,
     backgroundCommon,
