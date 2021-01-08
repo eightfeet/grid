@@ -14,7 +14,6 @@ const isEditing = search.isEditing === 'true';
 
 const style = styleCompile(styleCompileJson);
 
-
 function App(props: any) {
     const [appData, setAppData] = useState([]);
     const [designModal, setDesignModal] = useState(isEditing);
