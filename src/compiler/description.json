@@ -91,42 +91,25 @@
         ]
     },
     "backgroundGradient": {
-        "list": {
-            "limit": 10
+        "gradient": {
+            "list": {
+                "limit": 10
+            },
+            "color": [
+                "color",
+                "起始颜色"
+            ],
+            "transition": [
+                "number",
+                "起始位置",
+                "%",
+                {
+                    "start": 0,
+                    "end": "{{middleTransition | endTransition}}",
+                    "default": 0
+                }
+            ]
         },
-        "startColor": ["color", "起始颜色"],
-        "startTransition": [
-            "number",
-            "起始位置",
-            "%",
-            {
-                "start": 0,
-                "end": "{{middleTransition | endTransition}}",
-                "default": 0
-            }
-        ],
-        "endColor": ["color", "起始颜色"],
-        "endTransition": [
-            "number",
-            "终点位置",
-            "%",
-            {
-                "start": "{{startTransition | middleTransition}}",
-                "end": 100,
-                "default": 0
-            }
-        ],
-        "middleColor": ["color", "中间颜色"],
-        "middleTransition": [
-            "number",
-            "中间位置",
-            "%",
-            {
-                "start": "{{startTransition}}",
-                "end": "{{endTransition}}",
-                "default": 0
-            }
-        ],
         "gradientDirections": [
             "select",
             "渐变样式",
@@ -156,7 +139,10 @@
         ]
     },
     "backgroundCommon": {
-        "imageUrl": ["upload", "背景图片"],
+        "imageUrl": [
+            "upload",
+            "背景图片"
+        ],
         "position": [
             "select",
             "背景位置",
@@ -263,7 +249,10 @@
                 }
             ]
         ],
-        "backgroundColor": ["color", "背景色"]
+        "backgroundColor": [
+            "color",
+            "背景色"
+        ]
     },
     "border": {
         "radius": [
@@ -286,7 +275,15 @@
                 "default": 0
             }
         ],
-        "radiusTopRight": ["number", "右上圆角", "px", [0, 100]],
+        "radiusTopRight": [
+            "number",
+            "右上圆角",
+            "px",
+            [
+                0,
+                100
+            ]
+        ],
         "radiusBottomLeft": [
             "number",
             "左下圆角",
@@ -307,7 +304,10 @@
                 "default": 0
             }
         ],
-        "borderColor": ["color", "边框色"],
+        "borderColor": [
+            "color",
+            "边框色"
+        ],
         "borderPosition": [
             "select",
             "边框",
@@ -319,19 +319,19 @@
                 },
                 {
                     "name": "上",
-                    "value": "top"
+                    "value": "Top"
                 },
                 {
                     "name": "右",
-                    "value": "right"
+                    "value": "Right"
                 },
                 {
                     "name": "下",
-                    "value": "bottom"
+                    "value": "Bottom"
                 },
                 {
                     "name": "左",
-                    "value": "left"
+                    "value": "Left"
                 }
             ]
         ],
@@ -437,8 +437,20 @@
                 "default": 0
             }
         ],
-        "color": ["color", "颜色"],
-        "inset": ["boolean", "内阴影"]
+        "color": [
+            "color",
+            "颜色"
+        ],
+        "inset": [
+            "boolean",
+            "内阴影",
+            null,
+            {
+                "true": "inset",
+                "false": "",
+                "default": ""
+            }
+        ]
     },
     "textShadow": {
         "list": {
@@ -474,7 +486,10 @@
                 "default": 0
             }
         ],
-        "color": ["color", "颜色"]
+        "color": [
+            "color",
+            "颜色"
+        ]
     },
     "font": {
         "fontSize": [
@@ -497,7 +512,10 @@
                 "default": 0
             }
         ],
-        "color": ["color", "文字颜色"],
+        "color": [
+            "color",
+            "文字颜色"
+        ],
         "letterSP": [
             "number",
             "字母间距",

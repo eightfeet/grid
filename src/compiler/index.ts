@@ -15,8 +15,9 @@ function handler(styleGroup: Params) {
     const descriptionKey = descriptionKeys[index];
     const styleObj = styleGroup[descriptionKey];
     if (
-      Object.prototype.toString.call(styleObj) !== "[object Object]" ||
-      Object.keys(styleObj).length < 1
+      (Object.prototype.toString.call(styleObj) !== "[object Object]" ||
+      Object.keys(styleObj).length < 1 ) &&
+      Object.prototype.toString.call(styleObj) !== "[object Array]"
     ) {
       continue;
     }
@@ -24,25 +25,25 @@ function handler(styleGroup: Params) {
     let generateStyle: string = "";
     switch (descriptionKey) {
       case "display":
-        generateStyle = compiler.display({styleObj});
+        generateStyle = compiler.display({ styleObj });
         break;
       case "backgroundGradient":
-        generateStyle = compiler.backgroundGradient({styleObj});
+        generateStyle = compiler.backgroundGradient({ styleObj });
         break;
       case "backgroundCommon":
-        generateStyle = compiler.backgroundCommon({styleObj});
+        generateStyle = compiler.backgroundCommon({ styleObj });
         break;
       case "border":
-        generateStyle = compiler.border({styleObj});
+        generateStyle = compiler.border({ styleObj });
         break;
       case "boxShadow":
-        generateStyle = compiler.boxShadow({styleObj});
+        generateStyle = compiler.boxShadow({ styleObj });
         break;
       case "textShadow":
-        generateStyle = compiler.textShadow({styleObj});
+        generateStyle = compiler.textShadow({ styleObj });
         break;
       case "font":
-        generateStyle = compiler.font({styleObj});
+        generateStyle = compiler.font({ styleObj });
         break;
       default:
         break;

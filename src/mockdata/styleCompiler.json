@@ -10,12 +10,16 @@
         "sizeY": 100
     },
     "backgroundGradient": {
-        "startColor": "red",
-        "startTransition": 10,
-        "endColor": "yellow",
-        "endTransition": 90,
-        "middleColor": "green",
-        "middleTransition": 50,
+        "gradient": [
+            {
+                "color": "red",
+                "transition": 10
+            },
+            {
+                "color": "green",
+                "transition": 100
+            }
+        ],
         "gradientDirections": "-45deg"
     },
     "border": {
@@ -25,33 +29,47 @@
         "radiusBottomLeft": 40,
         "radiusBottomRight": 50,
         "borderColor": "green",
-        "borderPosition": "all",
+        "borderPosition": "Left",
         "borderStyle": "solid",
         "borderWidth": 5
     },
-    "boxShadow": {
-        "shifRight": 12,
-        "shiftDown": 12,
-        "spread": 12,
-        "blur": 21,
-        "color": "#444",
-        "inset": ""
-    },
-    "textShadow": {
+    "boxShadow": [
+        {
+            "shifRight": 1,
+            "shiftDown": 2,
+            "spread": 3,
+            "blur": 4,
+            "inset": "inset"
+        },
+        {
+            "shifRight": 10,
+            "shiftDown": 10,
+            "spread": 10,
+            "blur": 10,
+            "color": "#444",
+            "inset": "inset"
+        }
+    ],
+    "textShadow": [{
         "shifRight": 12,
         "shiftDown": 12,
         "blur": 21,
         "color": "#444"
-    },
+    },{
+        "shifRight": 12,
+        "shiftDown": 12,
+        "blur": 21,
+        "color": "#444"
+    }],
     "font": {
-        "fontSize":20,
-        "lineHeight":20,
-        "color":"#F00",
-        "letterSP":20,
-        "wordSp":-10,
+        "fontSize": 20,
+        "lineHeight": 20,
+        "color": "#F00",
+        "letterSP": 20,
+        "wordSp": -10,
         "weight": "bold",
         "decoration": "line-through",
-        "italic":"italic",
+        "italic": "italic",
         "align": "center"
     },
     "display": {
@@ -62,7 +80,8 @@
         "left": 10,
         "right": 10,
         "top": 10,
-        "bottom": 10
+        "bottom": 10,
+        "xxx": 5
     },
     "transform": {
         "scale": 1.2,
@@ -73,6 +92,3 @@
         "skewY": 10
     }
 }
-
-
-
