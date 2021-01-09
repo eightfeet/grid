@@ -90,54 +90,6 @@
             }
         ]
     },
-    "backgroundGradient": {
-        "gradient": {
-            "list": {
-                "limit": 10
-            },
-            "color": [
-                "color",
-                "起始颜色"
-            ],
-            "transition": [
-                "number",
-                "起始位置",
-                "%",
-                {
-                    "start": 0,
-                    "end": "{{middleTransition | endTransition}}",
-                    "default": 0
-                }
-            ]
-        },
-        "gradientDirections": [
-            "select",
-            "渐变样式",
-            null,
-            [
-                {
-                    "name": "左右",
-                    "value": "left"
-                },
-                {
-                    "name": "上下",
-                    "value": "top"
-                },
-                {
-                    "name": "对角",
-                    "value": "-45deg"
-                },
-                {
-                    "name": "反向对角",
-                    "value": "45deg"
-                },
-                {
-                    "name": "径向",
-                    "value": "center"
-                }
-            ]
-        ]
-    },
     "backgroundCommon": {
         "imageUrl": [
             "upload",
@@ -254,6 +206,55 @@
             "背景色"
         ]
     },
+    "backgroundGradient": {
+        "gradient": {
+            "list": {
+                "limit": 10
+            },
+            "color": [
+                "color",
+                "起始颜色"
+            ],
+            "transition": [
+                "number",
+                "起始位置",
+                "%",
+                {
+                    "start": 0,
+                    "end": "{{middleTransition | endTransition}}",
+                    "default": 0
+                }
+            ]
+        },
+        "gradientDirections": [
+            "select",
+            "渐变样式",
+            null,
+            [
+                {
+                    "name": "左右",
+                    "value": "left"
+                },
+                {
+                    "name": "上下",
+                    "value": "top"
+                },
+                {
+                    "name": "对角",
+                    "value": "-45deg"
+                },
+                {
+                    "name": "反向对角",
+                    "value": "45deg"
+                },
+                {
+                    "name": "径向",
+                    "value": "center"
+                }
+            ]
+        ]
+    },
+    
     "border": {
         "radius": [
             "number",

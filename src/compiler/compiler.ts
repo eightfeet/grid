@@ -1,7 +1,13 @@
 import description from "./description.json";
+import { createInlineStyles } from '@eightfeet/modal';
 
 interface objType {
     [key: string]: any
+}
+
+interface resultType {
+    result: objType,
+    string: string
 }
 
 /** 获取单位 */
@@ -32,23 +38,23 @@ const conversionValue: (
   return `${value}${unit || ""}`;
 };
 
-export const display = function ({ styleObj }: any) {
+export const display = function (styleObj:objType):resultType {
   const result: objType = {};
   for (const key in styleObj) {
     if (Object.prototype.hasOwnProperty.call(styleObj, key)) {
       const element = styleObj[key];
       let newKey = key;
-      if (newKey === "zIndex") {
-        newKey = "z-index";
-      }
       result[newKey] = conversionValue(element, key, "display");
     }
   }
-  console.log('result', result)
-  return "";
+
+  return {
+      result,
+      string: createInlineStyles(result) || ''
+  };
 };
 
-export const backgroundGradient = function ({ styleObj }: any) {
+export const backgroundGradient = function (styleObj:objType):resultType {
   let type: string = "linear-gradient";
   const result: objType = {};
 
@@ -79,7 +85,7 @@ export const backgroundGradient = function ({ styleObj }: any) {
 
       if (key === "gradient") {
         (element as any[]).forEach(({ color, transition }) => {
-          if (color && transition) {
+          if (color !== undefined && transition !== undefined) {
             const group = `${conversionValue(
               color,
               "color",
@@ -100,54 +106,57 @@ export const backgroundGradient = function ({ styleObj }: any) {
     }
   }
 
+  let prefixResult = [];
   for (const key in puppet) {
     if (Object.prototype.hasOwnProperty.call(puppet, key)) {
       const resultItem = puppet[key].join(', ');
+      
       if (key === 'normal') {
-        result[`background/*${key}*/`] = `${type}(${resultItem})`;
+        prefixResult.push(`background: ${type}(${resultItem});`);
+        result[`background`] = `${type}(${resultItem})`;
       } else {
-        result[`background/*${key}*/`] = `-${key}-${type}(${resultItem})`;
+        prefixResult.push(`background: -${key}-${type}(${resultItem});`);
       }
     }
   }
-  // console.log('result', result);
-  return "";
+  
+  return {
+    result,
+    string: prefixResult.join(' ')
+  };
 };
 
-export const backgroundCommon = function ({ styleObj }: any) {
+export const backgroundCommon = function (styleObj:objType):resultType {
     const rules: {background: any[], backgroundSize: any[]} = {
         background:[null/*backgroundColor*/, null/*imageUrl*/, null/*repeat*/, null/*positionX*/, null/*positionY*/],
         backgroundSize:[null/*sizeX*/, null/*sizeY*/]
+    }
+
+    const BGposition: objType = {
+        backgroundColor: 0,
+        imageUrl: 1,
+        repeat: 2,
+        positionX: 3,
+        positionY: 4
+    };
+    const BGSbackgroundSize: objType = {
+        sizeX: 0,
+        sizeY: 1
     }
 
     for (const key in styleObj) {
         if (Object.prototype.hasOwnProperty.call(styleObj, key)) {
             const element = styleObj[key];
             const value = conversionValue(element, key, 'backgroundCommon');
-            switch (key) {
-                case 'backgroundColor':
-                    rules.background[0] = value
-                    break;
-                case 'imageUrl':
-                    rules.background[1] = `url("${value}")`;
-                    break;
-                case 'repeat':
-                    rules.background[2] = value;
-                    break;
-                case 'positionX':
-                    rules.background[3] = value;
-                    break;
-                case 'positionY':
-                    rules.background[4] = value;
-                    break;
-                case 'sizeX':
-                    rules.backgroundSize[0] = value;
-                    break;
-                case 'sizeY':
-                    rules.backgroundSize[1] = value;
-                    break;
-                default:
-                    break;
+            if (BGposition[key] !== undefined) {
+                if (key === 'imageUrl') {
+                    rules.background[BGposition[key]] = `url("${value}")`;
+                } else {
+                    rules.background[BGposition[key]] = value;
+                }
+            }
+            if (BGSbackgroundSize[key] !== undefined) {
+                rules.backgroundSize[BGSbackgroundSize[key]] = value;
             }
         }
     }
@@ -175,11 +184,13 @@ export const backgroundCommon = function ({ styleObj }: any) {
         result.backgroundSize = rules.backgroundSize.filter(item => !!item).join(' ');
     }
     
-    // console.log('result', result);
-  return "";
+  return {
+    result,
+    string: createInlineStyles(result) || ''
+  };
 };
 
-export const border = function ({ styleObj }: any) {
+export const border = function (styleObj:objType):resultType {
     // border-radius: {radiusTopLeft} {radiusTopRight} {radiusBottomLeft} {radiusBottomRight}; 
     // border{borderPosition}: {borderWidth} {borderStyle} {borderColor};
     let type='';
@@ -190,45 +201,34 @@ export const border = function ({ styleObj }: any) {
         borderRadius: [null/*radiusTopLeft*/, null/*radiusTopRight*/, null/*radiusBottomLeft*/, null/*radiusBottomRight*/],
         border: [null/*borderWidth*/, null/*borderStyle*/, null/*borderColor*/]
     }
+    const BRPosition: objType = {
+        radiusTopLeft: 0,
+        radiusTopRight: 1,
+        radiusBottomLeft: 2,
+        radiusBottomRight: 3
+    };
+    const BPosition: objType = {
+        borderWidth: 0,
+        borderStyle: 1,
+        borderColor: 2
+    }
     
     for (const key in styleObj) {
         if (Object.prototype.hasOwnProperty.call(styleObj, key)) {
             const element = styleObj[key];
             const value = conversionValue(element, key, 'border');
-            switch (key) {
-                case 'radiusTopLeft':
-                    rules.borderRadius[0] = value;
-                    break;
-                case 'radiusTopRight':
-                    rules.borderRadius[1] = value;
-                    break;
-                case 'radiusBottomLeft':
-                    rules.borderRadius[2] = value;
-                    break;
-                case 'radiusBottomRight':
-                    rules.borderRadius[3] = value;
-                    break;
-                case 'borderWidth':
-                    rules.border[0] = value;
-                    break;
-                case 'borderStyle':
-                    rules.border[1] = value;
-                    break;
-                case 'borderColor':
-                    rules.border[2] = value;
-                    break;
-                case 'borderPosition':
-                    if(element !== 'all') type=value||'';
-                    break;
-                default:
-                    break;
+            if (BRPosition[key] !== undefined) {
+                rules['borderRadius'][BRPosition[key]] = value;
+            }
+            if (BPosition[key] !== undefined) {
+                rules['border'][BPosition[key]] = value;
             }
         }
     }
 
     const result: objType= {};
     rules.borderRadius.forEach((element, i) => {
-        if(element === null) rules.borderRadius[i] = 0;
+        if(element === null) rules.borderRadius[i] = '0';
     });
     const brJoined = rules.borderRadius.join(' ');
     
@@ -236,19 +236,17 @@ export const border = function ({ styleObj }: any) {
         result.borderRadius = rules.borderRadius.join(' ');
     }
 
-    result[`border${type}`] = rules.border.join(' ');
+    result[`border${type}`] = rules.border.filter(item => !!item).join(' ');
 
-    // console.log('rules', rules)
-    // console.log('result', result)
-  return "";
-};
-export const boxShadow = function ({ styleObj }: { styleObj: any[]}) {
-    // -webkit-box-shadow:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
-    // {type}:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
-    const puppet: objType = {
-        webkit: [null],
-        normal: [null],
+    return {
+        result,
+        string: createInlineStyles(result) || ''
       };
+};
+
+export const boxShadow = function (styleObj:objType):resultType {
+    // -webkit-box-shadow:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
+    // box-shadow:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
 
     const position: objType = {
         inset: 0,
@@ -263,7 +261,7 @@ export const boxShadow = function ({ styleObj }: { styleObj: any[]}) {
 
     (window as any).rules = rules;
     
-    styleObj.forEach(SDitem => {
+    styleObj.forEach((SDitem:objType) => {
         let rule: any[] = [];
         rule.length = 6;
         for (const key in SDitem) {
@@ -283,21 +281,22 @@ export const boxShadow = function ({ styleObj }: { styleObj: any[]}) {
     });
     
     const result: objType = {};
-    result.boxShadow = rules.join(', ')
+    result.boxShadow = rules.join(', ');
+
+    const prefixResult = [];
+    const str = createInlineStyles(result);
+    prefixResult.push(`-webkit-${str}`);
+    prefixResult.push(str);
     
-    console.log('result', result)
-  return "";
+    return {
+        result,
+        string: prefixResult.join('')
+      };
 };
 
-export const textShadow = function ({ styleObj }: { styleObj: any[]}) {
+export const textShadow = function (styleObj:objType):resultType {
     // -webkit-text-shadow:{shifRight} {shiftDown} {blur} {color};
     // text-shadow:{shifRight} {shiftDown} {blur} {color};
-    const puppet: {
-        [keys: string]: any[];
-      } = {
-        webkit: [null],
-        normal: [null],
-      };
 
     const position: {
         [keys: string]: any;
@@ -312,7 +311,7 @@ export const textShadow = function ({ styleObj }: { styleObj: any[]}) {
 
     (window as any).rules = rules;
     
-    styleObj.forEach(TSDitem => {
+    styleObj.forEach((TSDitem:objType )=> {
         let rule: any[] = [];
         rule.length = 4;
         for (const key in TSDitem) {
@@ -333,13 +332,20 @@ export const textShadow = function ({ styleObj }: { styleObj: any[]}) {
     const result: {
         [keys: string]: any;
       } = {};
-    result.textShadow = rules.join(', ')
-    
-    console.log('result', result)
-  return "";
+    result.textShadow = rules.join(', ');
+
+    const str = createInlineStyles(result);
+    const prefixResult = [];
+    prefixResult.push(`-webkit-${str}`);
+    prefixResult.push(str);
+
+    return {
+        result,
+        string: prefixResult.join('')
+      };
 };
 
-export const font = function ({ styleObj }: any) {
+export const font = function (styleObj:objType):resultType {
     const rules:objType  = {
         italic: 'fontStyle',
         weight: 'fontWeight',
@@ -361,7 +367,83 @@ export const font = function ({ styleObj }: any) {
             }
         }
     }
-    
-    console.log('result', result)
-  return "";
+
+    const str = createInlineStyles(result) || '';
+
+  return {
+    result,
+    string: str
+  };;
+};
+
+
+export const transform = function (styleObj:objType):resultType {
+    // -moz-transform: {scale} {rotate} translate({translateX}, {translateY}) skew({skewX}, {skewY});
+    // -webkit-transform: {scale} {rotate} translate({translateX}, {translateY}) skew({skewX}, {skewY});
+    // transform: {scale} {rotate} translate({translateX}, {translateY}) skew({skewX}, {skewY});
+    const prefix: string[] = ['webkit', 'moz'];
+    const position: objType = {
+        scale: 0,
+        rotate: 1,
+        translate: 2,
+        skew: 3
+    }
+    const singleProp: objType = ({
+        scale: (value: string) => `scale(${value})`,
+        rotate: (value: string) => `rotate(${value})`,
+    });
+    const rules:any[]  = [];
+    let translateRule: any[] = [null, null];
+    let skewRule: any[] = [null, null];
+
+    rules.length = 4;
+    const result: objType = {};
+    for (const key in styleObj) {
+        if (Object.prototype.hasOwnProperty.call(styleObj, key)) {
+            const element = styleObj[key];
+            const value = conversionValue(element, key, 'transform');
+            if (value) {
+                if (singleProp[key]) {
+                    rules[position[key]] = singleProp[key](value)
+                } 
+                // {translateX}, {translateY}) skew({skewX}, {skewY}
+                if (key === 'translateX') translateRule[0] = value;
+                if (key === 'translateY') translateRule[1] = value;
+                if (key === 'skewX') skewRule[0] = value;
+                if (key === 'skewY') skewRule[1] = value;
+            }
+        }
+    }
+
+    let translate, skew;
+
+    translate = translateRule.map(item => {
+        if(!item) {
+            return '0'
+        } 
+        return item
+    }).join(', ');
+
+    skew = skewRule.map(item => {
+        if(!item) {
+            return '0'
+        } 
+        return item
+    }).join(', ');
+
+    if (translate !== '0, 0') rules[position['translate']] = `translate(${translate})`;
+    if (skew !== '0, 0') rules[position['skew']] = `skew(${skew})`;
+
+    result['transform'] = rules.filter(item => !!item).join(' ');
+
+    const str = createInlineStyles(result);
+    const prefixResult = [];
+    prefixResult.push(`-moz-${str}`);
+    prefixResult.push(`-webkit-${str}`);
+    prefixResult.push(str);
+
+  return {
+    result,
+    string: prefixResult.join(' ')
+  };
 };

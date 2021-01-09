@@ -9,7 +9,12 @@ function handler(styleGroup: Params) {
   if (Object.prototype.toString.call(styleGroup) !== "[object Object]")
     return "";
   const descriptionKeys = Object.keys(description);
-  const compiledResult = [];
+  const compiledResult = {
+    result: {},
+    string: ''
+  };
+
+  const stringResult: any[] = [];
 
   for (let index = 0; index < descriptionKeys.length; index++) {
     const descriptionKey = descriptionKeys[index];
@@ -22,37 +27,46 @@ function handler(styleGroup: Params) {
       continue;
     }
 
-    let generateStyle: string = "";
+    let generateStyle: {
+      result: Params,
+      string: string
+    } = {
+      result: {},
+      string: ''
+    };
     switch (descriptionKey) {
       case "display":
-        generateStyle = compiler.display({ styleObj });
+        generateStyle = compiler.display(styleObj);
         break;
       case "backgroundGradient":
-        generateStyle = compiler.backgroundGradient({ styleObj });
+        generateStyle = compiler.backgroundGradient(styleObj);
         break;
       case "backgroundCommon":
-        generateStyle = compiler.backgroundCommon({ styleObj });
+        generateStyle = compiler.backgroundCommon(styleObj);
         break;
       case "border":
-        generateStyle = compiler.border({ styleObj });
+        generateStyle = compiler.border(styleObj);
         break;
       case "boxShadow":
-        generateStyle = compiler.boxShadow({ styleObj });
+        generateStyle = compiler.boxShadow(styleObj);
         break;
       case "textShadow":
-        generateStyle = compiler.textShadow({ styleObj });
+        generateStyle = compiler.textShadow(styleObj);
         break;
       case "font":
-        generateStyle = compiler.font({ styleObj });
+        generateStyle = compiler.font(styleObj);
+        break;
+      case "transform":
+        generateStyle = compiler.transform(styleObj);
         break;
       default:
         break;
     }
-    if (generateStyle) compiledResult.push(generateStyle);
+    compiledResult.result = {...compiledResult.result, ...generateStyle.result};
+    stringResult.push(generateStyle.string);
   }
-  console.log(compiledResult);
-  console.log("params", styleGroup);
-  return "";
+  compiledResult.string = stringResult.join(' ');
+  return compiledResult;
 }
 
 export default handler;

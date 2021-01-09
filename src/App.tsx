@@ -12,7 +12,8 @@ import styleCompile from './compiler'
 const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
 
-const style = styleCompile(styleCompileJson);
+const style:any = styleCompile(styleCompileJson);
+console.log(style.result)
 
 function App(props: any) {
     const [appData, setAppData] = useState([]);
@@ -30,7 +31,7 @@ function App(props: any) {
     }, [localStoreData]);
 
     useEffect(() => {
-        (styleRef.current as any).setAttribute('style', style);
+        // (styleRef.current as any).setAttribute('style', style.string);
     }, [appData])
 
     const onChange = useCallback((data: LayoutDataType[]) => {
@@ -48,7 +49,7 @@ function App(props: any) {
 
     return (
         <div className="App" >
-            <div ref={styleRef}>
+            <div ref={styleRef} style={style.result}>
                 <br /><br /><br /><br /><br /><div>中文</div><br /><br /><br /><br /><br /><br />
             </div>
             {isEditing ? (

@@ -1,6 +1,6 @@
 {
     "backgroundCommon": {
-        "imageUrl": "http: //www.by-health.com/static/index/tvc-jld.png",
+        "imageUrl": "http://www.by-health.com/static/index/tvc-jld.png",
         "position": "leftTop",
         "positionX": 0,
         "positionY": 50,
@@ -13,10 +13,10 @@
         "gradient": [
             {
                 "color": "red",
-                "transition": 10
+                "transition": 1
             },
             {
-                "color": "green",
+                "color": "orange",
                 "transition": 100
             }
         ],
@@ -28,26 +28,26 @@
         "radiusTopRight": 30,
         "radiusBottomLeft": 40,
         "radiusBottomRight": 50,
-        "borderColor": "green",
+        "borderColor": "red",
         "borderPosition": "Left",
         "borderStyle": "solid",
-        "borderWidth": 5
+        "borderWidth": 2
     },
     "boxShadow": [
         {
             "shifRight": 1,
             "shiftDown": 2,
             "spread": 3,
-            "blur": 4,
-            "inset": "inset"
+            "blur": 3,
+            "inset": "inset",
+            "color": "rgba(30,30,30,0.1)"
         },
         {
             "shifRight": 10,
             "shiftDown": 10,
             "spread": 10,
             "blur": 10,
-            "color": "#444",
-            "inset": "inset"
+            "color": "rgba(0,0,0,0.2)"
         }
     ],
     "textShadow": [{
