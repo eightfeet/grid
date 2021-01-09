@@ -132,6 +132,7 @@ const Layout: React.FC<LayoutProps> = ({
             >
                 {data.map(({ layout, ...other }) => (
                     <div
+                        id={`wrap-${layout.i}`}
                         className={classNames(
                             s.block,
                             !designModal ? null : s.modify

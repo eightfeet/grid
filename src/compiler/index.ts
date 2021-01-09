@@ -5,13 +5,13 @@ interface Params {
   [keys: string]: any;
 }
 
-function handler(styleGroup: Params) {
+function handler(styleGroup: Params):{style: React.CSSProperties, strStyle: string} {
   if (Object.prototype.toString.call(styleGroup) !== "[object Object]")
-    return "";
+    return {style: {}, strStyle: '' };
   const descriptionKeys = Object.keys(description);
   const compiledResult = {
-    result: {},
-    string: ''
+    style: {},
+    strStyle: ''
   };
 
   const stringResult: any[] = [];
@@ -62,10 +62,10 @@ function handler(styleGroup: Params) {
       default:
         break;
     }
-    compiledResult.result = {...compiledResult.result, ...generateStyle.result};
+    compiledResult.style = {...compiledResult.style, ...generateStyle.result};
     stringResult.push(generateStyle.string);
   }
-  compiledResult.string = stringResult.join(' ');
+  compiledResult.strStyle= stringResult.join(' ');
   return compiledResult;
 }
 

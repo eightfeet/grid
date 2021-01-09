@@ -6,20 +6,14 @@ import Layout from './Layout';
 import data from './mockdata/appData';
 // import styleJson from './mockdata/style.json';
 import { Layout as LayoutDataType } from 'react-grid-layout';
-import styleCompileJson from './mockdata/styleCompiler.json';
-import styleCompile from './compiler'
-
 const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
 
-const style:any = styleCompile(styleCompileJson);
-console.log(style.result)
 
 function App(props: any) {
     const [appData, setAppData] = useState([]);
     const [designModal, setDesignModal] = useState(isEditing);
     const resultData = useRef();
-    const styleRef = useRef(null);
 
     const [localStoreData, setLocalStoreData] = useLocalStorage(
         'appData',
@@ -29,10 +23,6 @@ function App(props: any) {
     useMemo(() => {
         setAppData(localStoreData);
     }, [localStoreData]);
-
-    useEffect(() => {
-        // (styleRef.current as any).setAttribute('style', style.string);
-    }, [appData])
 
     const onChange = useCallback((data: LayoutDataType[]) => {
         const mergeData = data.map((item, index) => {
@@ -49,9 +39,6 @@ function App(props: any) {
 
     return (
         <div className="App" >
-            <div ref={styleRef} style={style.result}>
-                <br /><br /><br /><br /><br /><div>中文</div><br /><br /><br /><br /><br /><br />
-            </div>
             {isEditing ? (
                 <>
                     <span>

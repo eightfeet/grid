@@ -14,8 +14,7 @@ export interface appDataTypes extends elementsTypes {
 }
 
 export interface elementsStyleTypes {
-    basic: React.CSSProperties;
-    [keys: string]: React.CSSProperties
+    [keys: string]: any
 }
 
 export type appDataListTypes = appDataTypes[];
