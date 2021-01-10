@@ -2,6 +2,7 @@ import { appDataListTypes } from "../../types/appData";
 
 const appData: appDataListTypes = [
   {
+    moduleId: "a",
     layout: {
       w: 10,
       h: 2,
@@ -44,6 +45,7 @@ const appData: appDataListTypes = [
     type: "Conterner",
   },
   {
+    moduleId: "b",
     layout: {
       w: 10,
       h: 8,
@@ -69,6 +71,7 @@ const appData: appDataListTypes = [
     type: "Modal",
   },
   {
+    moduleId: "c",
     layout: {
       w: 10,
       h: 11,

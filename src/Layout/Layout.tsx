@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import GridLayout, { Layout as LayoutDataType } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -6,6 +6,7 @@ import s from './Layout.module.scss';
 import GridLine from '../GridLine';
 import Elements from '../Elements';
 import classNames from 'classnames';
+import { ActiveModuleContext } from './../App'
 import { appDataListTypes } from '../../types/appData';
 
 interface LayoutProps {
@@ -79,7 +80,8 @@ const Layout: React.FC<LayoutProps> = ({
     const [wrapWidth, setWrapWidth] = useState(0);
     const [wrapHeight, setWrapHeight] = useState(0);
     const ref = useRef(null);
-
+    const currentId = useContext(ActiveModuleContext);
+    
     const setSize = useCallback(() => {
         let height = 0;
         let width = 0;
@@ -155,7 +157,7 @@ const Layout: React.FC<LayoutProps> = ({
                             static: !isEditing,
                         }}
                     >
-                        <div className={s.touchwrap} onTouchStart={onLayoutClick(item)}>
+                        <div className={`${s.touchwrap} ${currentId === item.moduleId ? s.actwrap:''}`} onTouchStart={onLayoutClick(item)}>
                             <Elements id={item.layout.i} {...item} />
                         </div>
                     </div>

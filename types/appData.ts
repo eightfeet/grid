@@ -7,6 +7,7 @@ export interface elementsTypes {
     content: {[keys: string]: any };
     event: any;
     type: string;
+    moduleId: string;
 }
 
 export interface appDataTypes extends elementsTypes {
