@@ -12,11 +12,11 @@
     "backgroundGradient": {
         "gradient": [
             {
-                "color": "red",
+                "color": "#f00",
                 "transition": 1
             },
             {
-                "color": "orange",
+                "color": "#ff0",
                 "transition": 100
             }
         ],
@@ -28,7 +28,7 @@
         "radiusTopRight": 30,
         "radiusBottomLeft": 40,
         "radiusBottomRight": 50,
-        "borderColor": "red",
+        "borderColor": "#f00",
         "borderPosition": "Left",
         "borderStyle": "solid",
         "borderWidth": 2

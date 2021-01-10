@@ -10,7 +10,6 @@ interface DatGuiProps {
 
 const DatGui: React.FC<DatGuiProps> = ({ onChange, configData, defaultData }) => {
   const [height, setheight] = useState(0);
-  
   useEffect(() => {
     const gui = initGui(configData, setheight, defaultData);
     return () => {

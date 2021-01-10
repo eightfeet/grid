@@ -10,11 +10,11 @@
         "sizeY": 100
     },
     "backgroundGradient": {
-        "startColor": "red",
+        "startColor": "#f00",
         "startTransition": 10,
-        "endColor": "yellow",
+        "endColor": "#ff0",
         "endTransition": 90,
-        "middleColor": "green",
+        "middleColor": "#0f0",
         "middleTransition": 50,
         "gradientDirections": "-45deg"
     },
@@ -24,7 +24,7 @@
         "radiusTopRight": 30,
         "radiusBottomLeft": 40,
         "radiusBottomRight": 50,
-        "borderColor": "green",
+        "borderColor": "#0f0",
         "borderPosition": "all",
         "borderStyle": "solid",
         "borderWidth": 5

@@ -38,7 +38,7 @@ const MiniDashboard:React.FC<MiniDashboardProps> = function MiniDashboard({appDa
         }
       }
     }
-  }, [appData, currentId]);
+  }, [appData, currentId, name]);
 
   const onChangeMenu = useCallback(
     (index: number) => () => {

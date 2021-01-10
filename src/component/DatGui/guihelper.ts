@@ -24,7 +24,6 @@ export const initGui = (
   const guiData: obgType = {};
   configArr.forEach((key: string) => {
     const element: any[] = configData[key];
-    console.log('key', key)
     guiData[key] = element[3]?.default;
       if (Array.isArray(element[3])) {
         guiData[key] = element[3][0].value;
@@ -37,29 +36,24 @@ export const initGui = (
       }
   });
 
-  Object.keys(defaultData)?.forEach(key => {
-    if(defaultData[key]){
-      guiData[key] = defaultData[key];
-    }
-  })
+  if (defaultData) {
+    Object.keys(defaultData)?.forEach(key => {
+      if(defaultData[key]){
+        guiData[key] = defaultData[key];
+      }
+    })
+  }
+  
 
   const gui = new dat.GUI({
     closeOnTop: true,
   });
-
   const wrap: any = gui.domElement;
   wrap.parentNode.style.zIndex = 1000;
   wrap.id = "guiwrap";
   setheight(wrap.offsetHeight);
   gui.width = window.innerWidth;
   guiAdd(guiData, configData, gui);
-
-  // for (const key in defaultData) {
-  //   if (Object.prototype.hasOwnProperty.call(defaultData, key)) {
-  //     const element = defaultData[key];
-  //     console.log('???', element)
-  //   }
-  // }
 
   return gui;
 };
@@ -98,7 +92,7 @@ export const guiAdd = (guiData: any, rawData: any, gui: dat.GUI) => {
       }
 
       if (type === "color") {
-        gui.addColor(guiData, key).name(`${name}${unit ? `(${unit})` : ""}`);
+        // gui.addColor(guiData, key).name(`${name}${unit ? `(${unit})` : ""}`);
       }
     }
   });

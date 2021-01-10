@@ -11,7 +11,8 @@ const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
 const activeData = {current: ''};
 
-export const ActiveModuleContext = React.createContext('')
+export const ActiveModuleContext = React.createContext('');
+
 
 function App(props: any) {
     const [appData, setAppData] = useState([]);
@@ -81,7 +82,7 @@ function App(props: any) {
                     onClick={onClick}
                     onChange={onChange}
                 />
-                {false ? <MiniDashboard appData={appData}/> : null}
+                {true ? <MiniDashboard appData={appData}/> : null}
             </div>
         </ActiveModuleContext.Provider>
     );
