@@ -1,0 +1,38 @@
+.root {
+    width: 100%;
+}
+
+.conterner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.menu {
+    &>div{
+        display: inline-block;
+        line-height: 30px;
+        padding: 0 10px;
+        border: 1px solid #eee;
+        background-color: #fff;
+    }
+
+    .selected{
+        border-color: #f00;
+    }
+}
+
+.content{
+    color: #444;
+    background-color: #eee;
+}
+
+.config {
+    >div {
+        display: inline-block;
+    }
+    .tag {
+        color: #666;
+    }
+}

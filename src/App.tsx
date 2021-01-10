@@ -6,6 +6,7 @@ import Layout from './Layout';
 import data from './mockdata/appData';
 // import styleJson from './mockdata/style.json';
 import { Layout as LayoutDataType } from 'react-grid-layout';
+import MiniDashboard from './component/MiniDashboard';
 const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
 
@@ -67,6 +68,7 @@ function App(props: any) {
                 data={appData}
                 onChange={onChange}
             />
+            {isEditing ? <MiniDashboard /> : null}
         </div>
     );
 }

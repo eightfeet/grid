@@ -12,6 +12,7 @@ const Conterner: React.FC<paraments> = ({id, style, children, content}) => {
     useEffect(() => {
         const { basic } = style;
         setBasicStyle(styleCompiler(basic));
+        console.log(1111)
         if (basic.display.zIndex !== undefined) {
             document.getElementById(`wrap-${id}`)!.style.zIndex = basic.display.zIndex;
         }
