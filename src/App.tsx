@@ -66,6 +66,7 @@ function App(props: any) {
                 cols={12}
                 width={window.innerWidth}
                 data={appData}
+                onClick={(Edata: any)=>console.log(333, Edata)}
                 onChange={onChange}
             />
             {isEditing ? <MiniDashboard /> : null}

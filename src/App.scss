@@ -85,4 +85,18 @@
   .dg .c .slider:hover {
     background: #eee;
   }
+
+  .dg .c {
+    width: 75%;
+  }
+
+  .dg .c select {
+    border-color: #CCC;
+    width: 100%;
+  }
+
+  .dg .property-name{
+    width: 25%;
+    text-align: center;
+  }
 }

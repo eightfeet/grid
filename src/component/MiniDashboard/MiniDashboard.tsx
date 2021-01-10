@@ -26,7 +26,6 @@ function MiniDashboard() {
   );
   const name = menus[selected];
   const currentConfig = (description as objType)[name];
-  console.log(3333, currentConfig)
   return (
     <div
       className={s.root}

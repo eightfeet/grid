@@ -49,6 +49,7 @@ interface LayoutProps {
      */
     data: appDataListTypes;
     onChange?: (layout: LayoutDataType[]) => void;
+    onClick?:(item: any) => void;
     /**
      * 设计模式 | 预览模式
      * true | false 
@@ -73,6 +74,7 @@ const Layout: React.FC<LayoutProps> = ({
     data,
     designModal,
     onChange,
+    onClick
 }) => {
     const [wrapWidth, setWrapWidth] = useState(0);
     const [wrapHeight, setWrapHeight] = useState(0);
@@ -106,6 +108,16 @@ const Layout: React.FC<LayoutProps> = ({
         [onChange, setSize]
     );
 
+    const onLayoutClick = useCallback(
+        (item:any) => () => {
+            if (onClick instanceof Function) {
+                onClick(item);
+            }
+            setSize();
+        },
+        [onClick, setSize]
+    );
+
     // 目的
     // 要求
 
@@ -130,20 +142,22 @@ const Layout: React.FC<LayoutProps> = ({
                 width={wrapWidth}
                 autoSize
             >
-                {data.map(({ layout, ...other }) => (
+                {data.map((item) => (
                     <div
-                        id={`wrap-${layout.i}`}
+                        id={`wrap-${item.layout.i}`}
                         className={classNames(
                             s.block,
                             !designModal ? null : s.modify
                         )}
-                        key={layout.i}
+                        key={item.layout.i}
                         data-grid={{
-                            ...layout,
+                            ...(item.layout),
                             static: !isEditing,
                         }}
                     >
-                        <Elements id={layout.i} {...other} />
+                        <div className={s.touchwrap} onTouchStart={onLayoutClick(item)}>
+                            <Elements id={item.layout.i} {...item} />
+                        </div>
                     </div>
                 ))}
             </GridLayout>

@@ -6,7 +6,7 @@
             "px",
             {
                 "start": 0,
-                "end": "n",
+                "end": 1000,
                 "default": 0
             }
         ],
@@ -16,7 +16,7 @@
             "px",
             {
                 "start": 0,
-                "end": "n",
+                "end": 1000,
                 "default": 0
             }
         ],
@@ -32,12 +32,12 @@
         ],
         "position": [
             "select",
-            "位置",
+            "定位",
             null,
             [
                 {
                     "name": "相对",
-                    "value": "absolute"
+                    "value": "relative"
                 },
                 {
                     "name": "浮动",
@@ -55,7 +55,7 @@
             "px",
             {
                 "start": 0,
-                "end": "n",
+                "end": 1000,
                 "default": 0
             }
         ],
@@ -65,7 +65,7 @@
             "px",
             {
                 "start": 0,
-                "end": "n",
+                "end": 1000,
                 "default": 0
             }
         ],
@@ -75,7 +75,7 @@
             "px",
             {
                 "start": 0,
-                "end": "n",
+                "end": 1000,
                 "default": 0
             }
         ],
@@ -85,7 +85,7 @@
             "px",
             {
                 "start": 0,
-                "end": "n",
+                "end": 1000,
                 "default": 0
             }
         ]
@@ -94,6 +94,10 @@
         "imageUrl": [
             "upload",
             "背景图片"
+        ],
+        "backgroundColor": [
+            "color",
+            "背景色"
         ],
         "position": [
             "select",
@@ -200,10 +204,6 @@
                     "value": "repeat-y"
                 }
             ]
-        ],
-        "backgroundColor": [
-            "color",
-            "背景色"
         ]
     },
     "backgroundGradient": {
@@ -221,7 +221,7 @@
                 "%",
                 {
                     "start": 0,
-                    "end": "{{middleTransition | endTransition}}",
+                    "end": 100,
                     "default": 0
                 }
             ]
@@ -280,10 +280,11 @@
             "number",
             "右上圆角",
             "px",
-            [
-                0,
-                100
-            ]
+            {
+                "start": 0,
+                "end": 100,
+                "default": 0
+            }
         ],
         "radiusBottomLeft": [
             "number",
