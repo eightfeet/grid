@@ -1,22 +1,44 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import DatGui from "../DatGui";
 import description from "./../../compiler/description.json";
 import s from "./MiniDashboard.module.scss";
+import { ActiveModuleContext } from './../../App';
+
 interface objType {
     [keys: string]: any
 }
 
-function MiniDashboard() {
+interface MiniDashboardProps {
+  appData: objType
+}
+
+const MiniDashboard:React.FC<MiniDashboardProps> = function MiniDashboard({appData}) {
   const ref = useRef(null);
   const [conternerHeight, setConternerHeight] = useState();
   const [selected, setSelected] = useState(0);
   const [menus, setMenus] = useState<string[]>([]);
+  const [defaultdata, setDefaultdata] = useState({});
+  const currentId = useContext(ActiveModuleContext);
+  const name = menus[selected];
+  const currentConfig = (description as objType)[name];
+
   useEffect(() => {
     if (ref.current) {
       setConternerHeight((ref.current as any).offsetHeight);
     }
     setMenus(Object.keys(description));
-  }, []);
+
+    console.log()
+
+    for (const key in appData) {
+      if (Object.prototype.hasOwnProperty.call(appData, key)) {
+        const element = appData[key];
+        if(element.moduleId === currentId){
+          setDefaultdata(element.style.basic[name])
+        }
+      }
+    }
+  }, [appData, currentId]);
 
   const onChangeMenu = useCallback(
     (index: number) => () => {
@@ -24,8 +46,7 @@ function MiniDashboard() {
     },
     []
   );
-  const name = menus[selected];
-  const currentConfig = (description as objType)[name];
+  
   return (
     <div
       className={s.root}
@@ -37,7 +58,7 @@ function MiniDashboard() {
         )}
         </div>
         <div className={s.content}>
-            <DatGui configData={currentConfig} defaultData={{}} onChange={(data) => console.log(data)} />
+            <DatGui configData={currentConfig} defaultData={defaultdata} onChange={(data) => console.log(data)} />
         </div>
       </div>
     </div>

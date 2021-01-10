@@ -81,7 +81,7 @@ function App(props: any) {
                     onClick={onClick}
                     onChange={onChange}
                 />
-                {isEditing ? <MiniDashboard /> : null}
+                {false ? <MiniDashboard appData={appData}/> : null}
             </div>
         </ActiveModuleContext.Provider>
     );

@@ -6,9 +6,9 @@ interface obgType {
 
 export const initGui = (
   data: obgType,
-  setheight: (height: number) => void
+  setheight: (height: number) => void,
+  defaultData: obgType
 ): any => {
-
   let configData: {[keys: string]:any} = data;
   if (configData?.gradient && configData?.gradientDirections) {
     configData = {
@@ -24,7 +24,7 @@ export const initGui = (
   const guiData: obgType = {};
   configArr.forEach((key: string) => {
     const element: any[] = configData[key];
-
+    console.log('key', key)
     guiData[key] = element[3]?.default;
       if (Array.isArray(element[3])) {
         guiData[key] = element[3][0].value;
@@ -37,6 +37,12 @@ export const initGui = (
       }
   });
 
+  Object.keys(defaultData)?.forEach(key => {
+    if(defaultData[key]){
+      guiData[key] = defaultData[key];
+    }
+  })
+
   const gui = new dat.GUI({
     closeOnTop: true,
   });
@@ -48,6 +54,13 @@ export const initGui = (
   gui.width = window.innerWidth;
   guiAdd(guiData, configData, gui);
 
+  // for (const key in defaultData) {
+  //   if (Object.prototype.hasOwnProperty.call(defaultData, key)) {
+  //     const element = defaultData[key];
+  //     console.log('???', element)
+  //   }
+  // }
+
   return gui;
 };
 
@@ -58,33 +71,35 @@ export const setGuiData = (guiData: any) => {
 
 export const guiAdd = (guiData: any, rawData: any, gui: dat.GUI) => {
   Object.keys(guiData).forEach((key) => {
-    const type = rawData[key][0];
-    const name = rawData[key][1];
-    const unit = rawData[key][2];
-    const options = rawData[key][3];
+    if (rawData[key]) {
+      const type = rawData[key][0];
+      const name = rawData[key][1];
+      const unit = rawData[key][2];
+      const options = rawData[key][3];
 
-    if (type === "number")
-      gui
-        .add(guiData, key, options.start, options.end)
-        .name(`${name}${unit ? `(${unit})` : ""}`);
+      if (type === "number")
+        gui
+          .add(guiData, key, options.start, options.end)
+          .name(`${name}${unit ? `(${unit})` : ""}`);
 
-    if (type === "upload")
-      gui
-        .add(guiData, key)
-        .name(`${name}${unit ? `(${unit})` : ""}`);
+      if (type === "upload")
+        gui
+          .add(guiData, key)
+          .name(`${name}${unit ? `(${unit})` : ""}`);
 
-    if (type === "select") {
-      const optionsArr: string[] = [];
-      (options as string[]).forEach((item: any) => {
-        optionsArr.push(item.value);
-      });
-      gui
-        .add(guiData, key, optionsArr)
-        .name(`${name}${unit ? `(${unit})` : ""}`);
-    }
+      if (type === "select") {
+        const optionsArr: string[] = [];
+        (options as string[]).forEach((item: any) => {
+          optionsArr.push(item.value);
+        });
+        gui
+          .add(guiData, key, optionsArr)
+          .name(`${name}${unit ? `(${unit})` : ""}`);
+      }
 
-    if (type === "color") {
-      gui.addColor(guiData, key).name(`${name}${unit ? `(${unit})` : ""}`);
+      if (type === "color") {
+        gui.addColor(guiData, key).name(`${name}${unit ? `(${unit})` : ""}`);
+      }
     }
   });
 };

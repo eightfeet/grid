@@ -8,17 +8,17 @@ interface DatGuiProps {
   defaultData: { [keys: string]: any };
 }
 
-const DatGui: React.FC<DatGuiProps> = ({ onChange, configData }) => {
+const DatGui: React.FC<DatGuiProps> = ({ onChange, configData, defaultData }) => {
   const [height, setheight] = useState(0);
   
   useEffect(() => {
-    const gui = initGui(configData, setheight);
+    const gui = initGui(configData, setheight, defaultData);
     return () => {
       if (gui) {
         gui.destroy();
       }
     };
-  }, [configData]);
+  }, [configData, defaultData]);
   const onDataChange = useCallback(() => {
     onChange({});
   }, [onChange]);
