@@ -1,19 +1,29 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { RootState, Dispatch } from '~/redux/store';
 import queryString from 'query-string';
+import { Layout as LayoutDataType } from 'react-grid-layout';
 import useLocalStorage from './hooks/useLocalStorage';
-import './App.scss';
 import Layout from './Layout';
 import data from './mockdata/appData';
-// import styleJson from './mockdata/style.json';
-import { Layout as LayoutDataType } from 'react-grid-layout';
 import MiniDashboard from './components/MiniDashboard';
+import './App.scss';
+
+type StateProps = ReturnType<typeof mapState>;
+type DispatchProps = ReturnType<typeof mapDispatch>;
+interface CompProps {
+
+}
+
+
+
 const search = queryString.parse(window.location.search);
 const isEditing = search.isEditing === 'true';
 
 export const ActiveModuleContext = React.createContext('');
 
-function App(props: any) {
-    const [appData, setAppData] = useState([]);
+const App: React.FC<StateProps & DispatchProps & CompProps> = ({ updateAppData, appData }) => {
+
     const [designModal, setDesignModal] = useState(isEditing);
     const [activeLayout, setActiveLayout] = useState('');
     const resultData = useRef();
@@ -24,13 +34,13 @@ function App(props: any) {
     );
 
     useMemo(() => {
-        setAppData(localStoreData);
+        updateAppData(localStoreData);
     }, [localStoreData]);
 
     const onChange = useCallback(
         (data: LayoutDataType[]) => {
             const mergeData = data.map((item, index) => {
-                const otherData: LayoutDataType = appData[index];
+                const otherData = appData[index];
                 const result = {
                     ...otherData,
                     layout: item,
@@ -98,4 +108,12 @@ function App(props: any) {
     );
 }
 
-export default App;
+const mapState = (state: RootState) => ({
+    appData: state.appData,
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+    updateAppData: dispatch.appData.updateAppData,
+});
+
+export default connect(mapState, mapDispatch)(App);
