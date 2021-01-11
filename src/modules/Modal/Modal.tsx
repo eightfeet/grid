@@ -1,8 +1,8 @@
 import React from 'react';
 import Conterner from './../Conterner';
-import { elementsTypes } from './../../../types/appData';
+import { AppDataElementsTypes } from './../../../types/appData';
 
-interface paraments extends elementsTypes  {
+interface paraments extends AppDataElementsTypes  {
     id: string
 }
 

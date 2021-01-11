@@ -3,7 +3,7 @@ import React, {
     lazy,
     useEffect,
 } from 'react';
-import { elementsTypes } from './../../types/appData';
+import { AppDataElementsTypes } from './../../types/appData';
 
 /**
  * To do list !!!
@@ -12,9 +12,9 @@ import { elementsTypes } from './../../types/appData';
  * step3: 测试元件
  *
  * @interface ElementsProps
- * @extends {elementsTypes}
+ * @extends {AppDataElementsTypes}
  */
-interface ElementsProps extends elementsTypes {
+interface ElementsProps extends AppDataElementsTypes {
     id: string;
     layout: {
         [keys: string]:any

@@ -1,6 +1,6 @@
-import { appDataListTypes } from "../../types/appData";
+import { AppDataListTypes } from "../../types/appData";
 
-const appData: appDataListTypes = [
+const appData: AppDataListTypes = [
   {
     moduleId: "a",
     layout: {

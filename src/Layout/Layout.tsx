@@ -7,7 +7,7 @@ import GridLine from '../GridLine';
 import Elements from '../Elements';
 import classNames from 'classnames';
 import { ActiveModuleContext } from './../App'
-import { appDataListTypes } from '../../types/appData';
+import { AppDataListTypes } from '../../types/appData';
 
 interface LayoutProps {
     /**
@@ -48,7 +48,7 @@ interface LayoutProps {
      *   }[]}
      * @memberof LayoutProps
      */
-    data: appDataListTypes;
+    data: AppDataListTypes;
     onChange?: (layout: LayoutDataType[]) => void;
     onClick?:(item: any) => void;
     /**

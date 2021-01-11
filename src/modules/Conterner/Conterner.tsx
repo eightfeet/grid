@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { elementsTypes } from './../../../types/appData';
+import { AppDataElementsTypes } from './../../../types/appData';
 import styleCompiler from './../../compiler'
 
-interface paraments extends elementsTypes  {
+interface paraments extends AppDataElementsTypes  {
     id: string
 }
 
@@ -12,8 +12,8 @@ const Conterner: React.FC<paraments> = ({id, style, children, content}) => {
     useEffect(() => {
         const { basic } = style;
         setBasicStyle(styleCompiler(basic));
-        if (basic.display.zIndex !== undefined) {
-            document.getElementById(`wrap-${id}`)!.style.zIndex = basic.display.zIndex;
+        if (basic.display?.zIndex !== undefined) {
+            document.getElementById(`wrap-${id}`)!.style.zIndex = `${basic.display.zIndex}`;
         }
     }, [id, style])
     
