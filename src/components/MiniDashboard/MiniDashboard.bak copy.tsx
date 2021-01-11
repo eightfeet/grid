@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-import DatGui from "../DatGui";
-import description from "./../../compiler/description.json";
+import DatGui from "./DatGui";
+import description from "../../compiler/description.json";
 import s from "./MiniDashboard.module.scss";
-import { ActiveModuleContext } from './../../App';
+import { ActiveModuleContext } from '../../App';
 
 interface objType {
     [keys: string]: any
@@ -27,8 +27,6 @@ const MiniDashboard:React.FC<MiniDashboardProps> = function MiniDashboard({appDa
       setConternerHeight((ref.current as any).offsetHeight);
     }
     setMenus(Object.keys(description));
-
-    console.log()
 
     for (const key in appData) {
       if (Object.prototype.hasOwnProperty.call(appData, key)) {

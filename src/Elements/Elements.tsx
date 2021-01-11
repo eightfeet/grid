@@ -16,9 +16,12 @@ import { elementsTypes } from './../../types/appData';
  */
 interface ElementsProps extends elementsTypes {
     id: string;
+    layout: {
+        [keys: string]:any
+    }
 }
 
-const Elements: React.FC<ElementsProps> = (props) => {
+const Elements: React.FC<ElementsProps> = ({layout, ...props}) => {
     const { type } = props;
     const Comp = lazy(() => import(`./../modules/${type}`));
     return (

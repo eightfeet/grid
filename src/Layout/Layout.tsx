@@ -100,6 +100,7 @@ const Layout: React.FC<LayoutProps> = ({
         setSize();
     }, [width, height, setSize]);
 
+
     const onLayoutChange = useCallback(
         (layout: LayoutDataType[]) => {
             if (onChange instanceof Function) {
@@ -112,18 +113,12 @@ const Layout: React.FC<LayoutProps> = ({
 
     const onLayoutClick = useCallback(
         (item:any) => () => {
-            if (onClick instanceof Function) {
+            if (onClick instanceof Function && isEditing) {
                 onClick(item);
             }
-            setSize();
         },
         [onClick, setSize]
     );
-
-    // 目的
-    // 要求
-
-    const layoutsData = data.map(item => item.layout);
     
 
     return (
