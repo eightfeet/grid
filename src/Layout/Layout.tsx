@@ -6,7 +6,6 @@ import s from './Layout.module.scss';
 import GridLine from '../GridLine';
 import Elements from '../Elements';
 import classNames from 'classnames';
-import { ActiveModuleContext } from './../App'
 import { AppDataListTypes } from '../../types/appData';
 
 interface LayoutProps {
@@ -80,7 +79,6 @@ const Layout: React.FC<LayoutProps> = ({
     const [wrapWidth, setWrapWidth] = useState(0);
     const [wrapHeight, setWrapHeight] = useState(0);
     const ref = useRef(null);
-    const currentId = useContext(ActiveModuleContext);
     
     const setSize = useCallback(() => {
         let height = 0;
@@ -110,16 +108,6 @@ const Layout: React.FC<LayoutProps> = ({
         },
         [onChange, setSize]
     );
-
-    const onLayoutClick = useCallback(
-        (item:any) => () => {
-            if (onClick instanceof Function && isEditing) {
-                onClick(item);
-            }
-        },
-        [onClick, setSize]
-    );
-    
 
     return (
         <div className={s.layout} ref={ref}>
@@ -152,9 +140,7 @@ const Layout: React.FC<LayoutProps> = ({
                             static: !isEditing,
                         }}
                     >
-                        <div className={`${s.touchwrap} ${currentId === item.moduleId ? s.actwrap:''}`} onTouchStart={onLayoutClick(item)}>
-                            <Elements id={item.layout.i} {...item} />
-                        </div>
+                        <Elements id={item.layout.i} {...item} />
                     </div>
                 ))}
             </GridLayout>
