@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AppDataElementsTypes } from './../../../types/appData';
-import styleCompiler from './../../compiler'
+import styleCompiler from './../../compiler';
 
 interface paraments extends AppDataElementsTypes  {
     id: string
