@@ -1,7 +1,6 @@
 import React, {
     Suspense,
     lazy,
-    useEffect,
 } from 'react';
 import { AppDataElementsTypes } from './../../types/appData';
 
