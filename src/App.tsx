@@ -18,9 +18,7 @@ const isEditing = search.isEditing === "true";
 
 const App: React.FC<StateProps & DispatchProps & CompProps> = ({
   updateAppData,
-  updateActivationItem,
   appData,
-  activationItem,
 }) => {
   const [designModal, setDesignModal] = useState(isEditing);
   const resultData = useRef();
@@ -43,14 +41,6 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
       (resultData.current as any) = mergeData;
     },
     [appData]
-  );
-
-  const onClick = useCallback(
-    (data) => {
-      if (!isEditing) return;
-      updateActivationItem({ id: data.moduleId, item: data });
-    },
-    [updateActivationItem]
   );
 
   return (
@@ -92,7 +82,6 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
         cols={12}
         width={window.innerWidth}
         data={appData}
-        onClick={onClick}
         onChange={onChange}
       />
       {isEditing ? <MiniDashboard appData={appData} /> : null}

@@ -3,6 +3,7 @@ import React, {
     lazy,
 } from 'react';
 import { AppDataElementsTypes } from './../../types/appData';
+import LazyLoader from '~/components/LazyLoader';
 
 /**
  * To do list !!!
@@ -20,13 +21,10 @@ interface ElementsProps extends AppDataElementsTypes {
     }
 }
 
-const Elements: React.FC<ElementsProps> = ({layout, ...props}) => {
-    const { type } = props;
-    const Comp = lazy(() => import(`./../modules/${type}`));
+const Elements: React.FC<ElementsProps> = (props) => {
+    const { type, layout, ...other } = props;
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <Comp {...props} />
-        </Suspense>
+        <LazyLoader path={`modules/${type}`} {...other}/>
     );
 };
 

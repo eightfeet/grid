@@ -1,17 +1,19 @@
-import React from 'react'
+import React from 'react';
+import { AppDataElementsTypes } from 'types/appData';
+import Tabs from '~/components/MiniDashboard/Tabs';
+import Controller from './../Controller'
+import s from './Dashboard.module.scss';
 
-interface Props {
+interface Props extends AppDataElementsTypes {
 
 }
 
-const Dashboard:React.FC<Props> = ({children}) => {
+const Dashboard:React.FC<Props> = (props) => {
     return (
-        <>
-            <div>
-                菜单tab
-            </div>
-            {children}
-        </>
+        <div className={s.root}>
+            <Tabs {...props} />
+            <Controller {...props} />
+        </div>
     )
 }
 

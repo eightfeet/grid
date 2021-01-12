@@ -1,5 +1,9 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-import s from "./MiniDashboard.module.scss";
+import React from "react";
+import { connect } from 'react-redux';
+import { RootState } from '~/redux/store';
+import LazyLoader from '~/components/LazyLoader';
+
+type StateProps = ReturnType<typeof mapState>;
 
 interface objType {
     [keys: string]: any
@@ -9,15 +13,18 @@ interface MiniDashboardProps {
   appData: objType
 }
 
-const MiniDashboard:React.FC<MiniDashboardProps> = function MiniDashboard({appData}) {
-  useEffect(() => {
-     console.log(appData)
-  }, [appData])
-  return (
-    <div>
-      111
-    </div>
-  );
+const MiniDashboard:React.FC<MiniDashboardProps & StateProps> = function MiniDashboard(props) {
+  const { activationItem } = props;
+
+  if (!activationItem.id || !activationItem.item) {
+    return null
+  }
+  const {layout, ...other} = activationItem.item;
+  return (<LazyLoader path={'components/MiniDashboard/Dashboard'}  {...other} />);
 }
 
-export default MiniDashboard;
+const mapState = (state: RootState) => ({
+  activationItem: state.activationItem
+});
+
+export default connect(mapState)(MiniDashboard);

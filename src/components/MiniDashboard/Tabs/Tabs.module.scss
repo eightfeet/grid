@@ -1,0 +1,41 @@
+
+$primary: rgba(92, 165, 255, 1);
+$gray: rgb(204, 204, 204);
+
+.firstnemu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    >div{
+        background-color: #fff;
+        border-bottom: 2px solid $gray;
+        flex:auto;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+    }
+    
+    .selected {
+        border-color: $primary;
+    }
+}
+
+.secondmenu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $gray;
+
+    >div{
+        background-color: #fff;
+        border-bottom: 2px solid $gray;
+        flex:auto;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .selected {
+        border-color: $primary;
+    }
+}

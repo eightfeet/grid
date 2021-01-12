@@ -19,7 +19,8 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
   children,
   content,
   updateActivationItem,
-  activationItem
+  activationItem,
+  appData
 }) => {
   const [basicStyle, setBasicStyle] = useState<{ [keys: string]: any }>({});
 
@@ -34,7 +35,13 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
   }, [id, style]);
 
   const onLayoutClick = useCallback(() => {
-    updateActivationItem({ id });
+    appData.forEach(element => {
+      // 禁止重复设置当前编辑项
+      if (activationItem.id === id) return;
+      if (element.moduleId === id) {
+        updateActivationItem({ id, item: element });
+      }
+    });
   }, [id, updateActivationItem]);
 
   return (

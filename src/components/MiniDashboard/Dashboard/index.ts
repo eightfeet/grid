@@ -1,2 +1,2 @@
-import DashboardTabs from './Dashboard';
-export default DashboardTabs;
+import Dashboard from './Dashboard';
+export default Dashboard;
