@@ -24,8 +24,26 @@ $gray: rgb(204, 204, 204);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid $gray;
 
+    >div{
+        background-color: #fff;
+        margin-top: 10px;
+        border: 1px solid $gray;
+        text-align: center;
+        height: 25px;
+        line-height: 25px;
+        padding: 5px 20px;
+    }
+
+    .selected {
+        border-color: $primary;
+    }
+}
+
+.stage0 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     >div{
         background-color: #fff;
         border-bottom: 2px solid $gray;
@@ -34,7 +52,61 @@ $gray: rgb(204, 204, 204);
         height: 40px;
         line-height: 40px;
     }
+    
+    .selected {
+        border-color: $primary;
+    }
+}
 
+.stage1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    >div{
+        background-color: #fff;
+        border-bottom: 2px solid $gray;
+        flex:auto;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+    }
+    
+    .selected {
+        border-color: $primary;
+    }
+}
+
+.stage2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    >div{
+        background-color: #fff;
+        border-bottom: 2px solid $gray;
+        flex:auto;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+    }
+    
+    .selected {
+        border-color: $primary;
+    }
+}
+
+.stage3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    >div{
+        background-color: #fff;
+        border-bottom: 2px solid $gray;
+        flex:auto;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+    }
+    
     .selected {
         border-color: $primary;
     }
