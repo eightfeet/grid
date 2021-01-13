@@ -7,10 +7,11 @@ interface Props {
     selected: string
 }
 
-const Controller: React.FC<Props> = ({ selected }) => {
+const Controller: React.FC<Props> = ({ selected, ...other}) => {
     const [stateData, setStateData] = useState<any>();
 
     useEffect(() => {
+        console.log(444444, other)
         setStateData((description as AnyObjectType)[selected])
     }, [selected, stateData])
 
@@ -32,7 +33,7 @@ const Controller: React.FC<Props> = ({ selected }) => {
 
     
     return <div className={s.root}>
-        {Object.keys(stateData)?.map(key => <li><input  /></li>)}
+        controller
     </div>;
 };
 

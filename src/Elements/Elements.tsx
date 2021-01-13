@@ -1,8 +1,5 @@
-import React, {
-    Suspense,
-    lazy,
-} from 'react';
-import { AppDataElementsTypes } from './../../types/appData';
+import React from 'react';
+import { AppDataElementsTypes } from 'types/appData';
 import LazyLoader from '~/components/LazyLoader';
 
 /**

@@ -19,6 +19,7 @@ const isEditing = search.isEditing === "true";
 const App: React.FC<StateProps & DispatchProps & CompProps> = ({
   updateAppData,
   appData,
+  activationItem
 }) => {
   const [designModal, setDesignModal] = useState(isEditing);
   const resultData = useRef();
@@ -44,6 +45,7 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
   );
 
   return (
+    <>
     <div className="App">
       {isEditing ? (
         <>
@@ -84,8 +86,9 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
         data={appData}
         onChange={onChange}
       />
-      {isEditing ? <MiniDashboard appData={appData} /> : null}
     </div>
+    {isEditing && designModal && activationItem.moduleId ? <div style={{height: '400px'}}><MiniDashboard /></div> : null}
+    </>
   );
 };
 

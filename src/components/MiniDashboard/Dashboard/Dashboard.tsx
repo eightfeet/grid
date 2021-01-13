@@ -1,16 +1,27 @@
-import React, { useCallback, useState } from 'react';
-import { AllCssType, AppDataElementsTypes } from 'types/appData';
+import React, { useCallback, useEffect, useState } from 'react';
+import { AppDataElementsTypes } from 'types/appData';
 import Tabs from '~/components/MiniDashboard/Tabs';
 import Controller from './../Controller'
 import s from './Dashboard.module.scss';
+import { connect } from 'react-redux';
+import { RootState } from '~/redux/store';
+
+type StateProps = ReturnType<typeof mapState>;
 
 interface Props extends AppDataElementsTypes {
 }
 
+const Dashboard:React.FC<Props & StateProps> = ({activationItem, ...other}) => {
+    const [editData, setEditData] = useState<any>();
+    useEffect(() => {
+        const {layout, ...other} = activationItem;
+        if (activationItem.moduleId) {
+            console.log(5555, other)
+            setEditData(other)
+          }
+          
+    }, [activationItem])
 
-
-const Dashboard:React.FC<Props> = (props) => {
-    const [editData, setEditData] = useState<string>()
     const onClick = useCallback(
         (selected) => {
             setEditData(selected)
@@ -19,10 +30,14 @@ const Dashboard:React.FC<Props> = (props) => {
     )
     return (
         <div className={s.root}>
-            <Tabs {...props} onClick={onClick} />
-            {/* <Controller  selected={editData} /> */}
+            <Tabs {...other} onClick={onClick} />
+            <Controller  selected={editData} {...other} />
         </div>
     )
 }
 
-export default Dashboard
+const mapState = (state: RootState) => ({
+    activationItem: state.activationItem
+  });
+  
+export default connect(mapState)(Dashboard);

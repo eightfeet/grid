@@ -37,16 +37,16 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
   const onLayoutClick = useCallback(() => {
     appData.forEach(element => {
       // 禁止重复设置当前编辑项
-      if (activationItem.id === id) return;
+      if (activationItem.moduleId === id) return;
       if (element.moduleId === id) {
-        updateActivationItem({ id, item: element });
+        updateActivationItem({ ...element });
       }
     });
-  }, [id, updateActivationItem]);
+  }, [activationItem.moduleId, appData, id, updateActivationItem]);
 
   return (
     <div
-      className={ClassNames(s.touchwrap, activationItem.id === id ? s.actwrap : null)}
+      className={ClassNames(s.touchwrap, activationItem.moduleId === id ? s.actwrap : null)}
       onTouchStart={onLayoutClick}
     >
       <div id={id} style={basicStyle.style}>
