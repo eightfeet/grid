@@ -10,18 +10,17 @@ interface Props extends AppDataElementsTypes {
 
 
 const Dashboard:React.FC<Props> = (props) => {
-    const [editData, setEditData] = useState<{data: AllCssType, datapath: string[], moduleId: string}>()
+    const [editData, setEditData] = useState<string>()
     const onClick = useCallback(
-        ({data, datapath, moduleId}) => {
-            console.log('当前编辑', data, datapath, moduleId)
-            setEditData({data, moduleId, datapath})
+        (selected) => {
+            setEditData(selected)
         },
         [],
     )
     return (
         <div className={s.root}>
             <Tabs {...props} onClick={onClick} />
-            <Controller  {...editData} />
+            {/* <Controller  selected={editData} /> */}
         </div>
     )
 }

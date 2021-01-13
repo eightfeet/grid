@@ -1,19 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AllCssType, AnyObjectType } from 'types/appData';
 import s from './Controller.module.scss'
+import description from '~/compiler/description.json'
 
 interface Props {
-    data?: AllCssType
-    datapath?: string[];
-    moduleId?: string;
+    selected: string
 }
 
-const Controller: React.FC<Props> = ({ data }) => {
+const Controller: React.FC<Props> = ({ selected }) => {
     const [stateData, setStateData] = useState<any>();
 
     useEffect(() => {
-        setStateData(data)
-    }, [stateData])
+        setStateData((description as AnyObjectType)[selected])
+    }, [selected, stateData])
 
     const onChange = useCallback(
         (key) => () => {
@@ -28,31 +27,12 @@ const Controller: React.FC<Props> = ({ data }) => {
             
             console.log(key)
         },
-        [stateData],
+        [],
     )
 
-    const renderObject = (data: {} | undefined) => {
-        if (Object.prototype.toString.call(data) === '[object Object]') {
-            const result: JSX.Element[] = [];
-            const editData: AnyObjectType = data || {};
-            console.log('editData', editData)
-            Object.keys(editData).forEach(key => {
-                    const item = editData[key];
-                    if (Array.isArray(item)) {
-                        const els = item.map(el => renderObject(el))
-                        result.push(<li>{els}</li>)
-                    } else {
-                        result.push(<li><label key={key}>{key}: <input value={item} onChange={onChange(key)} /></label></li>)
-                    }
-                })
-
-
-            return <ul>{result}</ul>;
-        }
-    }
     
     return <div className={s.root}>
-        {renderObject(stateData)}
+        {Object.keys(stateData)?.map(key => <li><input  /></li>)}
     </div>;
 };
 

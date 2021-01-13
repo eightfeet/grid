@@ -44,6 +44,7 @@ $gray: rgb(204, 204, 204);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     >div{
         background-color: #fff;
         border-bottom: 2px solid $gray;
@@ -51,6 +52,7 @@ $gray: rgb(204, 204, 204);
         text-align: center;
         height: 40px;
         line-height: 40px;
+        padding: 0 10px;
     }
     
     .selected {
