@@ -15,7 +15,7 @@ interface MiniDashboardProps {
 
 const MiniDashboard:React.FC<MiniDashboardProps & StateProps> = function MiniDashboard(props) {
   const { activationItem } = props;
-
+  console.log('activationItem', activationItem)
   if (!activationItem.id || !activationItem.item) {
     return null
   }

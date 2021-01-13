@@ -23,7 +23,7 @@ export interface StyleItemsTypes {
     backgroundGradient?: BackgroundGradientTypesOfStyleItems;
     border?: BorderTypesOfStyleItems;
     boxShadow?: BoxShadowTypesOfStyleItems[];
-    textShadow?: TextShadowTypesOfStyleItems;
+    textShadow?: TextShadowTypesOfStyleItems[];
     font?: FontTypesOfStyleItems;
     display?: DisplayTypesOfStyleItems;
     transform?: TransformTypesOfStyleItems;
@@ -105,3 +105,13 @@ export interface AppDataElementsStyleTypes {
 }
 
 export type AppDataListTypes = AppDataLayoutItemTypes[];
+
+
+export type AllCssType = BackgroundCommonTypesOfStyleItems &
+BackgroundGradientTypesOfStyleItems &
+BorderTypesOfStyleItems &
+BoxShadowTypesOfStyleItems &
+TextShadowTypesOfStyleItems &
+FontTypesOfStyleItems &
+DisplayTypesOfStyleItems &
+TransformTypesOfStyleItems;

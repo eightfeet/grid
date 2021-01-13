@@ -1,88 +1,135 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { AnyObjectType, AppDataElementsTypes } from "types/appData";
-import key from "lodash/keys.js";
-import get from "lodash/get.js";
-import s from "./Tabs.module.scss";
+import React, { useCallback, useEffect, useState } from 'react';
+import { AnyObjectType, AppDataElementsTypes } from 'types/appData';
+import get from 'lodash/get.js';
+import s from './Tabs.module.scss';
 
 interface Props extends AppDataElementsTypes {
-  onClick?: () => void;
+    onClick?: (data: {
+        data: AnyObjectType;
+        datapath: string[];
+        moduleId: string;
+    }) => void;
 }
 
 const Tabs: React.FC<Props> = (props) => {
-  const { moduleId, onClick, type, content, style, event } = props;
-  const [menuData, setmenuData] = useState<AnyObjectType[]>([]);
-  const [path, setpath] = useState<string[]>([]);
-  const [menuGod, setmenuGod] = useState<{[keys: number]: any}>({})
+    const { content, style, event, onClick, moduleId } = props;
+    const [menuData, setmenuData] = useState<AnyObjectType[]>([]);
+    const [displayMenuData, setdisplayMenuData] = useState<AnyObjectType>({
+        0: {
+            path: '',
+            current: '',
+            names: ['content', 'style', 'event'],
+        },
+    });
+    const [path, setpath] = useState('');
 
-  useEffect(() => {
-
-        // const aaa = ['a','b','c',['d','e','f',['g','h','i']]];
-        // const t = get(aaa, '[3][3][0]');
-        // console.log(t);
-
-        const optData: AnyObjectType = {content, style, event}
-
+    useEffect(() => {
+        const optData: AnyObjectType = { content, style, event };
         const handleObj = (Obj: AnyObjectType) => {
-            const temp:any = [];
+            const temp: any = [];
             if (Object.prototype.toString.call(Obj) === '[object Object]') {
                 Object.keys(Obj).forEach((key, i) => {
                     const element = Obj[key];
-                    temp.push({
-                        name: key,
-                        value: handleObj(element)
-                    });
-                    
-                })
+                    const checktype = Object.prototype.toString.call(element);
+                    if (
+                        checktype === '[object Object]' ||
+                        checktype === '[object Array]'
+                    ) {
+                        temp.push({
+                            name: key,
+                            value: !!element?.gradient
+                                ? []
+                                : handleObj(element),
+                        });
+                    }
+                });
             }
-            return temp
-        }
+            return temp;
+        };
+        const treeData = handleObj(optData);
+        console.log(JSON.stringify(treeData, null, 2));
+        setmenuData(treeData);
+    }, [content, style, event]);
 
-        setmenuGod({0:['content', 'style', 'event']})
+    const clickItemB = useCallback(
+        (y, name) => (e: any) => {
+            // console.log(item, key, e.target.getAttribute('data-next'));
+            const path = e.target.getAttribute('data-path');
+            setpath(path);
+            const nextOrgData = get(menuData, path);
+            const data: AnyObjectType = {};
+            // 还原历史数据
+            const nextKey = parseInt(y) + 1;
+            for (let index = 0; index < nextKey; index++) {
+                data[index] = displayMenuData[index];
+            }
+            data[nextKey - 1].current = name;
+            data[nextKey] = {
+                path,
+                current: '',
+                names: nextOrgData.map((el: AnyObjectType) => el.name) || {},
+            };
+            setdisplayMenuData(data);
 
-        setmenuData(handleObj(optData))
+            // 结果处理
+            if (nextOrgData.length === 0) {
+                const orgPath: string[] = [];
+                Object.keys(data).forEach((item: any) => {
+                    const element = data[item];
+                    if (element.current) {
+                        orgPath.push(element.current);
+                    }
+                });
+                const optData: AnyObjectType = { content, style, event };
+                const result: AnyObjectType = get(optData, orgPath.join('.'));
+                if (onClick instanceof Function) {
+                    onClick({
+                        data: result,
+                        datapath: orgPath,
+                        moduleId,
+                    });
+                }
+            } else {
+                if (onClick instanceof Function) {
+                    onClick({
+                        data: {},
+                        datapath: [],
+                        moduleId: '',
+                    });
+                }
+            }
+        },
+        [menuData, displayMenuData, path]
+    );
 
-  }, []);
+    const renderMenu = () => {
+        // 数据数组
+        const menu: any[] = Object.keys(displayMenuData);
+        const data = menu.map((y) => {
+            const displayData = displayMenuData[y] as AnyObjectType;
+            return (
+                <div key={y} className={s[`stage${y}`]}>
+                    {displayData?.names.map((name: string, x: number) => (
+                        <div
+                            key={x}
+                            className={
+                                displayData?.current === name
+                                    ? s.selected
+                                    : undefined
+                            }
+                            data-path={`${displayData.path || ''}[${x}].value`}
+                            onClick={clickItemB(y, name)}
+                        >
+                            {name}
+                        </div>
+                    ))}
+                </div>
+            );
+        });
+        return data;
+    };
 
-  const onClickItem = useCallback(
-    e => {
-        const nextpath = e.target.getAttribute('data-path');
-        const nextleve = parseInt(e.target.getAttribute('data-leve'));
-        const newpath = [...path];
-        newpath[nextleve] = nextpath;
-        setpath(newpath)
-        
-        const newMenuGod: any = {};
-        for (let index = 0; index < nextleve + 1; index++) {
-            newMenuGod[index] = menuGod[index];
-        }
-        newMenuGod[nextleve + 1] = get(menuData, newpath.join(''));
-        setmenuGod(newMenuGod);
-
-    },
-    [path, menuGod, menuData]
-  );
-
-  // [0, ]
-  const renderMenu = () => {
-      const nodes: any[] = [];
-      Object.keys(menuGod).forEach((key: any, y) => {
-        const element = menuGod[key];
-        const eles: any[] = [];
-        if (Array.isArray(element)) {
-            element.forEach((el, x) => {
-                eles.push(<div onClick={onClickItem} data-path={`[${x}].value`} data-leve={y} key={el.name || el}>(x:{x}){el.name || el}(y:{y})</div>)
-            });
-            nodes.push(<div className={s[`stage${key}`]} key={y}>{eles}</div>)
-        }
-      })
-      return nodes;
-  }
-
-  return (
-    <>
-        {renderMenu()}
-    </>
-  );
+    return <div>{renderMenu()}</div>;
 };
 
 export default Tabs;
