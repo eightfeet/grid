@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.3.0",
     "@babel/core": "7.12.3",
     "@eightfeet/form": "0.0.5",
     "@eightfeet/loading": "^2.0.1",
@@ -22,6 +23,7 @@
     "@types/react-grid-layout": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
+    "antd": "^4.10.2",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.0",
     "babel-loader": "8.1.0",
