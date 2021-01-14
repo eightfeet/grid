@@ -11,13 +11,20 @@ import {
   StrikethroughOutlined,
   FontSizeOutlined,
   LineHeightOutlined,
+  ColumnWidthOutlined
 } from "@ant-design/icons";
+import s from './Font.module.scss';
 
 const Font: React.FC = () => {
   return (
     <>
-      <Row>
-        <Col span={9}>
+      <Row className={s.row}>
+        <Col span={8}>
+           color
+        </Col>
+      </Row>
+      <Row className={s.row}>
+        <Col span={8}>
           <Radio.Group defaultValue="a" >
             <Radio.Button value="a">
               <AlignLeftOutlined />
@@ -30,7 +37,7 @@ const Font: React.FC = () => {
             </Radio.Button>
           </Radio.Group>
         </Col>
-        <Col span={9}>
+        <Col span={8}>
           <Radio.Group defaultValue="a" size="middle" >
             <Radio.Button value="c">N</Radio.Button>
             <Radio.Button value="a">
@@ -41,24 +48,27 @@ const Font: React.FC = () => {
             </Radio.Button>
           </Radio.Group>
         </Col>
+        <Col span={8}>
+          <Checkbox className={s.Checkbox}>
+            <BoldOutlined />
+          </Checkbox>
+          <Checkbox className={s.Checkbox}>
+            <ItalicOutlined />
+          </Checkbox>
+        </Col>
       </Row>
-      <Row>
+      <Row className={s.row}>
         <Col span={8}>
           <FontSizeOutlined />{" "}
           <InputNumber  min={1} max={100000} defaultValue={3} /> px
         </Col>
-        <Col span={1}>&nbsp;</Col>
         <Col span={8}>
           <LineHeightOutlined />{" "}
           <InputNumber  min={1} max={100000} defaultValue={3} /> px
         </Col>
-        <Col span={7}>
-          <Checkbox>
-            <BoldOutlined />
-          </Checkbox>
-          <Checkbox>
-            <ItalicOutlined />
-          </Checkbox>
+        <Col span={8}>
+          <ColumnWidthOutlined />{" "}
+          <InputNumber  min={1} max={100000} defaultValue={3} /> px
         </Col>
       </Row>
     </>
