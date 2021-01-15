@@ -1,21 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { AllCssType, AnyObjectType } from "types/appData";
-import Button from "antd/lib/button";
+import { AnyObjectType } from "types/appData";
 
 import s from "./Controller.module.scss";
-
-import {
-  HomeOutlined,
-  SettingFilled,
-  SmileOutlined,
-  SyncOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
 
 import description from "~/compiler/description.json";
 
 import { Collapse } from "antd";
 import Font from "../Font";
+import Display from "../Display";
 
 const { Panel } = Collapse;
 
@@ -50,7 +42,10 @@ const Controller: React.FC<Props> = ({ selected, ...other }) => {
   return (
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
-        <Panel header="文字" key="1">
+        <Panel header="布局" key="1">
+          <Display />
+        </Panel>
+        <Panel header="文字" key="2">
           <Font />
         </Panel>
       </Collapse>

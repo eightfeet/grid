@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { Color as ColorType, SketchPicker } from "react-color";
 import { AnyObjectType } from "types/appData";
+import { Row, Col } from "antd";
 import s from "./Color.module.scss";
 
 interface Props {
@@ -29,30 +30,39 @@ const Color: React.FC<Props> = ({ defaultColor, label }) => {
   }, []);
 
   const handleChange = useCallback((color) => {
-    console.log(333, color);
     setColor(color.rgb);
   }, []);
 
   return (
-    <div className={s.root}>
-      <div className={s.label}>{label}</div>
-      <div className={s.swatch} onClick={handleClick}>
-        <div
-          className={s.color}
-          style={{
-            backgroundColor: `rgba(${(color as AnyObjectType).r}, ${
-              (color as AnyObjectType).g
-            }, ${(color as AnyObjectType).b}, ${(color as AnyObjectType).a})`,
-          }}
-        />
-      </div>
-      {displayColorPicker ? (
-        <div className={s.popover}>
-          <div className={s.cover} onClick={handleClose} />
-          <SketchPicker color={color} onChange={handleChange} />
-        </div>
-      ) : null}
-    </div>
+    <>
+      <Row className={s.row} gutter={4}>
+        <Col className={s.label} span={10}>
+          {label || ""}
+        </Col>
+        <Col span={10}>
+          <div className={s.swatch} onClick={handleClick}>
+            <div
+              className={s.color}
+              style={{
+                backgroundColor: `rgba(${(color as AnyObjectType).r}, ${
+                  (color as AnyObjectType).g
+                }, ${(color as AnyObjectType).b}, ${
+                  (color as AnyObjectType).a
+                })`,
+              }}
+            />
+          </div>
+        </Col>
+        <Col span={4}>
+          {displayColorPicker ? (
+            <div className={s.popover}>
+              <div className={s.cover} onClick={handleClose} />
+              <SketchPicker color={color} onChange={handleChange} />
+            </div>
+          ) : null}
+        </Col>
+      </Row>
+    </>
   );
 };
 
