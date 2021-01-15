@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Row, Col } from "antd";
 import { Radio, Checkbox, InputNumber } from "antd";
 import {
@@ -9,20 +9,19 @@ import {
   UnderlineOutlined,
   ItalicOutlined,
   StrikethroughOutlined,
-  FontSizeOutlined,
-  LineHeightOutlined,
-  ColumnWidthOutlined
 } from "@ant-design/icons";
 import s from './Font.module.scss';
+import Color from "../Color";
 
 const Font: React.FC = () => {
+  const onChange = useCallback(
+    (color) => {
+      console.log(color)
+    },
+    [],
+  )
   return (
     <>
-      <Row className={s.row}>
-        <Col span={8}>
-           color
-        </Col>
-      </Row>
       <Row className={s.row}>
         <Col span={8}>
           <Radio.Group defaultValue="a" >
@@ -58,16 +57,21 @@ const Font: React.FC = () => {
         </Col>
       </Row>
       <Row className={s.row}>
-        <Col span={8}>
-          <FontSizeOutlined />{" "}
+        <Col span={12}>
+           <Color label="字体颜色：" onChange={onChange} defaultColor={{r: 255,g:0, b:0, a:1}} />
+        </Col>
+        <Col span={12}>
+          字体大小：
           <InputNumber  min={1} max={100000} defaultValue={3} /> px
         </Col>
-        <Col span={8}>
-          <LineHeightOutlined />{" "}
+      </Row>
+      <Row className={s.row}>
+        <Col span={12}>
+          行间距：
           <InputNumber  min={1} max={100000} defaultValue={3} /> px
         </Col>
-        <Col span={8}>
-          <ColumnWidthOutlined />{" "}
+        <Col span={12}>
+          字符间距：
           <InputNumber  min={1} max={100000} defaultValue={3} /> px
         </Col>
       </Row>
