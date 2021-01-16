@@ -39,7 +39,7 @@ const rules: CompileRules = {
     `,
     font: `
     {italic}
-    {weight}
+    {fontWeight}
     {fontSize}
     {lineHeight} 
     {color} 

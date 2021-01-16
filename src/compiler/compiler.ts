@@ -348,7 +348,7 @@ export const textShadow = function (styleObj:objType):resultType {
 export const font = function (styleObj:objType):resultType {
     const rules:objType  = {
         italic: 'fontStyle',
-        weight: 'fontWeight',
+        fontWeight: 'fontWeight',
         fontSize: 'fontSize',
         lineHeight: 'lineHeight',
         color: 'color',
@@ -363,9 +363,7 @@ export const font = function (styleObj:objType):resultType {
             const element = styleObj[key];
             const value = conversionValue(element, key, 'font');
             if (value) {
-              if (key === 'fontWeight') {
-                result[rules['weight']] = value;
-              } else if (key === 'fontStyle') {
+              if (key === 'fontStyle') {
                 result[rules['italic']] = value;
               } else {
                 result[rules[key]] = value;

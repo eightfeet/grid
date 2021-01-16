@@ -34,7 +34,7 @@ const targets = {
     `,
     font: `
     {italic}
-    {weight}
+    {fontWeight}
     {fontSize}
     {lineHeight} 
     {color} 

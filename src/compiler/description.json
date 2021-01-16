@@ -538,7 +538,7 @@
                 "default": 0
             }
         ],
-        "weight": [
+        "fontWeight": [
             "select",
             "粗体",
             null,

@@ -28,7 +28,6 @@ type ChangeType =
   | "lineHeight"
   | "letterSP"
   | "wordSp"
-  | "weight"
   | "decoration"
   | "italic"
   | "fontWeight"
@@ -42,7 +41,7 @@ interface ResultType {
 
 const Font: React.FC<Props> = ({ onChange, defaultData }) => {
   const [result, pickToResult] = useCssPicker("font");
-  const { fontSize, align, lineHeight, letterSP, weight, italic, color, decoration } = defaultData || {};
+  const { fontSize, align, lineHeight, letterSP, fontWeight, italic, color, decoration } = defaultData || {};
   console.log('defaultData', defaultData)
 
   const onChangeFont = useCallback(
@@ -86,7 +85,7 @@ const Font: React.FC<Props> = ({ onChange, defaultData }) => {
         <Col span={8}>
           <Checkbox
             className={s.Checkbox}
-            checked={weight === 'bold'}
+            checked={fontWeight === 'bold'}
             onChange={onChangeFont("fontWeight")}
           >
             <BoldOutlined />

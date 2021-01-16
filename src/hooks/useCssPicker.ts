@@ -23,11 +23,9 @@ const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
           break;
         case "fontWeight":
           if (data?.target.checked) {
-            changeData.values.weight = "bold";
-            console.log(true, changeData.values.weight)
+            changeData.values.fontWeight = "bold";
           } else {
-            changeData.values.weight = "normal";
-            console.log(false, changeData.values.weight)
+            changeData.values.fontWeight = "normal";
           }
           break;
         case "fontStyle":

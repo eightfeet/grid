@@ -158,7 +158,7 @@ const font: fun = ({ targetKey, targetValue, unit, result }) => {
                 str = `font-style:normal;`;
             }
             break;
-        case 'weight':
+        case 'fontWeight':
             str = createSSS(targetKey, targetValue, unit, 'font-weight');
             break;
         case 'fontSize':

@@ -67,7 +67,7 @@
         "color": "#F00",
         "letterSP": 20,
         "wordSp": -10,
-        "weight": "bold",
+        "fontWeight": "bold",
         "decoration": "line-through",
         "italic": "italic",
         "align": "center"
