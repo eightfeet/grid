@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { AnyObjectType, StyleItemsTypes, AppDataElementsTypes, AppDataLayoutItemTypes } from "types/appData";
+import { AnyObjectType, StyleItemsTypes, AppDataElementsTypes } from "types/appData";
 import { connect } from 'react-redux';
 import { RootState, Dispatch } from '~/redux/store';
 
 import s from "./Controller.module.scss";
 
-import description from "~/compiler/description.json";
-
 import { Collapse } from "antd";
 import Font from "../Font";
-import Display from "../Display";
 
 type StateProps = ReturnType<typeof mapState>;
 type DispatchProps = ReturnType<typeof mapDispatch>;
@@ -20,7 +17,7 @@ interface Props {
   selected: AppDataElementsTypes;
 }
 
-const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, updateAppData, appData, ...other }) => {
+const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, updateAppData, appData }) => {
   const [stateData, setStateData] = useState<any>();
 
   useEffect(() => {
@@ -50,7 +47,6 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, up
         }
       })
       updateAppData(operateData)
-      console.log(operateData)
     },
     [appData, selected]
   );

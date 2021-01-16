@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Row, Col } from "antd";
-import { Radio, Checkbox, InputNumber, Form } from "antd";
+import { Radio, Checkbox } from "antd";
 
 import {
   AlignLeftOutlined,
@@ -76,6 +76,8 @@ const Font: React.FC<Props> = ({ onChange }) => {
           }
           break;
       }
+
+      console.log('changeData', changeData)
 
       setresult(changeData);
       if (onChange instanceof Function) {
