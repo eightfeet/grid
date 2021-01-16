@@ -12,7 +12,6 @@ interface Props {
 }
 
 const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
-  console.log("defaultColor", defaultColor);
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [color, setColor] = useState();
 

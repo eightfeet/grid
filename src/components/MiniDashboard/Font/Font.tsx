@@ -43,11 +43,13 @@ interface ResultType {
 const Font: React.FC<Props> = ({ onChange, defaultData }) => {
   const [result, pickToResult] = useCssPicker("font");
   const { fontSize, align, lineHeight, letterSP, weight, italic, color, decoration } = defaultData || {};
-  
+  console.log('defaultData', defaultData)
+
   const onChangeFont = useCallback(
     (type: ChangeType) => (data: any) => {
       pickToResult(type, data);
       if (onChange instanceof Function) {
+        console.log('result',  result)
         onChange(result);
       }
     },
@@ -84,12 +86,12 @@ const Font: React.FC<Props> = ({ onChange, defaultData }) => {
         <Col span={8}>
           <Checkbox
             className={s.Checkbox}
-            checked={weight === 'blod'}
+            checked={weight === 'bold'}
             onChange={onChangeFont("fontWeight")}
           >
             <BoldOutlined />
           </Checkbox>
-          <Checkbox className={s.Checkbox} checked={italic === 'blod'} onChange={onChangeFont("fontStyle")}>
+          <Checkbox className={s.Checkbox} checked={italic === 'italic'} onChange={onChangeFont("fontStyle")}>
             <ItalicOutlined />
           </Checkbox>
         </Col>

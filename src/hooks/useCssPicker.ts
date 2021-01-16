@@ -23,17 +23,19 @@ const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
           break;
         case "fontWeight":
           if (data?.target.checked) {
-            changeData.values.fontWeight = "bold";
-            break;
+            changeData.values.weight = "bold";
+            console.log(true, changeData.values.weight)
+          } else {
+            changeData.values.weight = "normal";
+            console.log(false, changeData.values.weight)
           }
-          changeData.values.fontWeight = "normal";
           break;
         case "fontStyle":
           if (data?.target.checked) {
-            changeData.values.fontStyle = "italic";
-            break;
+            changeData.values.italic = "italic";
+          } else {
+            changeData.values.italic = "normal";
           }
-          changeData.values.fontStyle = "normal";
           break;
         default:
           if (data) {
@@ -41,7 +43,7 @@ const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
           }
           break;
       }
-
+      console.log('changeData', changeData)
       setresult(changeData);
       return changeData;
     },
