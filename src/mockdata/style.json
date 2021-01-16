@@ -51,7 +51,7 @@
         "wordSp":-10,
         "fontWeight": "bold",
         "decoration": "line-through",
-        "italic":"italic",
+        "fontStyle":"italic",
         "align": "center"
     },
     "display": {

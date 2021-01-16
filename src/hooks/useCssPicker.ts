@@ -30,9 +30,9 @@ const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
           break;
         case "fontStyle":
           if (data?.target.checked) {
-            changeData.values.italic = "italic";
+            changeData.values.fontStyle = "italic";
           } else {
-            changeData.values.italic = "normal";
+            changeData.values.fontStyle = "normal";
           }
           break;
         default:

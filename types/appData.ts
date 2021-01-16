@@ -44,9 +44,9 @@ export interface FontTypesOfStyleItems {
     color?: string;
     letterSP?: number;
     wordSp?: number;
-    weight?: string;
+    fontWeight?: string;
     decoration?: string;
-    italic?: string;
+    fontStyle?: string;
     align?: string;
 }
 

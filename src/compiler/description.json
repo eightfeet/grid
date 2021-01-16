@@ -576,7 +576,7 @@
                 }
             ]
         ],
-        "italic": [
+        "fontStyle": [
             "select",
             "斜体",
             null,

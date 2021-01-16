@@ -151,7 +151,7 @@ const font: fun = ({ targetKey, targetValue, unit, result }) => {
     let str = '';
     let newResult = result;
     switch (targetKey) {
-        case 'italic':
+        case 'fontStyle':
             if (targetValue === 'italic') {
                 str = `font-style:${targetValue};`;
             } else {

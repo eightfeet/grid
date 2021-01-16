@@ -33,7 +33,7 @@ const targets = {
     text-shadow:{shifRight} {shiftDown} {blur} {color};
     `,
     font: `
-    {italic}
+    {fontStyle}
     {fontWeight}
     {fontSize}
     {lineHeight} 
