@@ -14,11 +14,12 @@ import {
 import s from "./Font.module.scss";
 import Color from "../Color";
 import NumberInput from "../NumberInput";
-import { AnyObjectType } from "types/appData";
+import { AnyObjectType, FontTypesOfStyleItems } from "types/appData";
 import useCssPicker from "~/hooks/useCssPicker";
 
 interface Props {
   onChange: (result: ResultType) => void;
+  defaultData?: FontTypesOfStyleItems
 }
 
 type ChangeType =
@@ -39,9 +40,10 @@ interface ResultType {
   values: AnyObjectType;
 }
 
-const Font: React.FC<Props> = ({ onChange }) => {
-  const [result, pickToResult] = useCssPicker("font", { color: "red" });
-
+const Font: React.FC<Props> = ({ onChange, defaultData }) => {
+  const [result, pickToResult] = useCssPicker("font");
+  const { fontSize, align, lineHeight, letterSP, weight, italic, color, decoration } = defaultData || {};
+  
   const onChangeFont = useCallback(
     (type: ChangeType) => (data: any) => {
       pickToResult(type, data);
@@ -56,7 +58,7 @@ const Font: React.FC<Props> = ({ onChange }) => {
     <>
       <Row className={s.row}>
         <Col span={8}>
-          <Radio.Group defaultValue="" onChange={onChangeFont("align")}>
+          <Radio.Group value={align} onChange={onChangeFont("align")}>
             <Radio.Button value="left">
               <AlignLeftOutlined />
             </Radio.Button>
@@ -69,7 +71,7 @@ const Font: React.FC<Props> = ({ onChange }) => {
           </Radio.Group>
         </Col>
         <Col span={8}>
-          <Radio.Group defaultValue="" onChange={onChangeFont("decoration")}>
+          <Radio.Group value={decoration} onChange={onChangeFont("decoration")}>
             <Radio.Button value="none">N</Radio.Button>
             <Radio.Button value="underline">
               <UnderlineOutlined />
@@ -82,11 +84,12 @@ const Font: React.FC<Props> = ({ onChange }) => {
         <Col span={8}>
           <Checkbox
             className={s.Checkbox}
+            checked={weight === 'blod'}
             onChange={onChangeFont("fontWeight")}
           >
             <BoldOutlined />
           </Checkbox>
-          <Checkbox className={s.Checkbox} onChange={onChangeFont("fontStyle")}>
+          <Checkbox className={s.Checkbox} checked={italic === 'blod'} onChange={onChangeFont("fontStyle")}>
             <ItalicOutlined />
           </Checkbox>
         </Col>
@@ -96,7 +99,7 @@ const Font: React.FC<Props> = ({ onChange }) => {
           <Color
             label="字体颜色"
             onChange={onChangeFont("color")}
-            defaultColor="#ff0"
+            defaultColor={color}
           />
         </Col>
         <Col span={12}>
@@ -105,7 +108,7 @@ const Font: React.FC<Props> = ({ onChange }) => {
             unit="px"
             min={1}
             max={100000}
-            defaultValue={3}
+            value={fontSize}
             onChange={onChangeFont("fontSize")}
           />
         </Col>
@@ -117,7 +120,7 @@ const Font: React.FC<Props> = ({ onChange }) => {
             unit="px"
             min={1}
             max={100000}
-            defaultValue={3}
+            value={lineHeight}
             onChange={onChangeFont("lineHeight")}
           />
         </Col>
@@ -127,8 +130,8 @@ const Font: React.FC<Props> = ({ onChange }) => {
             unit="px"
             min={1}
             max={100000}
-            defaultValue={3}
-            onChange={onChangeFont("wordSp")}
+            value={letterSP}
+            onChange={onChangeFont("letterSP")}
           />
         </Col>
       </Row>

@@ -58,7 +58,7 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, up
           <Display />
         </Panel> */}
         <Panel header="文字" key="1">
-          <Font onChange={onChange} />
+          <Font onChange={onChange} defaultData={selected?.style?.basic?.font || {}} />
         </Panel>
       </Collapse>
     </div>

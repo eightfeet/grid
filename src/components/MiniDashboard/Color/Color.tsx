@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Color as ColorType, SketchPicker } from "react-color";
-import { AnyObjectType } from "types/appData";
 import { Row, Col } from "antd";
-import { BgColorsOutlined } from '@ant-design/icons';
+import { BgColorsOutlined } from "@ant-design/icons";
 import s from "./Color.module.scss";
 import ClassNames from "classnames";
-const parse = require('color-parse');
+const parse = require("color-parse");
 interface Props {
   defaultColor?: string;
   label?: string;
@@ -13,21 +12,25 @@ interface Props {
 }
 
 const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
+  console.log("defaultColor", defaultColor);
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  const [color, setColor] = useState(() => {
-    const optColor: any = {};
-    const temp = parse(defaultColor);
-    if (!temp.space) {
-      return undefined
+  const [color, setColor] = useState();
+
+  useEffect(() => {
+    if (defaultColor) {
+      const optColor: any = {};
+      const temp = parse(defaultColor);
+      if (temp.space) {
+        optColor.r = temp.values[0];
+        optColor.g = temp.values[1];
+        optColor.b = temp.values[2];
+        optColor.a = temp.alpha;
+        setColor(optColor)
+      } 
+    } else {
+      setColor(undefined)
     }
-    optColor.r = temp.values[0];
-    optColor.g = temp.values[1];
-    optColor.b = temp.values[2];
-    optColor.a = temp.alpha;
-    return optColor
-  }
-    
-  );
+  }, [defaultColor]);
 
   const handleClick = useCallback(() => {
     setDisplayColorPicker(!displayColorPicker);
@@ -56,20 +59,22 @@ const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
         </Col>
         <Col span={10}>
           <div className={s.swatch} onClick={handleClick}>
-            {color ? <div
-              className={s.color}
-              style={{
-                backgroundColor: `rgba(${(color as AnyObjectType).r}, ${
-                  (color as AnyObjectType).g
-                }, ${(color as AnyObjectType).b}, ${
-                  (color as AnyObjectType).a
-                })`,
-              }}
-            /> :<div
-            className={ClassNames(s.color, s.empty)}>
-              <BgColorsOutlined />
-            </div>
-          }
+            {color ? (
+              <div
+                className={s.color}
+                style={{
+                  backgroundColor: `rgba(${(color as any).r}, ${
+                    (color as any).g
+                  }, ${(color as any).b}, ${
+                    (color as any).a
+                  })`,
+                }}
+              />
+            ) : (
+              <div className={ClassNames(s.color, s.empty)}>
+                <BgColorsOutlined />
+              </div>
+            )}
           </div>
         </Col>
         <Col span={4}></Col>

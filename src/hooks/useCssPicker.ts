@@ -6,11 +6,11 @@ interface ResultType {
   values: AnyObjectType;
 }
 
-const useCssPicker = (type: string, initialValue: AnyObjectType) => {
+const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
   const [result, setresult] = useState<ResultType>(() => {
     return {
       type,
-      values: initialValue,
+      values: initialValue || {},
     };
   });
 
