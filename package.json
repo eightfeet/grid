@@ -33,6 +33,7 @@
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "classnames": "^2.2.6",
+    "color-parse": "^1.4.2",
     "css-loader": "4.3.0",
     "dat.gui": "^0.7.7",
     "dotenv": "8.2.0",
@@ -181,6 +182,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.167",
+    "@types/parse-color": "^1.0.0",
     "@types/react-color": "^3.0.4",
     "@types/react-redux": "^7.1.15",
     "babel-plugin-module-resolver": "^4.1.0"
