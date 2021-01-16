@@ -61,10 +61,14 @@ const Font: React.FC<Props> = ({ onChange }) => {
               changeData.values.fontWeight = "bold";
               break;
             }
-            delete changeData.values.fontWeight;
+            changeData.values.fontWeight = "normal";
             break;
         case "fontStyle":
-          changeData.values.fontStyle = "italic";
+            if (data?.target.checked) {
+              changeData.values.fontStyle = "italic";
+              break;
+            }
+            changeData.values.fontStyle = "normal";
           break;
         default:
           if (data) {

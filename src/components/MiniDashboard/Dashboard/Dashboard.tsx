@@ -1,6 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { AppDataElementsTypes } from 'types/appData';
-import Tabs from '~/components/MiniDashboard/Tabs';
+import React, { useEffect, useState } from 'react';
 import Controller from './../Controller'
 import s from './Dashboard.module.scss';
 import { connect } from 'react-redux';
@@ -8,7 +6,7 @@ import { RootState } from '~/redux/store';
 
 type StateProps = ReturnType<typeof mapState>;
 
-interface Props extends AppDataElementsTypes {
+interface Props {
 }
 
 const Dashboard:React.FC<Props & StateProps> = ({activationItem, ...other}) => {
@@ -21,15 +19,8 @@ const Dashboard:React.FC<Props & StateProps> = ({activationItem, ...other}) => {
           
     }, [activationItem])
 
-    const onClick = useCallback(
-        (selected) => {
-            setEditData(selected)
-        },
-        [],
-    )
     return (
         <div className={s.root}>
-            <Tabs {...other} onClick={onClick} />
             <Controller  selected={editData} {...other} />
         </div>
     )

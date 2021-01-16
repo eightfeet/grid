@@ -7,6 +7,7 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import Layout from "./Layout";
 import data from "./mockdata/appData";
 import MiniDashboard from "./components/MiniDashboard";
+import Dashboard from '~/components/MiniDashboard/Dashboard';
 import "./App.scss";
 
 type StateProps = ReturnType<typeof mapState>;
@@ -87,7 +88,7 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
         onChange={onChange}
       />
     </div>
-    {isEditing && designModal && activationItem.moduleId ? <div style={{height: '400px'}}><MiniDashboard /></div> : null}
+    {isEditing && designModal && activationItem.moduleId ? <div style={{height: '400px'}}><Dashboard /></div> : null}
     </>
   );
 };

@@ -5,6 +5,7 @@ import ClassNames from "classnames";
 import { AppDataElementsTypes } from "./../../../types/appData";
 import styleCompiler from "./../../compiler";
 import s from "./Conterner.module.scss";
+import useLocalStorage from "~/hooks/useLocalStorage";
 
 type StateProps = ReturnType<typeof mapState>;
 type DispatchProps = ReturnType<typeof mapDispatch>;
@@ -23,7 +24,8 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
   appData
 }) => {
   const [basicStyle, setBasicStyle] = useState<{ [keys: string]: any }>({});
-
+  const [actItem, setActItem] = useLocalStorage('activationItem', null);
+  
   useEffect(() => {
     const { basic } = style;
     setBasicStyle(styleCompiler(basic));
@@ -40,6 +42,7 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
       if (activationItem.moduleId === id) return;
       if (element.moduleId === id) {
         updateActivationItem({ ...element });
+        setActItem({ ...element })
       }
     });
   }, [activationItem.moduleId, appData, id, updateActivationItem]);

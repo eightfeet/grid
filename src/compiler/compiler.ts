@@ -363,7 +363,14 @@ export const font = function (styleObj:objType):resultType {
             const element = styleObj[key];
             const value = conversionValue(element, key, 'font');
             if (value) {
+              console.log(3333, key, rules[key], value)
+              if (key === 'fontWeight') {
+                result[rules['weight']] = value;
+              } else if (key === 'fontStyle') {
+                result[rules['italic']] = value;
+              } else {
                 result[rules[key]] = value;
+              }
             }
         }
     }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { AnyObjectType, StyleItemsTypes, AppDataElementsTypes, AppDataLayoutItemTypes } from "types/appData";
 import { connect } from 'react-redux';
 import { RootState, Dispatch } from '~/redux/store';
@@ -20,20 +20,18 @@ interface Props {
   selected: AppDataElementsTypes;
 }
 
-const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, updateAppData, appData }) => {
+const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, updateAppData, appData, ...other }) => {
   const [stateData, setStateData] = useState<any>();
-  // const [operateAppdata, setOperateAppdata] = useState(appData);
-  const operateAppdata = useRef(appData);
 
   useEffect(() => {
-    console.log(333, operateAppdata.current)
-  }, []);
+    setStateData(selected);
+  }, [selected, stateData]);
 
   const onChange = useCallback(
     (reuslt: any) => {
       // 数据清洗
       //1、取出原始基本样式
-      const origBasicStyle:StyleItemsTypes = {...selected.style?.basic};
+      const origBasicStyle:StyleItemsTypes = {...selected.style.basic};
       //2、 合并origBasicStyle[type]和result.values到mergeTypeStyle
       const mergeTypeStyle = {...((origBasicStyle as AnyObjectType)[reuslt.type] || {}), ...reuslt.values};
       //3、重置原始数据 origBasicStyle[result.type]
@@ -42,9 +40,7 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, up
       // 将清洗后的数据给还主数据
 
       const operateData: any = [];
-      console.log(3333, 1)
-      operateAppdata.current?.forEach(item => {
-        
+      appData.forEach(item => {
         if (item.moduleId === selected.moduleId) {
           const operateItem = {...item};
           operateItem.style.basic = origBasicStyle;
@@ -53,10 +49,10 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, up
           operateData.push(item)
         }
       })
-      console.log('operateData', operateData)
       updateAppData(operateData)
+      console.log(operateData)
     },
-    [operateAppdata, selected, updateAppData]
+    [appData, selected]
   );
 
   return (
@@ -80,7 +76,8 @@ const mapState = (state: RootState) => ({
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
-  updateAppData: dispatch.appData.updateAppData
+  updateAppData: dispatch.appData.updateAppData,
+  updateActivationItem: dispatch.activationItem.updateActivationItem,
 });
 
 export default connect(mapState, mapDispatch)(Controller);
