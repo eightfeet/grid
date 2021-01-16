@@ -16,7 +16,6 @@ const Dashboard:React.FC<Props & StateProps> = ({activationItem, ...other}) => {
     useEffect(() => {
         const {layout, ...other} = activationItem;
         if (activationItem.moduleId) {
-            console.log(5555, other)
             setEditData(other)
           }
           

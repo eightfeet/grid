@@ -12,10 +12,10 @@ interface Props {
     a: number;
   };
   label?: string;
-  onChange: (color: ColorType) => void;
+  onChange: (result: { name: "color"; value: ColorType }) => void;
 }
 
-const Color: React.FC<Props> = ({ defaultColor, label }) => {
+const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [color, setColor] = useState<ColorType>(
     defaultColor || { r: 0, g: 0, b: 0, a: 1 }
@@ -29,9 +29,16 @@ const Color: React.FC<Props> = ({ defaultColor, label }) => {
     setDisplayColorPicker(false);
   }, []);
 
-  const handleChange = useCallback((color) => {
-    setColor(color.rgb);
-  }, []);
+  const handleChange = useCallback(
+    (color) => {
+      setColor(color.rgb);
+      onChange({
+        name: "color",
+        value: color,
+      });
+    },
+    [onChange]
+  );
 
   return (
     <>
@@ -53,14 +60,13 @@ const Color: React.FC<Props> = ({ defaultColor, label }) => {
             />
           </div>
         </Col>
-        <Col span={4}>
-          {displayColorPicker ? (
-            <div className={s.popover}>
-              <div className={s.cover} onClick={handleClose} />
-              <SketchPicker color={color} onChange={handleChange} />
-            </div>
-          ) : null}
-        </Col>
+        <Col span={4}></Col>
+        {displayColorPicker ? (
+          <div className={s.popover}>
+            <div className={s.cover} onClick={handleClose} />
+            <SketchPicker color={color} onChange={handleChange} />
+          </div>
+        ) : null}
       </Row>
     </>
   );
