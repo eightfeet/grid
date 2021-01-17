@@ -80,7 +80,7 @@ const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
         {displayColorPicker ? (
           <div className={s.popover}>
             <div className={s.cover} onClick={handleClose} />
-            <SketchPicker color={color || undefined} onChange={handleChange} />
+            <SketchPicker color={color || undefined} width="250px" onChange={handleChange} />
           </div>
         ) : null}
       </Row>

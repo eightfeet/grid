@@ -7,17 +7,18 @@ interface Props {
     unit?: string;
     optionsData: {
       [keys: string]: any
-    }
+    };
+    [keys: string]: any;
 }
 
 const Select: React.FC<Props> = ({unit, label, optionsData, ...other}) => {
   return (
     <Row className={s.row} gutter={4}>
-      <Col className={s.label} span={10}>{label || ''}</Col>
+      <Col className={s.label} span={10}>{label || ''}{other.defaultValue}</Col>
       <Col span={14}>
         <SelectItem {...other} >
           {
-            Object.keys(optionsData).map(key => <SelectItem.Option key={key} value={key}>{optionsData[key]}</SelectItem.Option>)
+            Object.keys(optionsData).map((key) => <SelectItem.Option key={key} value={key}>{optionsData[key]}</SelectItem.Option>)
           }
         </SelectItem>
       </Col>

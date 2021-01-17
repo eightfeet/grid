@@ -41,7 +41,6 @@ interface ResultType {
 const Font: React.FC<Props> = ({ onChange, defaultData }) => {
   const [result, pickToResult] = useCssPicker("font");
   const { fontSize, align, lineHeight, letterSP, fontWeight, fontStyle, color, decoration } = defaultData || {};
-  console.log('defaultData', defaultData)
 
   const onChangeFont = useCallback(
     (type: ChangeType) => (data: any) => {

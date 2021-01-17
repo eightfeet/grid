@@ -47,7 +47,6 @@ export const display = function (styleObj:objType):resultType {
       result[newKey] = conversionValue(element, key, "display");
     }
   }
-
   return {
       result,
       string: createInlineStyles(result) || ''
@@ -143,7 +142,7 @@ export const backgroundCommon = function (styleObj:objType):resultType {
         sizeX: 0,
         sizeY: 1
     }
-
+ 
     for (const key in styleObj) {
         if (Object.prototype.hasOwnProperty.call(styleObj, key)) {
             const element = styleObj[key];
