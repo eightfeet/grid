@@ -1,5 +1,19 @@
 ## react app
 
+### To do list
+- <input type="checkbox" checked> display 编辑模块
+- <input type="checkbox" checked> font 编辑模块
+- <input type="checkbox" > backgroundCommon 编辑模块
+- <input type="checkbox" > backgroundGradient 编辑模块
+- <input type="checkbox" > border 编辑模块
+- <input type="checkbox" > boxShadow 编辑模块
+- <input type="checkbox" > textShadow 编辑模块
+- <input type="checkbox" > transform 编辑模块
+- <input type="checkbox" checked> hooks - useCssPicker
+- <input type="checkbox" checked> hooks - useMergeAppData
+- <input type="checkbox" > 修改编辑器相互干扰
+
+
 ```typescript
 import React, { Suspense, lazy, useEffect } from 'react';
 import { connect } from 'react-redux';

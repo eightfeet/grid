@@ -36,7 +36,7 @@ const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
           }
           break;
         default:
-          if (data) {
+          if (data !== undefined && data !== null ) {
             changeData.values[cssProperties] = data.target?.value || data;
           }
           break;

@@ -51,6 +51,7 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
     <div
       className={ClassNames(s.touchwrap, activationItem.moduleId === id ? s.actwrap : null)}
       onTouchStart={onLayoutClick}
+      onClick={onLayoutClick}
     >
       <div id={id} style={basicStyle.style}>
         {children || content.text}
