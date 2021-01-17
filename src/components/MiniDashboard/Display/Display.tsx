@@ -40,7 +40,7 @@ const Display: React.FC<Props> = ({onChange, defaultData }) => {
     if (position === 'relative') {
       setrelative(true)
     }
-  }, [defaultData])
+  }, [defaultData, position])
 
   const onChangeDisplay = useCallback(
     (type: ChangeType) => (data: any) => {
