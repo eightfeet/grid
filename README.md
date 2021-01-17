@@ -3,15 +3,15 @@
 ### To do list
 - [x] <input type="checkbox" checked> display 编辑模块
 - [x] <input type="checkbox" checked> font 编辑模块
-- [] <input type="checkbox" > backgroundCommon 编辑模块
-- [] <input type="checkbox" > backgroundGradient 编辑模块
-- [] <input type="checkbox" > border 编辑模块
-- [] <input type="checkbox" > boxShadow 编辑模块
-- [] <input type="checkbox" > textShadow 编辑模块
-- [] <input type="checkbox" > transform 编辑模块
+- [ ] <input type="checkbox" > backgroundCommon 编辑模块
+- [ ] <input type="checkbox" > backgroundGradient 编辑模块
+- [ ] <input type="checkbox" > border 编辑模块
+- [ ] <input type="checkbox" > boxShadow 编辑模块
+- [ ] <input type="checkbox" > textShadow 编辑模块
+- [ ] <input type="checkbox" > transform 编辑模块
 - [x] <input type="checkbox" checked> hooks - useCssPicker
 - [x] <input type="checkbox" checked> hooks - useMergeAppData
-- [] <input type="checkbox" > 修改编辑器相互干扰
+- [ ] <input type="checkbox" > 修改编辑器相互干扰
 
 
 ```typescript
