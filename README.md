@@ -1,6 +1,8 @@
 ## react app
 
 ### To do list
+- [x] <input type="checkbox" checked> 删格布局
+- [x] <input type="checkbox" checked> css编译
 - [x] <input type="checkbox" checked> display 编辑模块
 - [x] <input type="checkbox" checked> font 编辑模块
 - [ ] <input type="checkbox" > backgroundCommon 编辑模块
@@ -11,6 +13,9 @@
 - [ ] <input type="checkbox" > transform 编辑模块
 - [x] <input type="checkbox" checked> hooks - useCssPicker
 - [x] <input type="checkbox" checked> hooks - useMergeAppData
+- [ ] <input type="checkbox" > 组件测试
+- [ ] <input type="checkbox" > 事件与统计
+- [ ] <input type="checkbox" > Api对接
 - [ ] <input type="checkbox" > 修改编辑器相互干扰
 
 
