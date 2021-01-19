@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { RootState, Dispatch } from "~/redux/store";
 import queryString from "query-string";
@@ -19,11 +19,19 @@ const isEditing = search.isEditing === "true";
 const App: React.FC<StateProps & DispatchProps & CompProps> = ({
   updateAppData,
   appData,
-  activationItem
+  activationItem,
+  setIsEditing,
+  showEditor
 }) => {
   const [designModal, setDesignModal] = useState(isEditing);
   const resultData = useRef();
   const [localStoreData, setLocalStoreData] = useLocalStorage("appData", data);
+
+  useEffect(() => { 
+    if (isEditing) {
+      setIsEditing(true);
+    }
+  }, [setIsEditing])
 
   useMemo(() => {
     updateAppData(localStoreData);
@@ -78,7 +86,7 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
       ) : null}
 
       <Layout
-        isEditing={isEditing}
+        isEditing={showEditor}
         designModal={designModal}
         rowHeight={20}
         cols={12}
@@ -87,7 +95,7 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
         onChange={onChange}
       />
     </div>
-    {isEditing && designModal && activationItem.moduleId ? <div style={{height: '400px'}}><Dashboard /></div> : null}
+    {showEditor && designModal && activationItem.moduleId ? <div style={{height: '400px'}}><Dashboard /></div> : null}
     </>
   );
 };
@@ -95,11 +103,13 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
 const mapState = (state: RootState) => ({
   appData: state.appData,
   activationItem: state.activationItem,
+  showEditor: state.controller.isEditing
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
   updateAppData: dispatch.appData.updateAppData,
   updateActivationItem: dispatch.activationItem.updateActivationItem,
+  setIsEditing: dispatch.controller.setIsEditing,
 });
 
 export default connect(mapState, mapDispatch)(App);

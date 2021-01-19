@@ -22,7 +22,8 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
   updateActivationItem,
   activationItem,
   appData,
-  controllerSetState
+  controllerSetState,
+  controller
 }) => {
   const [basicStyle, setBasicStyle] = useState<{ [keys: string]: any }>({});
   const [, setActItem] = useLocalStorage('activationItem', null);
@@ -38,6 +39,7 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
   }, [id, style]);
 
   const onLayoutClick = useCallback(() => {
+    if(!controller.isEditing) return;
     appData.forEach(element => {
       // 禁止重复设置当前编辑项
       if (activationItem.moduleId === id) return;
@@ -67,13 +69,13 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
 const mapState = (state: RootState) => ({
   appData: state.appData,
   activationItem: state.activationItem,
-  controllerRebuild: state.controllerRebuild,
+  controller: state.controller,
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
   updateAppData: dispatch.appData.updateAppData,
   updateActivationItem: dispatch.activationItem.updateActivationItem,
-  controllerSetState: dispatch.controllerRebuild.setState,
+  controllerSetState: dispatch.controller.setStateTag,
 });
 
 export default connect(mapState, mapDispatch)(Conterner);

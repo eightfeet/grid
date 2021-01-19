@@ -19,7 +19,7 @@ interface Props {
   selected: AppDataElementsTypes;
 }
 
-const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, controllerRebuild, updateAppData, appData }) => {
+const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, controller, updateAppData, appData }) => {
   const [stateData, setStateData] = useState<any>();
   const update = useMergeAppData()
   
@@ -47,14 +47,14 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, co
 
   return (
     <div className={s.root}>
-      {!controllerRebuild ? <Collapse bordered={false} defaultActiveKey={["1"]}>
+      <Collapse bordered={false} defaultActiveKey={["1"]}>
         <Panel header="布局" key="1">
           <Display onChange={onChangeDisplay} defaultData={selected?.style?.basic?.display || {}}  />
         </Panel>
         <Panel header="文字" key="2">
           <Font onChange={onChangeFont} defaultData={selected?.style?.basic?.font || {}} />
         </Panel>
-      </Collapse> : null}
+      </Collapse>
     </div>
   );
 };
@@ -63,7 +63,7 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, co
 const mapState = (state: RootState) => ({
   appData: state.appData,
   activationItem: state.activationItem,
-  controllerRebuild: state.controllerRebuild,
+  controller: state.controller,
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
