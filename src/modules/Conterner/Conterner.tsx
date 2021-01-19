@@ -21,10 +21,11 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
   content,
   updateActivationItem,
   activationItem,
-  appData
+  appData,
+  controllerSetState
 }) => {
   const [basicStyle, setBasicStyle] = useState<{ [keys: string]: any }>({});
-  const [actItem, setActItem] = useLocalStorage('activationItem', null);
+  const [, setActItem] = useLocalStorage('activationItem', null);
   
   useEffect(() => {
     const { basic } = style;
@@ -45,7 +46,10 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
         setActItem({ ...element })
       }
     });
-  }, [activationItem.moduleId, appData, id, updateActivationItem]);
+    controllerSetState(true);
+    setTimeout(() => controllerSetState(false))
+    
+  }, [activationItem.moduleId, appData, controllerSetState, id, setActItem, updateActivationItem]);
 
   return (
     <div
@@ -63,11 +67,13 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
 const mapState = (state: RootState) => ({
   appData: state.appData,
   activationItem: state.activationItem,
+  controllerRebuild: state.controllerRebuild,
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
   updateAppData: dispatch.appData.updateAppData,
   updateActivationItem: dispatch.activationItem.updateActivationItem,
+  controllerSetState: dispatch.controllerRebuild.setState,
 });
 
 export default connect(mapState, mapDispatch)(Conterner);
