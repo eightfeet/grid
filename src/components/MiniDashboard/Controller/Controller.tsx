@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { AppDataElementsTypes } from "types/appData";
 import { connect, useSelector } from 'react-redux';
-import Display from '~/components/MiniDashboard/Display';
 import { RootState, Dispatch } from '~/redux/store';
 
-import s from "./Controller.module.scss";
-
 import { Collapse } from "antd";
+import Display from '../Display';
 import Font from "../Font";
+import BackgroundCommon from '../BackgroundCommon';
+
 import useMergeAppData from "~/hooks/useMergeAppData";
+import s from "./Controller.module.scss";
 
 type StateProps = ReturnType<typeof mapState>;
 type DispatchProps = ReturnType<typeof mapDispatch>;
