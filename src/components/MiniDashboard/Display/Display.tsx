@@ -9,6 +9,7 @@ import useCssPicker from "~/hooks/useCssPicker";
 interface Props {
   onChange: (result: ResultType) => void;
   defaultData?: DisplayTypesOfStyleItems;
+  unit?: string;
 }
 
 interface ResultType {
@@ -26,7 +27,7 @@ type ChangeType =
   | "top"
   | "bottom";
 
-const Display: React.FC<Props> = ({onChange, defaultData }) => {
+const Display: React.FC<Props> = ({onChange, defaultData, unit }) => {
 
   const [relative, setrelative] = useState(true);
 
@@ -65,10 +66,10 @@ const Display: React.FC<Props> = ({onChange, defaultData }) => {
   return (<>
     <Row className={s.row}>
       <Col span={12}>
-        <NumberInput label="宽度" unit="px" min={1} max={100000} value={width} onChange={onChangeDisplay("width")} />
+        <NumberInput label="宽度" unit={unit} min={1} max={100000} value={width} onChange={onChangeDisplay("width")} />
       </Col>
       <Col span={12}>
-        <NumberInput label="高度" unit="px" min={1} max={100000} value={height} onChange={onChangeDisplay("height")} />
+        <NumberInput label="高度" unit={unit} min={1} max={100000} value={height} onChange={onChangeDisplay("height")} />
       </Col>
     </Row>
     <Row className={s.row}>
@@ -81,18 +82,18 @@ const Display: React.FC<Props> = ({onChange, defaultData }) => {
     </Row>
     {!relative ? <Row className={s.row}>
       <Col span={12}>
-            <NumberInput label="左边距" unit="px" min={-100000} max={100000} value={relative? undefined : left} onChange={onChangeDisplay("left")}/>
+            <NumberInput label="左边距" unit={unit} min={-100000} max={100000} value={relative? undefined : left} onChange={onChangeDisplay("left")}/>
       </Col>
       <Col span={12}>
-            <NumberInput label="右边距" unit="px" min={-100000} max={100000} value={relative? undefined : right} onChange={onChangeDisplay("right")}/>
+            <NumberInput label="右边距" unit={unit} min={-100000} max={100000} value={relative? undefined : right} onChange={onChangeDisplay("right")}/>
       </Col>
     </Row> : null}
     {!relative ? <Row className={s.row}>
       <Col span={12}>
-            <NumberInput label="上边距" unit="px" min={-100000} max={100000} value={relative? undefined : top} onChange={onChangeDisplay("top")}/>
+            <NumberInput label="上边距" unit={unit} min={-100000} max={100000} value={relative? undefined : top} onChange={onChangeDisplay("top")}/>
       </Col>
       <Col span={12}>
-            <NumberInput label="下边距" unit="px" min={-100000} max={100000} value={relative? undefined : bottom} onChange={onChangeDisplay("bottom")}/>
+            <NumberInput label="下边距" unit={unit} min={-100000} max={100000} value={relative? undefined : bottom} onChange={onChangeDisplay("bottom")}/>
       </Col>
     </Row> : null}
     </>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { AppDataElementsTypes } from "types/appData";
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Display from '~/components/MiniDashboard/Display';
 import { RootState, Dispatch } from '~/redux/store';
 
@@ -21,7 +21,9 @@ interface Props {
 
 const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, controller, updateAppData, appData }) => {
   const [stateData, setStateData] = useState<any>();
-  const update = useMergeAppData()
+  const update = useMergeAppData();
+
+  const unit = useSelector((state: RootState) => state.controller.unit);
   
   useEffect(() => {
     setStateData(selected);
@@ -49,10 +51,10 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, co
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
         <Panel header="布局" key="1">
-          <Display onChange={onChangeDisplay} defaultData={selected?.style?.basic?.display || {}}  />
+          <Display unit={unit} onChange={onChangeDisplay} defaultData={selected?.style?.basic?.display || {}}  />
         </Panel>
         <Panel header="文字" key="2">
-          <Font onChange={onChangeFont} defaultData={selected?.style?.basic?.font || {}} />
+          <Font unit={unit} onChange={onChangeFont} defaultData={selected?.style?.basic?.font || {}} />
         </Panel>
       </Collapse>
     </div>

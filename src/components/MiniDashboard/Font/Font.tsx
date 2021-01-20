@@ -19,7 +19,8 @@ import useCssPicker from "~/hooks/useCssPicker";
 
 interface Props {
   onChange: (result: ResultType) => void;
-  defaultData?: FontTypesOfStyleItems
+  defaultData?: FontTypesOfStyleItems;
+  unit?: string
 }
 
 type ChangeType =
@@ -38,7 +39,7 @@ interface ResultType {
   values: AnyObjectType;
 }
 
-const Font: React.FC<Props> = ({ onChange, defaultData }) => {
+const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
   const [result, pickToResult] = useCssPicker("font");
   const { fontSize, align, lineHeight, letterSP, fontWeight, fontStyle, color, decoration } = defaultData || {};
 
@@ -104,7 +105,7 @@ const Font: React.FC<Props> = ({ onChange, defaultData }) => {
         <Col span={12}>
           <NumberInput
             label="字体大小"
-            unit="px"
+            unit={unit}
             min={1}
             max={100000}
             value={fontSize}
@@ -116,7 +117,7 @@ const Font: React.FC<Props> = ({ onChange, defaultData }) => {
         <Col span={12}>
           <NumberInput
             label="行间距"
-            unit="px"
+            unit={unit}
             min={1}
             max={100000}
             value={lineHeight}
@@ -126,7 +127,7 @@ const Font: React.FC<Props> = ({ onChange, defaultData }) => {
         <Col span={12}>
           <NumberInput
             label="字间距"
-            unit="px"
+            unit={unit}
             min={1}
             max={100000}
             value={letterSP}
