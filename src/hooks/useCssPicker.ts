@@ -1,5 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import { AnyObjectType } from "types/appData";
+import { RootState } from "~/redux/store";
 
 interface ResultType {
   type: string;
@@ -13,6 +15,12 @@ const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
       values: initialValue || {},
     };
   });
+  
+  const currentId = useSelector((state: RootState) => state.activationItem.moduleId);
+
+  useEffect(() => {
+    setresult({type, values: initialValue || {}})
+  }, [currentId, type, initialValue])
 
   const pickToResult: any = useCallback(
     (cssProperties: string, data: any) => {
@@ -41,7 +49,6 @@ const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
           }
           break;
       }
-      console.log('changeData', changeData)
       setresult(changeData);
       return changeData;
     },
