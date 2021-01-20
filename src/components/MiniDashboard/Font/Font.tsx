@@ -47,7 +47,6 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
     (type: ChangeType) => (data: any) => {
       pickToResult(type, data);
       if (onChange instanceof Function) {
-        console.log('result',  result)
         onChange(result);
       }
     },
