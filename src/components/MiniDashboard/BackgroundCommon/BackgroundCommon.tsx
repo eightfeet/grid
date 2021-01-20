@@ -25,6 +25,7 @@ interface Props {
 }
 
 type ChangeType =
+  "imageUrl"
   | "color"
   | "fontSize"
   | "lineHeight"
@@ -67,6 +68,7 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
         <Col span={12}>
           <Upload
             label="背景图片"
+            onChange={onChangeBackgroundCommon("imageUrl")}
           />
         </Col>
       </Row>

@@ -20,6 +20,7 @@ import { UploadChangeParam } from "antd/lib/upload/interface";
 interface UploadProps {
   label?: string;
   defaultImg?: string;
+  onChange?: (data:string) => void;
 }
 
 const antIcon = <LoadingOutlined className={s.loading} spin />;
@@ -27,6 +28,7 @@ const antIcon = <LoadingOutlined className={s.loading} spin />;
 const Upload: React.FC<UploadProps> = ({
   label,
   defaultImg = "http://www.by-health.com/static/index/tvc-jld.png",
+  onChange
 }) => {
   const [img, setimg] = useState<string>(defaultImg || "");
   const [isloading, setIsloading] = useState(false);
@@ -47,12 +49,13 @@ const Upload: React.FC<UploadProps> = ({
     (ref.current as any).appendChild(image);
   }, []);
 
+  // 仅做初次渲染
   useEffect(() => {
     setimg(img);
     getImageWh(img);
   }, []);
 
-  const onChange = useCallback(
+  const onChangeUpload = useCallback(
     (info: UploadChangeParam) => {
       if (info.file.status === "uploading") {
         setIsloading(true);
@@ -70,6 +73,9 @@ const Upload: React.FC<UploadProps> = ({
         setTimeout(() => {
           getImageWh(info.file.response.fileUrl);
         }, 1800);
+        if (onChange instanceof Function) {
+            onChange(info.file.response.fileUrl);
+        }
       }
     },
     [getImageWh]
@@ -85,7 +91,10 @@ const Upload: React.FC<UploadProps> = ({
 
   const deleteImage = useCallback(() => {
     setimg("");
-  }, []);
+    if (onChange instanceof Function) {
+        onChange('');
+    }
+  }, [onChange]);
 
   return (
     <>
@@ -98,7 +107,7 @@ const Upload: React.FC<UploadProps> = ({
             <UploadPic
               accept=".jpg,.jpeg,.png"
               action={`/mf/commonservice/api/upload`}
-              onChange={onChange}
+              onChange={onChangeUpload}
               showUploadList={false}
               disabled={isloading}
             >
