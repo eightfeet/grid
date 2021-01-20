@@ -27,7 +27,7 @@ const antIcon = <LoadingOutlined className={s.loading} spin />;
 
 const Upload: React.FC<UploadProps> = ({
   label,
-  defaultImg = "http://www.by-health.com/static/index/tvc-jld.png",
+  defaultImg,
   onChange
 }) => {
   const [img, setimg] = useState<string>(defaultImg || "");
@@ -36,24 +36,26 @@ const Upload: React.FC<UploadProps> = ({
   const [wh, setWh] = useState(" ");
 
   const ref = useRef(null);
+  const defaultUrl = useRef(defaultImg);
 
   const getImageWh = useCallback((url: string) => {
+    (ref.current as any).innerHTML = "";
     const image = new Image();
     image.src = url;
     image.onload = () => {
       const str = `宽:${image.offsetWidth}px 高:${image.offsetHeight}px`;
-      console.log("str", str);
       setWh(str);
-      (ref.current as any).innerHTML = "";
+      // (ref.current as any).innerHTML = "";
     };
     (ref.current as any).appendChild(image);
   }, []);
 
-  // 仅做初次渲染
   useEffect(() => {
-    setimg(img);
-    getImageWh(img);
-  }, []);
+    if (defaultUrl.current) {
+      setimg(defaultUrl.current);
+      getImageWh(defaultUrl.current);
+    }
+  }, [getImageWh]);
 
   const onChangeUpload = useCallback(
     (info: UploadChangeParam) => {
@@ -69,16 +71,15 @@ const Upload: React.FC<UploadProps> = ({
         setTimeout(() => {
           setIsloading(false);
           setimg(info.file.response.fileUrl);
-        }, 1500);
-        setTimeout(() => {
           getImageWh(info.file.response.fileUrl);
-        }, 1800);
+        }, 1500);
+        
         if (onChange instanceof Function) {
             onChange(info.file.response.fileUrl);
         }
       }
     },
-    [getImageWh]
+    [getImageWh, onChange]
   );
 
   const hideView = useCallback(() => {
@@ -160,7 +161,7 @@ const Upload: React.FC<UploadProps> = ({
           {img ? <img ref={ref} src={img} alt={""} /> : null}
         </div>
       </Modal>
-      <div className={s.imgtemp} ref={ref} />
+      <div data-x="xxxxxxxxxx" className={s.imgtemp} ref={ref} />
     </>
   );
 };
