@@ -51,10 +51,13 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, co
   return (
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
-        <Panel header="布局" key="1">
+        <Panel header="背景" key="1">
+          <BackgroundCommon unit={unit} onChange={onChangeFont} defaultData={selected?.style?.basic?.font || {}} />
+        </Panel>
+        <Panel header="布局" key="2">
           <Display unit={unit} onChange={onChangeDisplay} defaultData={selected?.style?.basic?.display || {}}  />
         </Panel>
-        <Panel header="文字" key="2">
+        <Panel header="文字" key="3">
           <Font unit={unit} onChange={onChangeFont} defaultData={selected?.style?.basic?.font || {}} />
         </Panel>
       </Collapse>

@@ -95,7 +95,7 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
         onChange={onChange}
       />
     </div>
-    {showEditor && designModal && activationItem.moduleId ? <div style={{height: '400px'}}><Dashboard /></div> : null}
+    {true ? <div style={{height: '400px'}}><Dashboard /></div> : null}
     </>
   );
 };

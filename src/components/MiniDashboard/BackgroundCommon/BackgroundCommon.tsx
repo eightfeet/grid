@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { Row, Col } from "antd";
 import { Radio, Checkbox } from "antd";
+import Upload from '../Upload';
 
 import {
   AlignLeftOutlined,
@@ -43,7 +44,7 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
   const [result, pickToResult] = useCssPicker("font");
   const { fontSize, align, lineHeight, letterSP, fontWeight, fontStyle, color, decoration } = defaultData || {};
 
-  const onChangeFont = useCallback(
+  const onChangeBackgroundCommon = useCallback(
     (type: ChangeType) => (data: any) => {
       pickToResult(type, data);
       if (onChange instanceof Function) {
@@ -56,59 +57,16 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
   return (
     <>
       <Row className={s.row}>
-        <Col span={8}>
-          <Radio.Group value={align} onChange={onChangeFont("align")}>
-            <Radio.Button value="left">
-              <AlignLeftOutlined />
-            </Radio.Button>
-            <Radio.Button value="center">
-              <AlignCenterOutlined />
-            </Radio.Button>
-            <Radio.Button value="right">
-              <AlignRightOutlined />
-            </Radio.Button>
-          </Radio.Group>
-        </Col>
-        <Col span={8}>
-          <Radio.Group value={decoration} onChange={onChangeFont("decoration")}>
-            <Radio.Button value="none">N</Radio.Button>
-            <Radio.Button value="underline">
-              <UnderlineOutlined />
-            </Radio.Button>
-            <Radio.Button value="line-through">
-              <StrikethroughOutlined />
-            </Radio.Button>
-          </Radio.Group>
-        </Col>
-        <Col span={8}>
-          <Checkbox
-            className={s.Checkbox}
-            checked={fontWeight === 'bold'}
-            onChange={onChangeFont("fontWeight")}
-          >
-            <BoldOutlined />
-          </Checkbox>
-          <Checkbox className={s.Checkbox} checked={fontStyle === 'italic'} onChange={onChangeFont("fontStyle")}>
-            <ItalicOutlined />
-          </Checkbox>
-        </Col>
-      </Row>
-      <Row className={s.row}>
         <Col span={12}>
           <Color
-            label="字体颜色"
-            onChange={onChangeFont("color")}
+            label="背景颜色"
+            onChange={onChangeBackgroundCommon("color")}
             defaultColor={color}
           />
         </Col>
         <Col span={12}>
-          <NumberInput
-            label="字体大小"
-            unit={unit}
-            min={1}
-            max={100000}
-            value={fontSize}
-            onChange={onChangeFont("fontSize")}
+          <Upload
+            label="背景图片"
           />
         </Col>
       </Row>
@@ -120,7 +78,7 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
             min={1}
             max={100000}
             value={lineHeight}
-            onChange={onChangeFont("lineHeight")}
+            onChange={onChangeBackgroundCommon("lineHeight")}
           />
         </Col>
         <Col span={12}>
@@ -130,7 +88,7 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
             min={1}
             max={100000}
             value={letterSP}
-            onChange={onChangeFont("letterSP")}
+            onChange={onChangeBackgroundCommon("letterSP")}
           />
         </Col>
       </Row>
