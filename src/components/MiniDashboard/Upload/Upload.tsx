@@ -36,26 +36,33 @@ const Upload: React.FC<UploadProps> = ({
   const [wh, setWh] = useState(" ");
 
   const ref = useRef(null);
-  const defaultUrl = useRef(defaultImg);
 
-  const getImageWh = useCallback((url: string) => {
+  // 创建临时图片文件
+  const createTempImg = useCallback((url: string) => {
     (ref.current as any).innerHTML = "";
     const image = new Image();
     image.src = url;
-    image.onload = () => {
-      const str = `宽:${image.offsetWidth}px 高:${image.offsetHeight}px`;
-      setWh(str);
-      // (ref.current as any).innerHTML = "";
-    };
     (ref.current as any).appendChild(image);
   }, []);
 
+  // 获取文件宽高属性
+  const getTempImgWH = useCallback(
+    () => {
+      const image= (ref.current as any).querySelector('img');
+      if (image) {
+        const str = `宽:${image.offsetWidth}px 高:${image.offsetHeight}px`;
+        setWh(str);
+      }
+    },
+    [img],
+  )
+
   useEffect(() => {
-    if (defaultUrl.current) {
-      setimg(defaultUrl.current);
-      getImageWh(defaultUrl.current);
+    if (img) {
+      setimg(img);
+      createTempImg(img);
     }
-  }, [getImageWh]);
+  }, [img]);
 
   const onChangeUpload = useCallback(
     (info: UploadChangeParam) => {
@@ -71,7 +78,7 @@ const Upload: React.FC<UploadProps> = ({
         setTimeout(() => {
           setIsloading(false);
           setimg(info.file.response.fileUrl);
-          getImageWh(info.file.response.fileUrl);
+          createTempImg(info.file.response.fileUrl);
         }, 1500);
         
         if (onChange instanceof Function) {
@@ -79,7 +86,7 @@ const Upload: React.FC<UploadProps> = ({
         }
       }
     },
-    [getImageWh, onChange]
+    [createTempImg, onChange]
   );
 
   const hideView = useCallback(() => {
@@ -87,6 +94,7 @@ const Upload: React.FC<UploadProps> = ({
   }, []);
 
   const showView = useCallback(() => {
+    getTempImgWH();
     setViewImg(true);
   }, []);
 
@@ -161,7 +169,7 @@ const Upload: React.FC<UploadProps> = ({
           {img ? <img ref={ref} src={img} alt={""} /> : null}
         </div>
       </Modal>
-      <div data-x="xxxxxxxxxx" className={s.imgtemp} ref={ref} />
+      {!isloading ? <div className={s.imgtemp} ref={ref} /> : null}
     </>
   );
 };

@@ -97,7 +97,17 @@ export interface BackgroundGradientTypesOfStyleItems {
     gradientDirections?: string;
 }
 
-export interface BackgroundCommonTypesOfStyleItems {}
+export interface BackgroundCommonTypesOfStyleItems {
+    imageUrl?: string;
+    backgroundColor?: string;
+    fontSize?: number;
+    position?: string;
+    positionX?: string;
+    positionY?: string;
+    sizeX?: number;
+    sizeY?: number;
+    repeat?: string;
+};
 
 export interface AppDataElementsStyleTypes {
     basic: StyleItemsTypes;
