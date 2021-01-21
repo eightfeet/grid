@@ -42,8 +42,8 @@ interface ResultType {
     values: AnyObjectType;
 }
 
-const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
-    const [result, pickToResult] = useCssPicker('font');
+const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
+    const [result, pickToResult] = useCssPicker('backgroundCommon');
 
     const {
         imageUrl,
@@ -84,30 +84,34 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
                     />
                 </Col>
             </Row>
-            <Row className={s.row}>
-                <Col span={12}>
-                    <NumberInput
-                        label="背景宽度"
-                        unit={unit}
-                        min={1}
-                        max={100000}
-                        value={sizeX}
-                        onChange={onChangeBackgroundCommon('sizeX')}
-                    />
-                </Col>
-                <Col span={12}>
-                    <NumberInput
-                        label="背景高度"
-                        unit={unit}
-                        min={1}
-                        max={100000}
-                        value={sizeY}
-                        onChange={onChangeBackgroundCommon('sizeY')}
-                    />
-                </Col>
-            </Row>
+            {imageUrl ? (
+                <>
+                    <Row className={s.row}>
+                        <Col span={12}>
+                            <NumberInput
+                                label="背景宽度"
+                                unit={unit}
+                                min={1}
+                                max={100000}
+                                value={sizeX}
+                                onChange={onChangeBackgroundCommon('sizeX')}
+                            />
+                        </Col>
+                        <Col span={12}>
+                            <NumberInput
+                                label="背景高度"
+                                unit={unit}
+                                min={1}
+                                max={100000}
+                                value={sizeY}
+                                onChange={onChangeBackgroundCommon('sizeY')}
+                            />
+                        </Col>
+                    </Row>
+                </>
+            ) : null}
         </>
     );
 };
 
-export default Font;
+export default BackgroundCommon;

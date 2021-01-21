@@ -29,6 +29,9 @@ const useCssPicker = (type: string, initialValue?: AnyObjectType) => {
         case "color":
           changeData.values.color = `rgba(${data.value.rgb.r}, ${data.value.rgb.g}, ${data.value.rgb.b}, ${data.value.rgb.a})`;
           break;
+        case "backgroundColor":
+          changeData.values.backgroundColor = `rgba(${data.value.rgb.r}, ${data.value.rgb.g}, ${data.value.rgb.b}, ${data.value.rgb.a})`;
+          break;
         case "fontWeight": // handle boolean
           if (data?.target.checked) {
             changeData.values.fontWeight = "bold";

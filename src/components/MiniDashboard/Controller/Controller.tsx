@@ -48,11 +48,20 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, co
     [update]
   );
 
+  const onChangeBackgroundCommon = useCallback(
+    (result: any) => {
+      update({basic: {
+        backgroundCommon: result.values
+      }});
+    },
+    [update]
+  );
+
   return (
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
         <Panel header="背景" key="1">
-          <BackgroundCommon unit={unit} onChange={onChangeFont} defaultData={selected?.style?.basic?.font || {}} />
+          <BackgroundCommon unit={unit} onChange={onChangeBackgroundCommon} defaultData={selected?.style?.basic?.backgroundCommon || {}} />
         </Panel>
         <Panel header="布局" key="2">
           <Display unit={unit} onChange={onChangeDisplay} defaultData={selected?.style?.basic?.display || {}}  />
