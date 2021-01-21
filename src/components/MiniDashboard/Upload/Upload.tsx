@@ -16,6 +16,8 @@ import {
 } from "@ant-design/icons";
 import s from "./Upload.module.scss";
 import { UploadChangeParam } from "antd/lib/upload/interface";
+import { RootState } from "~/redux/store";
+import { useSelector } from "react-redux";
 
 interface UploadProps {
   label?: string;
@@ -30,19 +32,26 @@ const Upload: React.FC<UploadProps> = ({
   defaultImg,
   onChange
 }) => {
-  const [img, setimg] = useState<string>(defaultImg || "");
+  const [img, setimg] = useState<string>();
   const [isloading, setIsloading] = useState(false);
   const [viewImg, setViewImg] = useState(false);
   const [wh, setWh] = useState(" ");
+  const moduleId = useSelector((state: RootState) => state.activationItem.moduleId);
 
   const ref = useRef(null);
 
   // 创建临时图片文件
   const createTempImg = useCallback((url: string) => {
-    (ref.current as any).innerHTML = "";
-    const image = new Image();
-    image.src = url;
-    (ref.current as any).appendChild(image);
+    const wrap = (ref.current as any);
+    if (wrap) {
+      (ref.current as any).innerHTML = "";
+      const image = new Image();
+      image.src = url;
+      image.onload = () => {
+        
+      }
+      (ref.current as any).appendChild(image);
+    }
   }, []);
 
   // 获取文件宽高属性
@@ -57,12 +66,15 @@ const Upload: React.FC<UploadProps> = ({
     [img],
   )
 
+  // 删除临时文件
+
   useEffect(() => {
-    if (img) {
-      setimg(img);
-      createTempImg(img);
+    console.log('变化了', defaultImg, moduleId);
+    setimg(defaultImg);
+    if (defaultImg) {
+      createTempImg(defaultImg);
     }
-  }, [img]);
+  }, [defaultImg, moduleId]);
 
   const onChangeUpload = useCallback(
     (info: UploadChangeParam) => {
@@ -79,8 +91,8 @@ const Upload: React.FC<UploadProps> = ({
           setIsloading(false);
           setimg(info.file.response.fileUrl);
           createTempImg(info.file.response.fileUrl);
-        }, 1500);
-        
+        }, 1000);
+
         if (onChange instanceof Function) {
             onChange(info.file.response.fileUrl);
         }
@@ -122,7 +134,7 @@ const Upload: React.FC<UploadProps> = ({
             >
               <span
                 className={classNames(s.uploadicon, s.empty, s.flid)}
-                style={{ backgroundImage: `url(${img})` }}
+                style={{ backgroundImage: `url(${(!isloading && img) ? img : ''})` }}
               >
                 {isloading ? antIcon : null}
                 {!img ? <AreaChartOutlined /> : null}
@@ -130,7 +142,7 @@ const Upload: React.FC<UploadProps> = ({
             </UploadPic>
           </div>
 
-          {img ? (
+          {(!isloading && img) ? (
             <>
               <Tooltip
                 placement="top"
@@ -169,7 +181,7 @@ const Upload: React.FC<UploadProps> = ({
           {img ? <img ref={ref} src={img} alt={""} /> : null}
         </div>
       </Modal>
-      {!isloading ? <div className={s.imgtemp} ref={ref} /> : null}
+      {(!isloading && img) ? <div className={s.imgtemp} ref={ref} /> : null}
     </>
   );
 };
