@@ -128,7 +128,7 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
                                         unit={unit}
                                         min={1}
                                         max={100000}
-                                        value={positionX}
+                                        value={1}
                                         onChange={onChangeBackgroundCommon('positionX')}
                                     />
                                     {positionX}
@@ -141,7 +141,7 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
                                         unit={unit}
                                         min={1}
                                         max={100000}
-                                        value={positionY}
+                                        value={2}
                                         onChange={onChangeBackgroundCommon('positionY')}
                                     />
                                 </Col>
