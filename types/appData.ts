@@ -102,8 +102,8 @@ export interface BackgroundCommonTypesOfStyleItems {
     backgroundColor?: string;
     fontSize?: number;
     position?: string;
-    positionX?: string;
-    positionY?: string;
+    positionX?: number;
+    positionY?: number;
     sizeX?: number;
     sizeY?: number;
     repeat?: string;

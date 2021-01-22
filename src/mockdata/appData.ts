@@ -103,6 +103,7 @@ const appData: AppDataListTypes = [
                 },
                 backgroundCommon: {
                     backgroundColor: 'yellow',
+                    imageUrl: 'https://yyjzx.blob.core.chinacloudapi.cn/upload-test/images/0122230027581.png'
                 },
             },
         },

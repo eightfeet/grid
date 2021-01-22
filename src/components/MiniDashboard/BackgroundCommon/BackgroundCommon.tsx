@@ -116,8 +116,6 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
                                 unit={unit}
                                 min={1}
                                 max={100000}
-                                value={sizeX}
-                                onChange={onChangeBackgroundCommon('sizeX')}
                             />
                         </Col>
                         <Col span={12}>
@@ -125,23 +123,22 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
                                 <Col span={24}>
                                     <NumberInput
                                         label="横向位置"
-                                        unit={unit}
+                                        unit={'%'}
                                         min={1}
                                         max={100000}
-                                        value={1}
+                                        value={positionX}
                                         onChange={onChangeBackgroundCommon('positionX')}
                                     />
-                                    {positionX}
                                 </Col>
                             </Row>
                             <Row className={s.row}>
                                 <Col span={24}>
                                     <NumberInput
                                         label="纵向位置"
-                                        unit={unit}
+                                        unit={'%'}
                                         min={1}
                                         max={100000}
-                                        value={2}
+                                        value={positionY}
                                         onChange={onChangeBackgroundCommon('positionY')}
                                     />
                                 </Col>
