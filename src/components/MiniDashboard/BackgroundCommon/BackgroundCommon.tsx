@@ -20,6 +20,7 @@ import {
     BackgroundCommonTypesOfStyleItems,
 } from 'types/appData';
 import useCssPicker from '~/hooks/useCssPicker';
+import Select from '../Select';
 
 interface Props {
     onChange: (result: ResultType) => void;
@@ -105,6 +106,60 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
                                 max={100000}
                                 value={sizeY}
                                 onChange={onChangeBackgroundCommon('sizeY')}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className={s.row}>
+                        <Col span={12}>
+                            <NumberInput
+                                label="背景位置"
+                                unit={unit}
+                                min={1}
+                                max={100000}
+                                value={sizeX}
+                                onChange={onChangeBackgroundCommon('sizeX')}
+                            />
+                        </Col>
+                        <Col span={12}>
+                            <Row className={s.row}>
+                                <Col span={24}>
+                                    <NumberInput
+                                        label="横向位置"
+                                        unit={unit}
+                                        min={1}
+                                        max={100000}
+                                        value={positionX}
+                                        onChange={onChangeBackgroundCommon('positionX')}
+                                    />
+                                    {positionX}
+                                </Col>
+                            </Row>
+                            <Row className={s.row}>
+                                <Col span={24}>
+                                    <NumberInput
+                                        label="纵向位置"
+                                        unit={unit}
+                                        min={1}
+                                        max={100000}
+                                        value={positionY}
+                                        onChange={onChangeBackgroundCommon('positionY')}
+                                    />
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            <Select
+                                label="平铺方式"
+                                value={repeat}
+                                optionsData={{
+                                    'no-repeat': '不平铺',
+                                    repeat: '平铺',
+                                    'repeat-x': '横向平铺',
+                                    'repeat-y': '纵向平铺',
+                                }}
+                                onChange={onChangeBackgroundCommon('repeat')}
                             />
                         </Col>
                     </Row>
