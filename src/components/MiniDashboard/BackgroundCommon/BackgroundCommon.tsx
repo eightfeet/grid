@@ -12,6 +12,7 @@ import {
 import useCssPicker from "~/hooks/useCssPicker";
 import Select from "../Select";
 import QuadrangularSelect from "../QuadrangularSelect";
+import GradientSlider from '../GradientSlider';
 
 interface Props {
   onChange: (result: ResultType) => void;
@@ -161,12 +162,13 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
   const renderGradient = () => <>
     <Row className={s.row}>
         <Col span={24}>
-          xxxx
+            <GradientSlider />
         </Col>
       </Row>
   </>
   return (
     <>
+        {renderGradient()}
       <Row className={s.row}>
         <Col span={12}>
           <Color
