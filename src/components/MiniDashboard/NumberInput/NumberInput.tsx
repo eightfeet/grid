@@ -10,7 +10,7 @@ interface Props extends InputNumberProps {
     unit?: string;
 }
 
-const NumberInput: React.FC<Props> = ({unit, label, ...other}) => {
+const QuadrangularSelect: React.FC<Props> = ({unit, label, ...other}) => {
   const ref = useRef(null);
   const moduleId = useSelector((state: RootState) => state.activationItem.moduleId);
   useEffect(() => {
@@ -29,4 +29,4 @@ const NumberInput: React.FC<Props> = ({unit, label, ...other}) => {
   );
 };
 
-export default NumberInput;
+export default QuadrangularSelect;

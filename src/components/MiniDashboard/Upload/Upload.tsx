@@ -9,7 +9,7 @@ import {
 import classNames from "classnames";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  AreaChartOutlined,
+  PictureOutlined,
   DeleteOutlined,
   EyeOutlined,
   LoadingOutlined,
@@ -137,7 +137,7 @@ const Upload: React.FC<UploadProps> = ({
                 style={{ backgroundImage: `url(${(!isloading && img) ? img : ''})` }}
               >
                 {isloading ? antIcon : null}
-                {!img ? <AreaChartOutlined /> : null}
+                {!img ? <PictureOutlined /> : null}
               </span>
             </UploadPic>
           </div>

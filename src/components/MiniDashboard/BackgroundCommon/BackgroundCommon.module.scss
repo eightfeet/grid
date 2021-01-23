@@ -1,6 +1,5 @@
 .row {
     margin-bottom: 10px;
-    align-items: center;
 
     :global {
         .ant-radio-button-wrapper {
@@ -11,4 +10,9 @@
 
 .Checkbox {
     margin-left: 6px;
+}
+
+.tab {
+    width: 100%;
+    text-align: center;
 }

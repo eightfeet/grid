@@ -189,13 +189,13 @@ export const backgroundCommon = function (styleObj: objType): resultType {
       rules.background[4]
     ) {
       // positionX positionY
-      rules.background[3] = "auto";
+      rules.background[3] = "0%";
     }
     if (
       (!rules.background[4] || rules.background[4] === positionUnit) &&
       rules.background[3]
     ) {
-      rules.background[4] = "auto";
+      rules.background[4] = "0%";
     }
 
     if (
