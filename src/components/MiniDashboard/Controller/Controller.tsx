@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { AppDataElementsTypes } from "types/appData";
-import { connect, useSelector } from 'react-redux';
-import { RootState, Dispatch } from '~/redux/store';
+import { connect, useSelector } from "react-redux";
+import { RootState, Dispatch } from "~/redux/store";
 
 import { Collapse } from "antd";
-import Display from '../Display';
+import Display from "../Display";
 import Font from "../Font";
-import BackgroundCommon from '../BackgroundCommon';
+import Background from "../Background";
 
 import useMergeAppData from "~/hooks/useMergeAppData";
 import s from "./Controller.module.scss";
@@ -20,39 +20,60 @@ interface Props {
   selected: AppDataElementsTypes;
 }
 
-const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, controller, updateAppData, appData }) => {
+const Controller: React.FC<Props & StateProps & DispatchProps> = ({
+  selected,
+  controller,
+  updateAppData,
+  appData,
+}) => {
   const [stateData, setStateData] = useState<any>();
   const update = useMergeAppData();
 
   const unit = useSelector((state: RootState) => state.controller.unit);
-  
+
   useEffect(() => {
     setStateData(selected);
   }, [selected, stateData]);
 
   const onChangeFont = useCallback(
     (result: any) => {
-      update({basic: {
-        font: result.values
-      }});
+      update({
+        basic: {
+          font: result.values,
+        },
+      });
     },
     [update]
   );
 
   const onChangeDisplay = useCallback(
     (result: any) => {
-      update({basic: {
-        display: result.values
-      }});
+      update({
+        basic: {
+          display: result.values,
+        },
+      });
     },
     [update]
   );
 
   const onChangeBackgroundCommon = useCallback(
     (result: any) => {
-      update({basic: {
-        backgroundCommon: result.values
-      }});
+      if (result.type === 'backgroundCommon') {
+        update({
+          basic: {
+            backgroundCommon: result.values,
+          },
+        });
+      }
+      if (result.type === 'backgroundGradient') {
+        update({
+          basic: {
+            backgroundGradient: result.values,
+          },
+        });
+      }
+      
     },
     [update]
   );
@@ -61,19 +82,31 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({ selected, co
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
         <Panel header="背景" key="1">
-          <BackgroundCommon unit={unit} onChange={onChangeBackgroundCommon} defaultData={selected?.style?.basic?.backgroundCommon || {}} />
+          <Background
+            unit={unit}
+            onChange={onChangeBackgroundCommon}
+            defaultBGCommonData={selected?.style?.basic?.backgroundCommon || {}}
+            defaultBGGradient={selected?.style?.basic?.backgroundGradient || {}}
+          />
         </Panel>
         <Panel header="布局" key="2">
-          <Display unit={unit} onChange={onChangeDisplay} defaultData={selected?.style?.basic?.display || {}}  />
+          <Display
+            unit={unit}
+            onChange={onChangeDisplay}
+            defaultData={selected?.style?.basic?.display || {}}
+          />
         </Panel>
         <Panel header="文字" key="3">
-          <Font unit={unit} onChange={onChangeFont} defaultData={selected?.style?.basic?.font || {}} />
+          <Font
+            unit={unit}
+            onChange={onChangeFont}
+            defaultData={selected?.style?.basic?.font || {}}
+          />
         </Panel>
       </Collapse>
     </div>
   );
 };
-
 
 const mapState = (state: RootState) => ({
   appData: state.appData,

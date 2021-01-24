@@ -2,21 +2,23 @@ import React, { useCallback, useState } from "react";
 import { Row, Col, Radio } from "antd";
 import Upload from "../Upload";
 
-import s from "./BackgroundCommon.module.scss";
+import s from "./Background.module.scss";
 import Color from "../Color";
 import NumberInput from "../NumberInput";
 import {
   AnyObjectType,
   BackgroundCommonTypesOfStyleItems,
+  BackgroundGradientTypesOfStyleItems,
 } from "types/appData";
 import useCssPicker from "~/hooks/useCssPicker";
 import Select from "../Select";
 import QuadrangularSelect from "../QuadrangularSelect";
-import GradientSlider from '../GradientSlider';
+import GradientSlider from "../GradientSlider";
 
 interface Props {
   onChange: (result: ResultType) => void;
-  defaultData?: BackgroundCommonTypesOfStyleItems;
+  defaultBGCommonData?: BackgroundCommonTypesOfStyleItems;
+  defaultBGGradient?: BackgroundGradientTypesOfStyleItems;
   unit?: string;
 }
 
@@ -35,9 +37,14 @@ interface ResultType {
   values: AnyObjectType;
 }
 
-const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
-  const [result, pickToResult] = useCssPicker("backgroundCommon");
-  const [tabState, setTabState] = useState('common');
+const BackgroundCommon: React.FC<Props> = ({
+  onChange,
+  defaultBGCommonData,
+  defaultBGGradient,
+  unit,
+}) => {
+  const [resultCommon, pickToResultCommon] = useCssPicker("backgroundCommon");
+  const [tabState, setTabState] = useState("common");
 
   const {
     imageUrl,
@@ -47,16 +54,18 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
     sizeX,
     sizeY,
     repeat,
-  } = defaultData || {};
+  } = defaultBGCommonData || {};
+
+  const { gradient, gradientDirections } = defaultBGGradient || {};
 
   const onChangeBackgroundCommon = useCallback(
     (type: ChangeType) => (data: any) => {
-      pickToResult(type, data);
+      pickToResultCommon(type, data);
       if (onChange instanceof Function) {
-        onChange(result);
+        onChange(resultCommon);
       }
     },
-    [onChange, pickToResult, result]
+    [onChange, pickToResultCommon, resultCommon]
   );
 
   const onChangeBg = useCallback((data) => {
@@ -64,15 +73,21 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
     onChangeBackgroundCommon("positionY")(data[1]);
   }, []);
 
-  const onChangeTab = useCallback(
-      (e) => {
-          setTabState(e.target.value)
-      },
-      [],
-  )
+  const onChangeTab = useCallback((e) => {
+    setTabState(e.target.value);
+  }, []);
 
-  const renderCommon = () => <> 
-    <Row className={s.row}>
+  const onChangeGradient = useCallback((gradient) => {
+    onChange({
+      type: "backgroundGradient",
+      values: gradient,
+    });
+    console.log(gradient);
+  }, []);
+
+  const renderCommon = () => (
+    <>
+      <Row className={s.row}>
         <Col span={12}>
           <Upload
             label="背景图片"
@@ -157,18 +172,23 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
           <Row></Row>
         </>
       ) : null}
-  </>
+    </>
+  );
 
-  const renderGradient = () => <>
-    <Row className={s.row}>
+  const renderGradient = () => (
+    <>
+      <Row className={s.row}>
         <Col span={24}>
-            <GradientSlider />
+          <GradientSlider
+            onChange={onChangeGradient}
+            defaultData={{ gradient, gradientDirections }}
+          />
         </Col>
       </Row>
-  </>
+    </>
+  );
   return (
     <>
-        {renderGradient()}
       <Row className={s.row}>
         <Col span={12}>
           <Color
@@ -180,14 +200,18 @@ const BackgroundCommon: React.FC<Props> = ({ onChange, defaultData, unit }) => {
       </Row>
       <Row className={s.row}>
         <Col span={24}>
-          <Radio.Group defaultValue={tabState} className={s.tab} onChange={onChangeTab}>
+          <Radio.Group
+            defaultValue={tabState}
+            className={s.tab}
+            onChange={onChangeTab}
+          >
             <Radio.Button value="common">图片背景</Radio.Button>
             <Radio.Button value="gradient">渐变背景</Radio.Button>
           </Radio.Group>
         </Col>
       </Row>
-      {tabState === 'common' ? renderCommon() : null}
-      {tabState === 'gradient' ? renderGradient() : null}
+      {tabState === "common" ? renderCommon() : null}
+      {tabState === "gradient" ? renderGradient() : null}
     </>
   );
 };

@@ -11,7 +11,7 @@ interface Props {
   onChange: (result: { name: "color"; value: ColorType }) => void;
 }
 
-const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
+const Color: React.FC<Props> = ({ defaultColor, label, onChange, children, ...other }) => {
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [color, setColor] = useState();
 
@@ -24,10 +24,10 @@ const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
         optColor.g = temp.values[1];
         optColor.b = temp.values[2];
         optColor.a = temp.alpha;
-        setColor(optColor)
-      } 
+        setColor(optColor);
+      }
     } else {
-      setColor(undefined)
+      setColor(undefined);
     }
   }, [defaultColor]);
 
@@ -52,7 +52,7 @@ const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
 
   return (
     <>
-      <Row className={s.row} gutter={4}>
+      {children ? <span {...other} onClick={handleClick}>{children}</span> : <Row className={s.row} gutter={4}>
         <Col className={s.label} span={10}>
           {label || ""}
         </Col>
@@ -64,9 +64,7 @@ const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
                 style={{
                   backgroundColor: `rgba(${(color as any).r}, ${
                     (color as any).g
-                  }, ${(color as any).b}, ${
-                    (color as any).a
-                  })`,
+                  }, ${(color as any).b}, ${(color as any).a})`,
                 }}
               />
             ) : (
@@ -77,13 +75,17 @@ const Color: React.FC<Props> = ({ defaultColor, label, onChange }) => {
           </div>
         </Col>
         <Col span={4}></Col>
-        {displayColorPicker ? (
-          <div className={s.popover}>
-            <div className={s.cover} onClick={handleClose} />
-            <SketchPicker color={color || undefined} width="250px" onChange={handleChange} />
-          </div>
-        ) : null}
-      </Row>
+      </Row>}
+      {displayColorPicker ? (
+        <div className={s.popover}>
+          <div className={s.cover} onClick={handleClose} />
+          <SketchPicker
+            color={color || undefined}
+            width="250px"
+            onChange={handleChange}
+          />
+        </div>
+      ) : null}
     </>
   );
 };

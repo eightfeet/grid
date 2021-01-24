@@ -3,16 +3,33 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import s from "./GradientSlider.module.scss";
 import { backgroundGradient } from "~/compiler/compiler";
+import Color from "../Color";
+import { Col, Row } from "antd";
+import { BackgroundGradientTypesOfStyleItems } from "types/appData";
 
-const GradientSlider = () => {
+interface Props {
+  defaultData?: BackgroundGradientTypesOfStyleItems,
+  onChange?: (data: BackgroundGradientTypesOfStyleItems) => void
+}
+
+const GradientSlider: React.FC<Props> = ({onChange, defaultData}) => {
   const [valuse, setValuse] = useState<number[]>([]);
   const [colorArray, setColorArray] = useState<string[]>([]);
-  const [gradient, setGradient] = useState({});
+  const [gradientInline, setGradientInline] = useState({});
   const ref = useRef(null);
 
+  const onChangeData = useCallback(
+    (data) => {
+      if (onChange instanceof Function) {
+        onChange(data)
+      }
+    },
+    [onChange],
+  )
+
   useEffect(() => {
-    if (valuse.length <= 1) {
-      setGradient({});
+    if (valuse.length < 1) {
+      setGradientInline({});
     } else {
       const gradient: any = {
         gradient: [],
@@ -26,10 +43,33 @@ const GradientSlider = () => {
         };
         gradient.gradient.push(temp);
       });
+
       const gradientStyle = backgroundGradient(gradient);
-      setGradient(gradientStyle.result);
+      setGradientInline(gradientStyle.result);
+      onChangeData(gradient)
     }
-  }, [valuse, colorArray]);
+  }, [valuse, colorArray, onChangeData]);
+
+  const fillbackDefaultData = useCallback(
+    () => {
+      const {gradient, gradientDirections} = defaultData || {};
+      if (Array.isArray(gradient)) {
+        const defValus: number[] = [], defColor: string[] = [];
+        gradient.forEach(item => {
+          defValus.push(item.transition);
+          defColor.push(item.color);
+        });
+        setValuse(defValus)
+        setColorArray(defColor)
+      }
+      console.log(gradientDirections)
+    },
+    [defaultData],
+  )
+
+  useEffect(() => {
+    fillbackDefaultData();
+  }, [])
 
   const addMarks = useCallback(() => {
     const data: number[] = [...valuse];
@@ -42,7 +82,7 @@ const GradientSlider = () => {
       }
     });
     data.push((data[data.length - 1] || 0) + 1);
-    colors.push(`rgb(255, ${Math.ceil(Math.random() * 255)}, 0)`);
+    colors.push(`rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)})`);
     setColorArray(colors);
     setValuse(data);
   }, [colorArray, valuse]);
@@ -65,31 +105,57 @@ const GradientSlider = () => {
     [colorArray, valuse]
   );
 
+  const onColorChange = useCallback(
+    (i) => (color: any) => {
+      const colors: string[] = [...colorArray]; 
+      const rgba = color.value.rgb;
+      colors[i] = `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
+      setColorArray(colors);
+    },
+    [colorArray],
+  )
+
   return (
-    <div className={s.GradientSlider}>
-      <div className={s.line} style={gradient}>
-        {colorArray.map((item, i) => (
-          <div
-            onDoubleClick={onDoubleClickColor(i)}
-            className={s.colorhandle}
-            key={i}
-            style={{
-              borderColor: `transparent transparent ${colorArray[i]} transparent`,
-              left: `${valuse[i]}%`,
-            }}
+    <Row className={s.row}>
+      <Col span={5}>
+        渐变背景
+      </Col>
+      <Col span={11}>
+        <div className={s.GradientSlider}>
+          <div className={s.line} style={gradientInline}>
+            {colorArray.map((item, i) => (
+              <div
+                className={s.colorhandle}
+                key={i}
+                style={{
+                  borderColor: `transparent transparent ${colorArray[i]} transparent`,
+                  left: `${valuse[i]}%`,
+                }}
+              >
+                <div className={s.delet} onDoubleClick={onDoubleClickColor(i)} />
+                <Color onChange={onColorChange(i)}>
+                  <div className={s.coloritem} style={{backgroundColor:  `${colorArray[i]}`}} >
+                  </div>
+                </Color>
+              </div>
+            ))}
+          </div>
+          <Slider.Range
+            ref={ref}
+            min={0}
+            max={100}
+            marks={marks}
+            onChange={onChangeSlider}
+            value={valuse}
           />
-        ))}
-      </div>
-      <Slider.Range
-        ref={ref}
-        onAfterChange={(da) => console.log(da)}
-        min={0}
-        max={100}
-        marks={marks}
-        onChange={onChangeSlider}
-        value={valuse}
-      />
-    </div>
+        </div>
+      </Col>
+      <Col span={1}>
+      </Col>
+      <Col span={7}>
+        类型
+      </Col>
+    </Row>
   );
 };
 
