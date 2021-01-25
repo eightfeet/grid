@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { AppDataElementsTypes } from "types/appData";
-import { connect, useSelector } from "react-redux";
-import { RootState, Dispatch } from "~/redux/store";
+import React, { useCallback } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "~/redux/store";
 
 import { Collapse } from "antd";
 import Display from "../Display";
@@ -11,29 +10,15 @@ import Background from "../Background";
 import useMergeAppData from "~/hooks/useMergeAppData";
 import s from "./Controller.module.scss";
 
-type StateProps = ReturnType<typeof mapState>;
-type DispatchProps = ReturnType<typeof mapDispatch>;
-
 const { Panel } = Collapse;
 
 interface Props {
-  selected: AppDataElementsTypes;
 }
 
-const Controller: React.FC<Props & StateProps & DispatchProps> = ({
-  selected,
-  controller,
-  updateAppData,
-  appData,
-}) => {
-  const [stateData, setStateData] = useState<any>();
-  const update = useMergeAppData();
-
+const Controller: React.FC<Props> = () => {
+  const selected = useSelector((state: RootState) => state.activationItem);
   const unit = useSelector((state: RootState) => state.controller.unit);
-
-  useEffect(() => {
-    setStateData(selected);
-  }, [selected, stateData]);
+  const update = useMergeAppData();
 
   const onChangeFont = useCallback(
     (result: any) => {
@@ -108,15 +93,4 @@ const Controller: React.FC<Props & StateProps & DispatchProps> = ({
   );
 };
 
-const mapState = (state: RootState) => ({
-  appData: state.appData,
-  activationItem: state.activationItem,
-  controller: state.controller,
-});
-
-const mapDispatch = (dispatch: Dispatch) => ({
-  updateAppData: dispatch.appData.updateAppData,
-  updateActivationItem: dispatch.activationItem.updateActivationItem,
-});
-
-export default connect(mapState, mapDispatch)(Controller);
+export default Controller;

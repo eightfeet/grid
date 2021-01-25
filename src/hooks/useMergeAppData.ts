@@ -8,10 +8,9 @@ import { useCallback } from 'react';
 const useMergeAppData = () => {
     const dispatch = useDispatch();
     const state = useSelector((state: RootState) => state)
+    const appData = cloneDeep(state.appData);
     const update = useCallback(
         (data: AppDataElementsStyleTypes) => {
-        
-            const appData = cloneDeep(state.appData);
             const activationItem = cloneDeep(state.activationItem);
             // 合并数据
             merge(activationItem, {style: data});
@@ -27,7 +26,7 @@ const useMergeAppData = () => {
             dispatch.activationItem.updateActivationItem(activationItem);
     
         },
-        [state, dispatch],
+        [state.activationItem, appData, dispatch.appData, dispatch.activationItem],
     )
     
     return update
