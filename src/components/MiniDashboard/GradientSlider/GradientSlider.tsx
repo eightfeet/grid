@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import s from "./GradientSlider.module.scss";
-import { backgroundGradient } from "~/compiler/compiler";
+import { dataToStyleObject } from "./helper";
 import Color from "../Color";
 import { Col, Row } from "antd";
 import { BackgroundGradientTypesOfStyleItems } from "types/appData";
@@ -32,7 +32,7 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
     [onChange]
   );
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (valuse.length < 1) {
       setGradientInline({});
     } else {
@@ -53,23 +53,41 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
       setGradientInline(gradientStyle.result);
       onChangeData(gradient);
     }
-  }, [moduleId, valuse, colorArray, onChangeData]);
+  }, [moduleId, valuse, colorArray, onChangeData]);*/
 
+  /**
+   * 还原默认数据到内部状态中
+   */
   useEffect(() => {
-    const { gradient, gradientDirections } = defaultData || {};
+    const { gradient, gradientDirections = "left" } = defaultData || {};
+    const defValus: number[] = [],
+      defColor: string[] = [];
     if (Array.isArray(gradient)) {
-      const defValus: number[] = [],
-        defColor: string[] = [];
       gradient.forEach((item) => {
         defValus.push(item.transition);
         defColor.push(item.color);
       });
-      setValuse(defValus);
-      setColorArray(defColor);
     }
-  }, [moduleId]);
 
+    setValuse(defValus);
+    setColorArray(defColor);
+  }, [defaultData, moduleId]);
+
+  useEffect(() => {
+    // 设置显示
+    const { result } = dataToStyleObject({
+      valuse,
+      colors: colorArray,
+      gradientDirections: "left",
+    });
+    setGradientInline(result);
+  }, [colorArray, valuse]);
+
+  /**
+   * 增加颜色状态标记
+   */
   const addMarks = useCallback(() => {
+    const { gradientDirections = "left" } = defaultData || {};
     const data: number[] = [...valuse];
     const colors: string[] = [...colorArray];
     data.map((item, index) => {
@@ -87,7 +105,14 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
     );
     setColorArray(colors);
     setValuse(data);
-  }, [colorArray, valuse]);
+    // 设置显示
+    const result = dataToStyleObject({
+      valuse: data,
+      colors: colors,
+      gradientDirections,
+    });
+    setGradientInline(result);
+  }, [colorArray, defaultData, valuse]);
 
   const onChangeSlider = useCallback((value) => {
     setValuse(value);
