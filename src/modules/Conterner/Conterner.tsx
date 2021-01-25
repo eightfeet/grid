@@ -61,10 +61,11 @@ const Conterner: React.FC<paraments> = ({
 
   return (
     <div
-      className={ClassNames(s.touchwrap, activationItem.moduleId === id ? s.actwrap : null)}
+      className={s.touchwrap}
       onTouchStart={onLayoutClick}
-      onClick={onLayoutClick}
+      onMouseDown={onLayoutClick}
     >
+      {activationItem.moduleId === id ? <div className={s.actwrap} /> : null}
       <div id={id} style={basicStyle.style}>
         {children || content.text}
       </div>
