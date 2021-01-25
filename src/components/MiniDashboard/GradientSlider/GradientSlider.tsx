@@ -6,26 +6,31 @@ import { backgroundGradient } from "~/compiler/compiler";
 import Color from "../Color";
 import { Col, Row } from "antd";
 import { BackgroundGradientTypesOfStyleItems } from "types/appData";
+import { useSelector } from "react-redux";
+import { RootState } from "~/redux/store";
 
 interface Props {
-  defaultData?: BackgroundGradientTypesOfStyleItems,
-  onChange?: (data: BackgroundGradientTypesOfStyleItems) => void
+  defaultData?: BackgroundGradientTypesOfStyleItems;
+  onChange?: (data: BackgroundGradientTypesOfStyleItems) => void;
 }
 
-const GradientSlider: React.FC<Props> = ({onChange, defaultData}) => {
+const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
   const [valuse, setValuse] = useState<number[]>([]);
   const [colorArray, setColorArray] = useState<string[]>([]);
   const [gradientInline, setGradientInline] = useState({});
+  const moduleId = useSelector(
+    (state: RootState) => state.activationItem.moduleId
+  );
   const ref = useRef(null);
 
   const onChangeData = useCallback(
     (data) => {
       if (onChange instanceof Function) {
-        onChange(data)
+        onChange(data);
       }
     },
-    [onChange],
-  )
+    [onChange]
+  );
 
   useEffect(() => {
     if (valuse.length < 1) {
@@ -46,30 +51,23 @@ const GradientSlider: React.FC<Props> = ({onChange, defaultData}) => {
 
       const gradientStyle = backgroundGradient(gradient);
       setGradientInline(gradientStyle.result);
-      onChangeData(gradient)
+      onChangeData(gradient);
     }
-  }, [valuse, colorArray, onChangeData]);
-
-  const fillbackDefaultData = useCallback(
-    () => {
-      const {gradient, gradientDirections} = defaultData || {};
-      if (Array.isArray(gradient)) {
-        const defValus: number[] = [], defColor: string[] = [];
-        gradient.forEach(item => {
-          defValus.push(item.transition);
-          defColor.push(item.color);
-        });
-        setValuse(defValus)
-        setColorArray(defColor)
-      }
-      console.log(gradientDirections)
-    },
-    [defaultData],
-  )
+  }, [moduleId, valuse, colorArray, onChangeData]);
 
   useEffect(() => {
-    fillbackDefaultData();
-  }, [])
+    const { gradient, gradientDirections } = defaultData || {};
+    if (Array.isArray(gradient)) {
+      const defValus: number[] = [],
+        defColor: string[] = [];
+      gradient.forEach((item) => {
+        defValus.push(item.transition);
+        defColor.push(item.color);
+      });
+      setValuse(defValus);
+      setColorArray(defColor);
+    }
+  }, [moduleId]);
 
   const addMarks = useCallback(() => {
     const data: number[] = [...valuse];
@@ -82,7 +80,11 @@ const GradientSlider: React.FC<Props> = ({onChange, defaultData}) => {
       }
     });
     data.push((data[data.length - 1] || 0) + 1);
-    colors.push(`rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)})`);
+    colors.push(
+      `rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(
+        Math.random() * 255
+      )}, ${Math.ceil(Math.random() * 255)})`
+    );
     setColorArray(colors);
     setValuse(data);
   }, [colorArray, valuse]);
@@ -107,19 +109,17 @@ const GradientSlider: React.FC<Props> = ({onChange, defaultData}) => {
 
   const onColorChange = useCallback(
     (i) => (color: any) => {
-      const colors: string[] = [...colorArray]; 
+      const colors: string[] = [...colorArray];
       const rgba = color.value.rgb;
       colors[i] = `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
       setColorArray(colors);
     },
-    [colorArray],
-  )
+    [colorArray]
+  );
 
   return (
     <Row className={s.row}>
-      <Col span={5}>
-        渐变背景
-      </Col>
+      <Col span={5}>渐变背景</Col>
       <Col span={11}>
         <div className={s.GradientSlider}>
           <div className={s.line} style={gradientInline}>
@@ -132,10 +132,15 @@ const GradientSlider: React.FC<Props> = ({onChange, defaultData}) => {
                   left: `${valuse[i]}%`,
                 }}
               >
-                <div className={s.delet} onDoubleClick={onDoubleClickColor(i)} />
+                <div
+                  className={s.delet}
+                  onDoubleClick={onDoubleClickColor(i)}
+                />
                 <Color onChange={onColorChange(i)}>
-                  <div className={s.coloritem} style={{backgroundColor:  `${colorArray[i]}`}} >
-                  </div>
+                  <div
+                    className={s.coloritem}
+                    style={{ backgroundColor: `${colorArray[i]}` }}
+                  ></div>
                 </Color>
               </div>
             ))}
@@ -150,11 +155,8 @@ const GradientSlider: React.FC<Props> = ({onChange, defaultData}) => {
           />
         </div>
       </Col>
-      <Col span={1}>
-      </Col>
-      <Col span={7}>
-        类型
-      </Col>
+      <Col span={1}></Col>
+      <Col span={7}>类型</Col>
     </Row>
   );
 };

@@ -1,33 +1,38 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { RootState, Dispatch } from "~/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch, RootState } from "~/redux/store";
 import ClassNames from "classnames";
 import { AppDataElementsTypes } from "./../../../types/appData";
 import styleCompiler from "./../../compiler";
 import s from "./Conterner.module.scss";
-import useLocalStorage from "~/hooks/useLocalStorage";
-
-type StateProps = ReturnType<typeof mapState>;
-type DispatchProps = ReturnType<typeof mapDispatch>;
 
 interface paraments extends AppDataElementsTypes {
   id: string;
 }
 
-const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
+const Conterner: React.FC<paraments> = ({
   id,
   style,
   children,
   content,
-  updateActivationItem,
-  activationItem,
-  appData,
-  controllerSetState,
-  controller
 }) => {
+  /**
+   * Conterner 自身的样式
+   */
   const [basicStyle, setBasicStyle] = useState<{ [keys: string]: any }>({});
-  const [, setActItem] = useLocalStorage('activationItem', null);
-  
+  /**
+   * 获取全部数据
+   * appData（运行时数据）、activationItem（被激活数据）、controller（控制状态）
+   */
+  const appData = useSelector((state: RootState) => state.appData);
+  const activationItem = useSelector((state: RootState) => state.activationItem);
+  const controller = useSelector((state: RootState) => state.controller);
+
+  const dispatch:Dispatch = useDispatch<Dispatch>();
+  /**
+   * 更新当前激活项
+   */
+  const { updateActivationItem } = dispatch.activationItem
   useEffect(() => {
     const { basic } = style;
     setBasicStyle(styleCompiler(basic));
@@ -38,20 +43,21 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
     }
   }, [id, style]);
 
+  /**
+   * 图层被触发
+   */
   const onLayoutClick = useCallback(() => {
     if(!controller.isEditing) return;
-    appData.forEach(element => {
-      // 禁止重复设置当前编辑项
-      if (activationItem.moduleId === id) return;
+    // 禁止重复设置当前编辑项
+    if (activationItem.moduleId === id) return;
+    for (let index = 0; index < appData.length; index++) {
+      const element = appData[index];
       if (element.moduleId === id) {
         updateActivationItem({ ...element });
-        setActItem({ ...element })
+        break;
       }
-    });
-    controllerSetState(true);
-    setTimeout(() => controllerSetState(false))
-    
-  }, [activationItem.moduleId, appData, controllerSetState, id, setActItem, updateActivationItem]);
+    }
+  }, [activationItem.moduleId, appData, controller.isEditing, id, updateActivationItem]);
 
   return (
     <div
@@ -66,16 +72,6 @@ const Conterner: React.FC<paraments & StateProps & DispatchProps> = ({
   );
 };
 
-const mapState = (state: RootState) => ({
-  appData: state.appData,
-  activationItem: state.activationItem,
-  controller: state.controller,
-});
 
-const mapDispatch = (dispatch: Dispatch) => ({
-  updateAppData: dispatch.appData.updateAppData,
-  updateActivationItem: dispatch.activationItem.updateActivationItem,
-  controllerSetState: dispatch.controller.setStateTag,
-});
 
-export default connect(mapState, mapDispatch)(Conterner);
+export default Conterner;
