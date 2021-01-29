@@ -26,7 +26,8 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
     (state: RootState) => state.activationItem.moduleId
   );
   const ref = useRef(null);
-
+  const didMount = useRef(false);
+  
   const updateGradient = useCallback(
     (colors: string[], valuse: number[], directions?: string) => {
       // 设置渐变条位置，色值，渐变方向
@@ -35,9 +36,10 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
         colors,
         gradientDirections: directions || gradientDirections,
       });
+      console.log(valuse, colors);
       setValuse(valuse);
       setColorArray(colors);
-      setGradientDirections(gradientDirections);
+      setGradientDirections(directions || gradientDirections);
       setGradient(gradient);
       // 组件回显设置
       setGradientInline(result);
@@ -59,20 +61,32 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
    * didMount
    */
   useEffect(() => {
-    // 取出渐变与渐变方向
-    const { gradient, gradientDirections } = defaultData || {};
-    // 获取默认值与颜色
-    const defValus: number[] = [],
-      defColor: string[] = [];
-    if (Array.isArray(gradient)) {
-      gradient.forEach((item) => {
-        defValus.push(item.transition);
-        defColor.push(item.color);
-      });
+    if (!didMount.current) {
+      didMount.current = true
+      // 取出渐变与渐变方向
+      const { gradient, gradientDirections } = defaultData || {};
+      // 获取默认值与颜色
+      const defValus: number[] = [],
+        defColor: string[] = [];
+      if (Array.isArray(gradient)) {
+        gradient.forEach((item) => {
+          defValus.push(item.transition);
+          defColor.push(item.color);
+        });
+      }
+      // 更新渐变数值
+      updateGradient(defColor, defValus, gradientDirections);
     }
-    // 更新渐变数值
-    updateGradient(defColor, defValus, gradientDirections);
   }, [defaultData, moduleId, updateGradient]);
+
+  /**
+   * will unmount by props moduleId change
+   */
+  useEffect(() => {
+    return () => {
+      didMount.current = false
+    }
+  }, [moduleId])
 
   /**
    * 增加颜色状态标记
@@ -110,10 +124,10 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
   };
 
   const onDoubleClickColor = useCallback(
-    (index) => () => {
+    (index) => (e: any) => {
       const newValuse = valuse.filter((item: number, i) => index !== i);
       const newColor = colorArray.filter((item: string, i) => index !== i);
-      const result = updateGradient(newColor, newValuse);
+      const result = updateGradient([...newColor], [...newValuse]);
       onChangeData(result);
     },
     [colorArray, onChangeData, updateGradient, valuse]
@@ -147,6 +161,7 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
               >
                 <div
                   className={s.delet}
+                  key={i}
                   onDoubleClick={onDoubleClickColor(i)}
                 />
                 <Color onChange={onColorChange(i)}>
