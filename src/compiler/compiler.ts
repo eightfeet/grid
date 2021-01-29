@@ -183,7 +183,6 @@ export const backgroundCommon = function (styleObj: objType): resultType {
   const result: objType = {};
   if (rules.background[1]) {
     // imageUrl
-    console.log(rules.background[3], rules.background[4]);
     if (
       (!rules.background[3] || rules.background[3] === positionUnit) &&
       rules.background[4]

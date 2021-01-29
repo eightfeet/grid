@@ -4,8 +4,11 @@ export const dataToStyleObject = ({
   colors,
   gradientDirections,
 }: {
+  /** 颜色位置值 */
   valuse: number[];
+  /** 颜色值 */
   colors: string[];
+  /** 渐变方向 */
   gradientDirections: string;
 }) => {
   if (

@@ -18,12 +18,34 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
   const [valuse, setValuse] = useState<number[]>([]);
   const [colorArray, setColorArray] = useState<string[]>([]);
   const [gradientInline, setGradientInline] = useState({});
+  const [gradientDirections, setGradientDirections] = useState("left");
+  const [, setGradient] = useState<
+    BackgroundGradientTypesOfStyleItems | undefined
+  >({});
   const moduleId = useSelector(
     (state: RootState) => state.activationItem.moduleId
   );
   const ref = useRef(null);
-  const mounted = useRef(false);
-  
+
+  const updateGradient = useCallback(
+    (colors: string[], valuse: number[], directions?: string) => {
+      // 设置渐变条位置，色值，渐变方向
+      const { result, gradient } = dataToStyleObject({
+        valuse,
+        colors,
+        gradientDirections: directions || gradientDirections,
+      });
+      setValuse(valuse);
+      setColorArray(colors);
+      setGradientDirections(gradientDirections);
+      setGradient(gradient);
+      // 组件回显设置
+      setGradientInline(result);
+      return gradient;
+    },
+    [gradientDirections]
+  );
+
   const onChangeData = useCallback(
     (data) => {
       if (onChange instanceof Function) {
@@ -34,38 +56,23 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
   );
 
   /**
-   * 还原默认数据到内部状态中
+   * didMount
    */
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-      const { gradient, gradientDirections = "left" } = defaultData || {};
-      const defValus: number[] = [],
-        defColor: string[] = [];
-      if (Array.isArray(gradient)) {
-        gradient.forEach((item) => {
-          defValus.push(item.transition);
-          defColor.push(item.color);
-        });
-      }
-
-      setValuse(defValus);
-      setColorArray(defColor);
+    // 取出渐变与渐变方向
+    const { gradient, gradientDirections } = defaultData || {};
+    // 获取默认值与颜色
+    const defValus: number[] = [],
+      defColor: string[] = [];
+    if (Array.isArray(gradient)) {
+      gradient.forEach((item) => {
+        defValus.push(item.transition);
+        defColor.push(item.color);
+      });
     }
-  }, [defaultData, moduleId, valuse]);
-
-  useEffect(() => {
-    // 设置显示
-    const { result, gradient } = dataToStyleObject({
-      valuse,
-      colors: colorArray,
-      gradientDirections: "left",
-    });
-    setGradientInline(result);
-    if (mounted.current) {
-      onChangeData(gradient)
-    }
-  }, [colorArray, onChangeData, valuse]);
+    // 更新渐变数值
+    updateGradient(defColor, defValus, gradientDirections);
+  }, [defaultData, moduleId, updateGradient]);
 
   /**
    * 增加颜色状态标记
@@ -86,13 +93,17 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
         Math.random() * 255
       )}, ${Math.ceil(Math.random() * 255)})`
     );
-    setColorArray(colors);
-    setValuse(data);
-  }, [colorArray, valuse]);
+    const result = updateGradient(colors, data);
+    onChangeData(result);
+  }, [colorArray, onChangeData, updateGradient, valuse]);
 
-  const onChangeSlider = useCallback((value) => {
-    setValuse(value);
-  }, []);
+  const onChangeSlider = useCallback(
+    (value) => {
+      const result = updateGradient(colorArray, value);
+      onChangeData(result);
+    },
+    [colorArray, onChangeData, updateGradient]
+  );
 
   const marks = {
     100: <strong onClick={addMarks}>+</strong>,
@@ -102,10 +113,10 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
     (index) => () => {
       const newValuse = valuse.filter((item: number, i) => index !== i);
       const newColor = colorArray.filter((item: string, i) => index !== i);
-      setValuse(newValuse);
-      setColorArray(newColor);
+      const result = updateGradient(newColor, newValuse);
+      onChangeData(result);
     },
-    [colorArray, valuse]
+    [colorArray, onChangeData, updateGradient, valuse]
   );
 
   const onColorChange = useCallback(
@@ -113,9 +124,10 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
       const colors: string[] = [...colorArray];
       const rgba = color.value.rgb;
       colors[i] = `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
-      setColorArray(colors);
+      const result = updateGradient(colors, valuse);
+      onChangeData(result);
     },
-    [colorArray]
+    [colorArray, onChangeData, updateGradient, valuse]
   );
 
   return (

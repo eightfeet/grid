@@ -69,7 +69,6 @@ const Upload: React.FC<UploadProps> = ({
   // 删除临时文件
 
   useEffect(() => {
-    console.log('变化了', defaultImg, moduleId);
     setimg(defaultImg);
     if (defaultImg) {
       createTempImg(defaultImg);

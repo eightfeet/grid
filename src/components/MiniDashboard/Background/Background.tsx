@@ -71,7 +71,7 @@ const BackgroundCommon: React.FC<Props> = ({
   const onChangeBg = useCallback((data) => {
     onChangeBackgroundCommon("positionX")(data[0]);
     onChangeBackgroundCommon("positionY")(data[1]);
-  }, []);
+  }, [onChangeBackgroundCommon]);
 
   const onChangeTab = useCallback((e) => {
     setTabState(e.target.value);
@@ -82,8 +82,7 @@ const BackgroundCommon: React.FC<Props> = ({
       type: "backgroundGradient",
       values: gradient,
     });
-    console.log(gradient);
-  }, []);
+  }, [onChange]);
 
   const renderCommon = () => (
     <>
