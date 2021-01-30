@@ -9,6 +9,7 @@ import Background from "../Background";
 
 import useMergeAppData from "~/hooks/useMergeAppData";
 import s from "./Controller.module.scss";
+import Shadow from "../Shadow";
 
 const { Panel } = Collapse;
 
@@ -63,15 +64,39 @@ const Controller: React.FC<Props> = () => {
     [update]
   );
 
+  const onChangeShadow = useCallback(
+    (result: any) => {
+      if (result.type === 'boxShadow') {
+        console.log(3333, result)
+        update({
+          basic: {
+            boxShadow: result.values,
+          },
+        });
+      }
+      if (result.type === 'textShadow') {
+        update({
+          basic: {
+            textShadow: result.values,
+          },
+        });
+      }
+      
+    },
+    [update],
+  )
+
   return (
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
-        <Panel header="背景" key="1">
-          <Background
+        <Panel header="投影" key="1">
+          <Shadow 
             unit={unit}
-            onChange={onChangeBackgroundCommon}
-            defaultBGCommonData={selected?.style?.basic?.backgroundCommon || {}}
-            defaultBGGradient={selected?.style?.basic?.backgroundGradient || {}}
+            onChange={onChangeShadow}
+            defaultValue={{
+              textShadowList: selected?.style?.basic?.textShadow,
+              boxShadowList: selected?.style?.basic?.boxShadow,
+            }}
           />
         </Panel>
         <Panel header="布局" key="2">
@@ -86,6 +111,14 @@ const Controller: React.FC<Props> = () => {
             unit={unit}
             onChange={onChangeFont}
             defaultData={selected?.style?.basic?.font || {}}
+          />
+        </Panel>
+        <Panel header="背景" key="4">
+          <Background
+            unit={unit}
+            onChange={onChangeBackgroundCommon}
+            defaultBGCommonData={selected?.style?.basic?.backgroundCommon || {}}
+            defaultBGGradient={selected?.style?.basic?.backgroundGradient || {}}
           />
         </Panel>
       </Collapse>

@@ -399,7 +399,7 @@
         "list": {
             "limit": 10
         },
-        "shifRight": [
+        "shiftRight": [
             "number",
             "横向偏移",
             "px",
@@ -421,7 +421,7 @@
         ],
         "spread": [
             "number",
-            "扩散",
+            "散布",
             "px",
             {
                 "start": 0,
@@ -448,9 +448,7 @@
             "内阴影",
             null,
             {
-                "true": "inset",
-                "false": "",
-                "default": ""
+                "default": false
             }
         ]
     },
@@ -458,7 +456,7 @@
         "list": {
             "limit": 10
         },
-        "shifRight": [
+        "shiftRight": [
             "number",
             "横向偏移",
             "px",

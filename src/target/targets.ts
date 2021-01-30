@@ -25,12 +25,12 @@ const targets = {
     border{borderPosition}: {borderWidth} {borderStyle} {borderColor};
     `,
     boxShadow: `
-    -webkit-box-shadow:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
-    {type}:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
+    -webkit-box-shadow:{inset} {shiftRight} {shiftDown} {spread} {blur} {color};
+    {type}:{inset} {shiftRight} {shiftDown} {spread} {blur} {color};
     `,
     textShadow: `
-    -webkit-text-shadow:{shifRight} {shiftDown} {blur} {color};
-    text-shadow:{shifRight} {shiftDown} {blur} {color};
+    -webkit-text-shadow:{shiftRight} {shiftDown} {blur} {color};
+    text-shadow:{shiftRight} {shiftDown} {blur} {color};
     `,
     font: `
     {fontStyle}

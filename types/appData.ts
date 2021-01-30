@@ -51,18 +51,18 @@ export interface FontTypesOfStyleItems {
 }
 
 export interface TextShadowTypesOfStyleItems {
-    shifRight?: number;
+    shiftRight?: number;
     shiftDown?: number;
     blur?: number;
     color?: string;
 }
 
 export interface BoxShadowTypesOfStyleItems {
-    shifRight?: number;
+    shiftRight?: number;
     shiftDown?: number;
     spread?: number;
     blur?: number;
-    inset?: string;
+    inset?: boolean;
     color?: string;
 }
 

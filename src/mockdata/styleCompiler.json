@@ -35,7 +35,7 @@
     },
     "boxShadow": [
         {
-            "shifRight": 1,
+            "shiftRight": 1,
             "shiftDown": 2,
             "spread": 3,
             "blur": 3,
@@ -43,7 +43,7 @@
             "color": "rgba(30,30,30,0.1)"
         },
         {
-            "shifRight": 10,
+            "shiftRight": 10,
             "shiftDown": 10,
             "spread": 10,
             "blur": 10,
@@ -51,12 +51,12 @@
         }
     ],
     "textShadow": [{
-        "shifRight": 12,
+        "shiftRight": 12,
         "shiftDown": 12,
         "blur": 21,
         "color": "#444"
     },{
-        "shifRight": 12,
+        "shiftRight": 12,
         "shiftDown": 12,
         "blur": 21,
         "color": "#444"

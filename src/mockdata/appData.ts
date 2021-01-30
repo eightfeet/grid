@@ -39,13 +39,13 @@ const appData: AppDataListTypes = [
                 },
                 textShadow: [
                     {
-                        shifRight: 12,
+                        shiftRight: 12,
                         shiftDown: 12,
                         blur: 21,
                         color: '#444',
                     },
                     {
-                        shifRight: 12,
+                        shiftRight: 12,
                         shiftDown: 12,
                         blur: 21,
                         color: '#444',

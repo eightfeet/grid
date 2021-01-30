@@ -397,7 +397,7 @@
         "list": {
             "limit": 10
         },
-        "shifRight": [
+        "shiftRight": [
             "number",
             "横向偏移",
             "px",
@@ -444,7 +444,7 @@
         "list": {
             "limit": 10
         },
-        "shifRight": [
+        "shiftRight": [
             "number",
             "横向偏移",
             "px",

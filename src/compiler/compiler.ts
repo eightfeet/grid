@@ -290,12 +290,12 @@ export const border = function (styleObj: objType): resultType {
 };
 
 export const boxShadow = function (styleObj: objType): resultType {
-  // -webkit-box-shadow:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
-  // box-shadow:{inset} {shifRight} {shiftDown} {spread} {blur} {color};
+  // -webkit-box-shadow:{inset} {shiftRight} {shiftDown} {spread} {blur} {color};
+  // box-shadow:{inset} {shiftRight} {shiftDown} {spread} {blur} {color};
 
   const position: objType = {
     inset: 0,
-    shifRight: 1,
+    shiftRight: 1,
     shiftDown: 2,
     spread: 3,
     blur: 4,
@@ -316,6 +316,9 @@ export const boxShadow = function (styleObj: objType): resultType {
         rule[position[key]] = value;
       }
     }
+    
+    if (rule[0] === 'true') {rule[0] = "inset"};
+    if (rule[0] === 'false') {rule[0] = null};
     if (!rule[1]) rule[1] = "0";
     if (!rule[2]) rule[2] = "0";
     if (!rule[3]) rule[3] = "0";
@@ -323,6 +326,8 @@ export const boxShadow = function (styleObj: objType): resultType {
     if (rule[5]) {
       rules.push(rule.filter((e) => !!e).join(" "));
     }
+
+    console.log(333, styleObj, rule)
   });
 
   const result: objType = {};
@@ -340,13 +345,13 @@ export const boxShadow = function (styleObj: objType): resultType {
 };
 
 export const textShadow = function (styleObj: objType): resultType {
-  // -webkit-text-shadow:{shifRight} {shiftDown} {blur} {color};
-  // text-shadow:{shifRight} {shiftDown} {blur} {color};
+  // -webkit-text-shadow:{shiftRight} {shiftDown} {blur} {color};
+  // text-shadow:{shiftRight} {shiftDown} {blur} {color};
 
   const position: {
     [keys: string]: any;
   } = {
-    shifRight: 0,
+    shiftRight: 0,
     shiftDown: 1,
     blur: 2,
     color: 3,

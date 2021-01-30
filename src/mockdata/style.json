@@ -30,7 +30,7 @@
         "borderWidth": 5
     },
     "boxShadow": {
-        "shifRight": 12,
+        "shiftRight": 12,
         "shiftDown": 12,
         "spread": 12,
         "blur": 21,
@@ -38,7 +38,7 @@
         "inset": ""
     },
     "textShadow": {
-        "shifRight": 12,
+        "shiftRight": 12,
         "shiftDown": 12,
         "blur": 21,
         "color": "#444"
