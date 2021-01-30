@@ -3,6 +3,7 @@
     width: 25px;
     height: 25px;
     border-radius: 2px;
+    position: relative;
 }
 
 .swatch {
@@ -46,4 +47,9 @@
 
 .inlineWrap {
     display: inline-block;
+}
+
+.wrap {
+    background-color: #f00;
+    position: absolute;
 }
