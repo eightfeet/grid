@@ -8,6 +8,7 @@ import { Col, Row } from "antd";
 import { BackgroundGradientTypesOfStyleItems } from "types/appData";
 import { useSelector } from "react-redux";
 import { RootState } from "~/redux/store";
+import Select from "../Select";
 
 interface Props {
   defaultData?: BackgroundGradientTypesOfStyleItems;
@@ -27,7 +28,7 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
   );
   const ref = useRef(null);
   const didMount = useRef(false);
-  
+
   const updateGradient = useCallback(
     (colors: string[], valuse: number[], directions?: string) => {
       // 设置渐变条位置，色值，渐变方向
@@ -36,7 +37,6 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
         colors,
         gradientDirections: directions || gradientDirections,
       });
-      console.log(valuse, colors);
       setValuse(valuse);
       setColorArray(colors);
       setGradientDirections(directions || gradientDirections);
@@ -62,7 +62,7 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
    */
   useEffect(() => {
     if (!didMount.current) {
-      didMount.current = true
+      didMount.current = true;
       // 取出渐变与渐变方向
       const { gradient, gradientDirections } = defaultData || {};
       // 获取默认值与颜色
@@ -84,9 +84,9 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
    */
   useEffect(() => {
     return () => {
-      didMount.current = false
-    }
-  }, [moduleId])
+      didMount.current = false;
+    };
+  }, [moduleId]);
 
   /**
    * 增加颜色状态标记
@@ -120,14 +120,20 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
   );
 
   const marks = {
-    100: <strong onClick={addMarks}>+</strong>,
+    100: (
+      <strong className={s.mark} onClick={addMarks}>
+        +
+      </strong>
+    ),
   };
 
   const onDoubleClickColor = useCallback(
     (index) => (e: any) => {
-      const newValuse = valuse.filter((item: number, i) => index !== i);
-      const newColor = colorArray.filter((item: string, i) => index !== i);
-      const result = updateGradient([...newColor], [...newValuse]);
+      let newValuse = valuse.filter((item: number, i) => index !== i);
+      let newColor = colorArray.filter((item: string, i) => index !== i);
+      if (newValuse.length === 1) newValuse = [];
+      if (newColor.length === 1) newColor = [];
+      const result = updateGradient(newColor, newValuse);
       onChangeData(result);
     },
     [colorArray, onChangeData, updateGradient, valuse]
@@ -144,11 +150,30 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
     [colorArray, onChangeData, updateGradient, valuse]
   );
 
+  const onChangeDirections = useCallback(
+    (value) => {
+      setGradientDirections(value);
+      const result = updateGradient(colorArray, valuse, value);
+      onChangeData(result);
+    },
+    [colorArray, onChangeData, updateGradient, valuse],
+  )
+
   return (
     <Row className={s.row}>
-      <Col span={5}>渐变背景</Col>
+      <Col className={s.label} span={5}>
+        渐变背景
+      </Col>
       <Col span={11}>
         <div className={s.GradientSlider}>
+          <Slider.Range
+            ref={ref}
+            min={0}
+            max={100}
+            marks={marks}
+            onChange={onChangeSlider}
+            value={valuse}
+          />
           <div className={s.line} style={gradientInline}>
             {colorArray.map((item, i) => (
               <div
@@ -159,32 +184,30 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
                   left: `${valuse[i]}%`,
                 }}
               >
-                <div
-                  className={s.delet}
-                  key={i}
-                  onDoubleClick={onDoubleClickColor(i)}
-                />
                 <Color onChange={onColorChange(i)}>
                   <div
                     className={s.coloritem}
                     style={{ backgroundColor: `${colorArray[i]}` }}
                   ></div>
                 </Color>
+                <div
+                  className={s.delet}
+                  key={i}
+                  onDoubleClick={onDoubleClickColor(i)}
+                />
               </div>
             ))}
           </div>
-          <Slider.Range
-            ref={ref}
-            min={0}
-            max={100}
-            marks={marks}
-            onChange={onChangeSlider}
-            value={valuse}
-          />
         </div>
       </Col>
-      <Col span={1}></Col>
-      <Col span={7}>类型</Col>
+      <Col span={8}>
+        <Select
+          label="方向"
+          value={gradientDirections}
+          optionsData={{ left: "左右", top: "上下", '45deg': "45度", '-45deg': "-45度", center: "径向" }}
+          onChange={onChangeDirections}
+        />
+      </Col>
     </Row>
   );
 };
