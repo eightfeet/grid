@@ -67,7 +67,6 @@ const Controller: React.FC<Props> = () => {
   const onChangeShadow = useCallback(
     (result: any) => {
       if (result.type === 'boxShadow') {
-        console.log(3333, result)
         update({
           basic: {
             boxShadow: result.values,
