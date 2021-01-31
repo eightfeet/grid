@@ -1,4 +1,4 @@
-import merge from 'lodash/merge';
+import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
 import { AppDataElementsStyleTypes } from "types/appData";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,10 +10,10 @@ const useMergeAppData = () => {
     const state = useSelector((state: RootState) => state)
     const appData = cloneDeep(state.appData);
     const update = useCallback(
-        (data: AppDataElementsStyleTypes) => {
+        (data: AppDataElementsStyleTypes, path: string) => {
             const activationItem = cloneDeep(state.activationItem);
             // 合并数据
-            merge(activationItem, {style: data});
+            set(activationItem, path, data);
             // 返回数据集
             const result = appData.map(item => {
                 if (item.moduleId === activationItem.moduleId) {

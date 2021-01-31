@@ -326,8 +326,6 @@ export const boxShadow = function (styleObj: objType): resultType {
     if (rule[5]) {
       rules.push(rule.filter((e) => !!e).join(" "));
     }
-
-    console.log(333, styleObj, rule)
   });
 
   const result: objType = {};

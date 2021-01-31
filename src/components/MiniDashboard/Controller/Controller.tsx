@@ -23,22 +23,14 @@ const Controller: React.FC<Props> = () => {
 
   const onChangeFont = useCallback(
     (result: any) => {
-      update({
-        basic: {
-          font: result.values,
-        },
-      });
+      update(result.values, 'style.basic.font');
     },
     [update]
   );
 
   const onChangeDisplay = useCallback(
     (result: any) => {
-      update({
-        basic: {
-          display: result.values,
-        },
-      });
+      update(result.values, 'style.basic.display');
     },
     [update]
   );
@@ -46,18 +38,10 @@ const Controller: React.FC<Props> = () => {
   const onChangeBackgroundCommon = useCallback(
     (result: any) => {
       if (result.type === 'backgroundCommon') {
-        update({
-          basic: {
-            backgroundCommon: result.values,
-          },
-        });
+        update(result.values, 'style.basic.backgroundCommon');
       }
       if (result.type === 'backgroundGradient') {
-        update({
-          basic: {
-            backgroundGradient: result.values,
-          },
-        });
+        update(result.values, 'style.basic.backgroundGradient');
       }
       
     },
@@ -66,19 +50,12 @@ const Controller: React.FC<Props> = () => {
 
   const onChangeShadow = useCallback(
     (result: any) => {
+      console.log('result', result)
       if (result.type === 'boxShadow') {
-        update({
-          basic: {
-            boxShadow: result.values,
-          },
-        });
+        update(result.values, 'style.basic.boxShadow');
       }
       if (result.type === 'textShadow') {
-        update({
-          basic: {
-            textShadow: result.values,
-          },
-        });
+        update(result.values, 'style.basic.textShadow');
       }
       
     },

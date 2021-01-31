@@ -1,6 +1,8 @@
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { Row, Col, Radio, Divider, Button, Switch } from "antd";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "~/redux/store";
 import Color from "../Color";
 import NumberInput from "../NumberInput";
 import s from "./Shadow.module.scss";
@@ -34,15 +36,20 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
   const [textShadowList, setTextShadowList] = useState<TextShadow[]>([]);
   const [boxShadowList, setBoxShadowList] = useState<BoxShadow[]>([]);
   const didMount = useRef(false);
+  const moduleId = useSelector((state: RootState) => state.activationItem.moduleId)
 
   useEffect(() => {
       if (!didMount.current) {
         didMount.current = true;
         if (defaultValue?.textShadowList) {
           setTextShadowList(defaultValue.textShadowList);
+        } else {
+          setTextShadowList([]);
         }
         if (defaultValue?.boxShadowList) {
           setBoxShadowList(defaultValue.boxShadowList);
+        } else {
+          setBoxShadowList([]);
         }
       }
   }, [defaultValue?.boxShadowList, defaultValue?.textShadowList]);
@@ -51,27 +58,27 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
       return () => {
           if (didMount.current === true) {
             didMount.current = false;
+            setShadowType('box');
           }
       }
-  }, [])
+  }, [moduleId])
 
   const onChangeShadowTab = useCallback((e) => {
     setShadowType(e.target.value);
   }, []);
 
   const onChangeShadow = useCallback(
-    (type: "box" | "text") => {
-      console.log("boxShadowList", boxShadowList);
+    (type: "box" | "text", values) => {
       if (onChange instanceof Function) {
         if (type === "text") {
-          onChange({ type: "textShadow", values: textShadowList });
+          onChange({ type: "textShadow", values});
         }
         if (type === "box") {
-          onChange({ type: "boxShadow", values: boxShadowList });
+          onChange({ type: "boxShadow", values});
         }
       }
     },
-    [boxShadowList, onChange, textShadowList]
+    [onChange]
   );
 
   const onPlus = useCallback(
@@ -79,12 +86,13 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
       if (type === "text") {
         const data = [...textShadowList, {}];
         setTextShadowList(data);
+        onChangeShadow(type, data);
       }
       if (type === "box") {
         const data = [...boxShadowList, {}];
         setBoxShadowList(data);
+        onChangeShadow(type, data);
       }
-      onChangeShadow(type);
     },
     [boxShadowList, onChangeShadow, textShadowList]
   );
@@ -92,47 +100,46 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
   const onMinus = useCallback(
     (type, i) => () => {
       if (type === "text") {
-        setTextShadowList([
-          ...textShadowList.filter((item, index) => index !== i),
-        ]);
+        const data = textShadowList.filter((item, index) => index !== i);
+        setTextShadowList(data);
+        onChangeShadow(type, data);
       }
       if (type === "box") {
-        setBoxShadowList([
-          ...boxShadowList.filter((item, index) => index !== i),
-        ]);
+        const data = boxShadowList.filter((item, index) => index !== i);
+        setBoxShadowList(data);
+        onChangeShadow(type, data);
       }
-      onChangeShadow(type);
     },
     [boxShadowList, onChangeShadow, textShadowList]
   );
 
   const onChangeColor = useCallback(
     (type, i) => (res: any) => {
-      console.log("Color", res.value);
       if (type === "box") {
         boxShadowList[
           i
         ].color = `rgba(${res.value.rgb.r}, ${res.value.rgb.g}, ${res.value.rgb.b}, ${res.value.rgb.a} )`;
+        setBoxShadowList(boxShadowList);
+        onChangeShadow(type, boxShadowList);
       }
       if (type === "text") {
         textShadowList[
           i
         ].color = `rgba(${res.value.rgb.r}, ${res.value.rgb.g}, ${res.value.rgb.b}, ${res.value.rgb.a} )`;
+        setBoxShadowList(textShadowList);
+        onChangeShadow(type, textShadowList);
       }
-      setBoxShadowList([...boxShadowList]);
-      onChangeShadow(type);
     },
     [boxShadowList, onChangeShadow, textShadowList]
   );
 
   const onChangeInset = useCallback(
     (type, i) => (value: boolean) => {
-      console.log("Inset", value);
       if (type === "box") {
         boxShadowList[i].inset = value;
-        setBoxShadowList([...boxShadowList]);
+        setBoxShadowList(boxShadowList);
+        onChangeShadow(type, boxShadowList);
       }
-      onChangeShadow(type);
     },
     [boxShadowList, onChangeShadow]
   );
@@ -141,13 +148,14 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
     (type, i) => (value: any) => {
       if (type === "box") {
         boxShadowList[i].shiftRight = value;
-        setBoxShadowList([...boxShadowList]);
+        setBoxShadowList(boxShadowList);
+        onChangeShadow(type, boxShadowList);
       }
       if (type === "text") {
         textShadowList[i].shiftRight = value;
-        setTextShadowList([...textShadowList]);
+        setTextShadowList(textShadowList);
+        onChangeShadow(type, textShadowList);
       }
-      onChangeShadow(type);
     },
     [boxShadowList, onChangeShadow, textShadowList]
   );
@@ -156,13 +164,14 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
     (type, i) => (value: any) => {
       if (type === "box") {
         boxShadowList[i].shiftDown = value;
-        setBoxShadowList([...boxShadowList]);
+        setBoxShadowList(boxShadowList);
+        onChangeShadow(type, boxShadowList);
       }
       if (type === "text") {
         textShadowList[i].shiftDown = value;
-        setTextShadowList([...textShadowList]);
+        setTextShadowList(textShadowList);
+        onChangeShadow(type, textShadowList);
       }
-      onChangeShadow(type);
     },
     [boxShadowList, onChangeShadow, textShadowList]
   );
@@ -171,13 +180,14 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
     (type, i) => (value: any) => {
       if (type === "box") {
         boxShadowList[i].blur = value;
-        setBoxShadowList([...boxShadowList]);
+        setBoxShadowList(boxShadowList);
+        onChangeShadow(type, boxShadowList);
       }
       if (type === "text") {
         textShadowList[i].blur = value;
-        setTextShadowList([...textShadowList]);
+        setTextShadowList(textShadowList);
+        onChangeShadow(type, textShadowList);
       }
-      onChangeShadow(type);
     },
     [boxShadowList, onChangeShadow, textShadowList]
   );
@@ -186,9 +196,9 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
     (type, i) => (value: any) => {
       if (type === "box") {
         boxShadowList[i].spread = value;
-        setBoxShadowList([...boxShadowList]);
+        setBoxShadowList(boxShadowList);
+        onChangeShadow(type, boxShadowList);
       }
-      onChangeShadow(type);
     },
     [boxShadowList, onChangeShadow]
   );
