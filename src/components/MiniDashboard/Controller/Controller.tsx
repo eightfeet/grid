@@ -10,6 +10,7 @@ import Background from "../Background";
 import useMergeAppData from "~/hooks/useMergeAppData";
 import s from "./Controller.module.scss";
 import Shadow from "../Shadow";
+import Border from "../Border";
 
 const { Panel } = Collapse;
 
@@ -64,14 +65,11 @@ const Controller: React.FC<Props> = () => {
   return (
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
-        <Panel header="投影" key="1">
-          <Shadow 
+        <Panel header="圆角与描边" key="1">
+          <Border 
             unit={unit}
             onChange={onChangeShadow}
-            defaultValue={{
-              textShadowList: selected?.style?.basic?.textShadow,
-              boxShadowList: selected?.style?.basic?.boxShadow,
-            }}
+            defaultDate={selected?.style?.basic?.border || {}}
           />
         </Panel>
         <Panel header="布局" key="2">
@@ -94,6 +92,16 @@ const Controller: React.FC<Props> = () => {
             onChange={onChangeBackgroundCommon}
             defaultBGCommonData={selected?.style?.basic?.backgroundCommon || {}}
             defaultBGGradient={selected?.style?.basic?.backgroundGradient || {}}
+          />
+        </Panel>
+        <Panel header="投影" key="5">
+          <Shadow 
+            unit={unit}
+            onChange={onChangeShadow}
+            defaultValue={{
+              textShadowList: selected?.style?.basic?.textShadow,
+              boxShadowList: selected?.style?.basic?.boxShadow,
+            }}
           />
         </Panel>
       </Collapse>
