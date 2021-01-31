@@ -50,7 +50,6 @@ const Controller: React.FC<Props> = () => {
 
   const onChangeShadow = useCallback(
     (result: any) => {
-      console.log('result', result)
       if (result.type === 'boxShadow') {
         update(result.values, 'style.basic.boxShadow');
       }

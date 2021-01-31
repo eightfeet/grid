@@ -297,8 +297,8 @@ export const boxShadow = function (styleObj: objType): resultType {
     inset: 0,
     shiftRight: 1,
     shiftDown: 2,
-    spread: 3,
-    blur: 4,
+    blur: 3,
+    spread: 4,
     color: 5,
   };
 
@@ -343,7 +343,7 @@ export const boxShadow = function (styleObj: objType): resultType {
 };
 
 export const textShadow = function (styleObj: objType): resultType {
-  // -webkit-text-shadow:{shiftRight} {shiftDown} {blur} {color};
+  // -webkit-text-shadow:{shiftRight} {blur} {shiftDown} {color};
   // text-shadow:{shiftRight} {shiftDown} {blur} {color};
 
   const position: {

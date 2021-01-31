@@ -275,7 +275,7 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
               <Col span={12}>
                 {type !== "text" ? (
                   <NumberInput
-                    label="散布"
+                    label="扩展"
                     unit={unit}
                     min={-1000}
                     max={1000}
