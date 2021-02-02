@@ -11,7 +11,7 @@ import {
 import classNames from "classnames";
 
 interface Props {
-  defaultData?: number[];
+  defaultData?: (number | undefined)[];
   onChange?: (data: (number | undefined)[]) => void;
   unit?: string;
 }

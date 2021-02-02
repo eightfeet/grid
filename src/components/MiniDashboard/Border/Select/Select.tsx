@@ -19,7 +19,7 @@ const Select: React.FC<Props> = ({ unit, label, optionsData, ...other }) => {
         {other.defaultValue}
       </Col>
       <Col span={14}>
-        <SelectItem {...other}>
+        <SelectItem {...other} >
           {Object.keys(optionsData).map((key) => (
             <SelectItem.Option key={key} value={key}>
               {(key !== "none" && key !== "hidden") ? (

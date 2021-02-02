@@ -1,41 +1,82 @@
 import { Col, Row } from "antd";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import Color from "../Color";
 import NumberInput from "../NumberInput";
 import Select from "./Select";
 import s from "./Border.module.scss";
 import BorderCheckbox from "./BorderCheckbox";
 import BorderRadius from "./BorderRadius";
+import { BorderTypesOfStyleItems } from "types/appData";
 
 interface Props {
-  onChange: (result: any) => void;
-  defaultDate?: any;
+  onChange: (result: BorderTypesOfStyleItems) => void;
+  defaultDate?: BorderTypesOfStyleItems;
   unit?: string;
 }
 
-const Border: React.FC<Props> = ({ unit }) => {
+const Border: React.FC<Props> = ({ unit, onChange }) => {
+  const [border, setBorder] = useState<BorderTypesOfStyleItems>({});
+
+
+  const onChangeBorder = useCallback(
+    (type: string) => (value: any) => {
+      switch (type) {
+        case "borderRaduis":
+          const [
+            radiusTopLeft,
+            radiusTopRight,
+            radiusBottomLeft,
+            radiusBottomRight,
+          ] = value;
+          border.radiusTopLeft = radiusTopLeft;
+          border.radiusTopRight = radiusTopRight;
+          border.radiusBottomLeft = radiusBottomLeft;
+          border.radiusBottomRight = radiusBottomRight;
+          break;
+        case "borderStyle":
+        case "borderWidth":
+        case "borderPosition":
+          border[type] = value;
+          break;
+        case "borderColor":
+          const rgba = value.value.rgb;
+          border.borderColor = `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
+          break;
+        default:
+          break;
+      }
+      const data = { ...border };
+      setBorder(data);
+      if (onChange instanceof Function) {
+        onChange(data)
+      }
+    },
+    [border, onChange]
+  );
+
   return (
     <>
       <Row className={s.row}>
         <Col span={12}>
           <Color
-            defaultColor="#555"
+            defaultColor={border.borderColor}
             label="描边颜色"
-            onChange={(data: any) => console.log(data)}
+            onChange={onChangeBorder("borderColor")}
           />
         </Col>
 
         <Col span={12}>
           <BorderCheckbox
-            onChange={(data: any) => console.log(data)}
-            defaultData={{ borderTop: true, borderLeft: true, border: true }}
+            onChange={onChangeBorder("borderPosition")}
+            defaultData={border.borderPosition || {}}
           />
         </Col>
       </Row>
       <Row className={s.row}>
         <Col span={12}>
           <Select
-            onChange={(data: any) => console.log(data)}
+            onChange={onChangeBorder("borderStyle")}
+            value={border.borderStyle}
             optionsData={{
               solid: "solid",
               dotted: "dotted",
@@ -58,8 +99,8 @@ const Border: React.FC<Props> = ({ unit }) => {
             unit={unit}
             min={1}
             max={100000}
-            value={10}
-            onChange={(data: any) => console.log(data)}
+            value={border.borderWidth}
+            onChange={onChangeBorder("borderWidth")}
           />
         </Col>
       </Row>
@@ -67,8 +108,8 @@ const Border: React.FC<Props> = ({ unit }) => {
         <Col span={2}></Col>
         <Col span={20}>
           <BorderRadius
-            onChange={(data: any) => console.log(data)}
-            defaultData={[20, 20, 20, 20]}
+            onChange={onChangeBorder("borderRaduis")}
+            defaultData={[border.radiusTopLeft, border.radiusTopRight, border.radiusBottomRight, border.radiusBottomRight]}
             unit={unit}
           />
         </Col>

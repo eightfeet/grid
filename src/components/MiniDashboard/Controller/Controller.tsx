@@ -62,13 +62,20 @@ const Controller: React.FC<Props> = () => {
     [update],
   )
 
+  const onChangeBorder = useCallback(
+    (result: any) => {
+      update(result.values, 'style.basic.border');
+    },
+    [update],
+  )
+
   return (
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
         <Panel header="圆角与描边" key="1">
           <Border 
             unit={unit}
-            onChange={onChangeShadow}
+            onChange={onChangeBorder}
             defaultDate={selected?.style?.basic?.border || {}}
           />
         </Panel>
