@@ -64,7 +64,8 @@ const Controller: React.FC<Props> = () => {
 
   const onChangeBorder = useCallback(
     (result: any) => {
-      update(result.values, 'style.basic.border');
+      console.log(result)
+      update(result, 'style.basic.border');
     },
     [update],
   )

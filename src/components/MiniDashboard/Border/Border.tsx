@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Color from "../Color";
 import NumberInput from "../NumberInput";
 import Select from "./Select";
@@ -7,6 +7,8 @@ import s from "./Border.module.scss";
 import BorderCheckbox from "./BorderCheckbox";
 import BorderRadius from "./BorderRadius";
 import { BorderTypesOfStyleItems } from "types/appData";
+import { RootState } from "~/redux/store";
+import { useSelector } from "react-redux";
 
 interface Props {
   onChange: (result: BorderTypesOfStyleItems) => void;
@@ -14,9 +16,13 @@ interface Props {
   unit?: string;
 }
 
-const Border: React.FC<Props> = ({ unit, onChange }) => {
+const Border: React.FC<Props> = ({ unit, onChange, defaultDate }) => {
   const [border, setBorder] = useState<BorderTypesOfStyleItems>({});
-
+  const moduleId = useSelector((state:RootState) => state.activationItem.moduleId)
+  useEffect(() => {
+    const data = defaultDate || {};
+    setBorder({...data});
+  }, [defaultDate, moduleId]);
 
   const onChangeBorder = useCallback(
     (type: string) => (value: any) => {
@@ -48,7 +54,7 @@ const Border: React.FC<Props> = ({ unit, onChange }) => {
       const data = { ...border };
       setBorder(data);
       if (onChange instanceof Function) {
-        onChange(data)
+        onChange(data);
       }
     },
     [border, onChange]
@@ -109,7 +115,12 @@ const Border: React.FC<Props> = ({ unit, onChange }) => {
         <Col span={20}>
           <BorderRadius
             onChange={onChangeBorder("borderRaduis")}
-            defaultData={[border.radiusTopLeft, border.radiusTopRight, border.radiusBottomRight, border.radiusBottomRight]}
+            defaultData={[
+              border.radiusTopLeft,
+              border.radiusTopRight,
+              border.radiusBottomRight,
+              border.radiusBottomRight,
+            ]}
             unit={unit}
           />
         </Col>

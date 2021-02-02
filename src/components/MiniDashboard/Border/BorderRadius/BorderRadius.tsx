@@ -27,28 +27,26 @@ const BorderRadius: React.FC<Props> = ({ unit, onChange, defaultData, ...other }
 
   useEffect(() => {
     if (Array.isArray(defaultData)) {
-      if (
-        defaultData[0] === defaultData[1] &&
-        defaultData[0] === defaultData[2] &&
-        defaultData[0] === defaultData[3]
-      ) {
-        setLocked(true);
-      }
       setBorderRadius([...defaultData]);
     }
   }, [defaultData]);
 
   const toggleLocked = useCallback(() => {
+    let data = [...borderRadius];
     if (!locked) {
-      setBorderRadius([
-        borderRadius[0],
-        borderRadius[0],
-        borderRadius[0],
-        borderRadius[0],
-      ]);
+      data = [
+        data[0],
+        data[0],
+        data[0],
+        data[0],
+      ]
+      setBorderRadius(data);
     }
     setLocked(!locked);
-  }, [borderRadius, locked]);
+    if (onChange instanceof Function) {
+      onChange(data)
+    }
+  }, [borderRadius, locked, onChange]);
 
   const onChangeData = useCallback(
     (index: number) => (e: any) => {

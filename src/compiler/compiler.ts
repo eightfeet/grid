@@ -273,15 +273,26 @@ export const border = function (styleObj: objType): resultType {
 
   const result: objType = {};
   rules.borderRadius.forEach((element, i) => {
-    if (element === null) rules.borderRadius[i] = "0";
+    if (element === null || element === undefined) rules.borderRadius[i] = "0";
   });
   const brJoined = rules.borderRadius.join(" ");
+
+  console.log('brJoined', brJoined)
 
   if (brJoined !== "0 0 0 0") {
     result.borderRadius = rules.borderRadius.join(" ");
   }
 
-  result[`border${type}`] = rules.border.filter((item) => !!item).join(" ");
+  const { borderTop, borderRight, borderBottom, borderLeft, border} = styleObj.borderPosition || {}
+  const boderCss = rules.border.filter((item) => !!item).join(" ");
+  if (border) {
+    result[`border${type}`] = boderCss;
+  } else {
+    if(borderTop) result['borderTop'] = boderCss;
+    if(borderRight) result['borderRight'] = boderCss;
+    if(borderBottom) result['borderBottom'] = boderCss;
+    if(borderLeft) result['borderLeft'] = boderCss;
+  }
 
   return {
     result,
