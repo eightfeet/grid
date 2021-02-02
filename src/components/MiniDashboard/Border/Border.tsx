@@ -18,16 +18,24 @@ const Border: React.FC<Props> = ({ unit }) => {
     <>
       <Row className={s.row}>
         <Col span={12}>
-          <Color defaultColor="#555" label="描边颜色" onChange={() => {}} />
+          <Color
+            defaultColor="#555"
+            label="描边颜色"
+            onChange={(data: any) => console.log(data)}
+          />
         </Col>
 
         <Col span={12}>
-          <BorderCheckbox optionsData={{}} />
+          <BorderCheckbox
+            onChange={(data: any) => console.log(data)}
+            defaultData={{ borderTop: true, borderLeft: true, border: true }}
+          />
         </Col>
       </Row>
       <Row className={s.row}>
         <Col span={12}>
           <Select
+            onChange={(data: any) => console.log(data)}
             optionsData={{
               solid: "solid",
               dotted: "dotted",
@@ -51,14 +59,18 @@ const Border: React.FC<Props> = ({ unit }) => {
             min={1}
             max={100000}
             value={10}
-            onChange={() => {}}
+            onChange={(data: any) => console.log(data)}
           />
         </Col>
       </Row>
       <Row className={s.row}>
         <Col span={2}></Col>
         <Col span={20}>
-          <BorderRadius optionsData={{}} />
+          <BorderRadius
+            onChange={(data: any) => console.log(data)}
+            defaultData={[20, 20, 20, 20]}
+            unit={unit}
+          />
         </Col>
         <Col span={2}></Col>
       </Row>

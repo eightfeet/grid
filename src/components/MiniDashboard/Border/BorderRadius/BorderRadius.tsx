@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Row, Col, InputNumber } from "antd";
 import s from "./BorderRadius.module.scss";
 import {
@@ -11,18 +11,61 @@ import {
 import classNames from "classnames";
 
 interface Props {
-  optionsData: {
-    [keys: string]: any;
-  };
-  [keys: string]: any;
+  defaultData?: number[];
+  onChange?: (data: (number | undefined)[]) => void;
+  unit?: string;
 }
 
-const BorderRadius: React.FC<Props> = ({
-  unit,
-  label,
-  optionsData,
-  ...other
-}) => {
+const BorderRadius: React.FC<Props> = ({ unit, onChange, defaultData, ...other }) => {
+  const [locked, setLocked] = useState(false);
+  const [borderRadius, setBorderRadius] = useState<(number | undefined)[]>([
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+  ]);
+
+  useEffect(() => {
+    if (Array.isArray(defaultData)) {
+      if (
+        defaultData[0] === defaultData[1] &&
+        defaultData[0] === defaultData[2] &&
+        defaultData[0] === defaultData[3]
+      ) {
+        setLocked(true);
+      }
+      setBorderRadius([...defaultData]);
+    }
+  }, [defaultData]);
+
+  const toggleLocked = useCallback(() => {
+    if (!locked) {
+      setBorderRadius([
+        borderRadius[0],
+        borderRadius[0],
+        borderRadius[0],
+        borderRadius[0],
+      ]);
+    }
+    setLocked(!locked);
+  }, [borderRadius, locked]);
+
+  const onChangeData = useCallback(
+    (index: number) => (e: any) => {
+      if (locked) {
+        borderRadius[0] = borderRadius[1] = borderRadius[2] = borderRadius[3] = e;
+      } else {
+        borderRadius[index] = e;
+      }
+      const data = [...borderRadius];
+      setBorderRadius(data);
+      if (onChange instanceof Function) {
+        onChange(data)
+      }
+    },
+    [borderRadius, locked, onChange]
+  );
+
   return (
     <Row className={s.row}>
       <Col span={10}>
@@ -32,7 +75,11 @@ const BorderRadius: React.FC<Props> = ({
             &nbsp;
           </Col>
           <Col span={16}>
-            <InputNumber placeholder="px" />
+            <InputNumber
+              placeholder={unit}
+              value={borderRadius[0]}
+              onChange={onChangeData(0)}
+            />
           </Col>
         </Row>
         <Row>
@@ -41,17 +88,28 @@ const BorderRadius: React.FC<Props> = ({
             &nbsp;
           </Col>
           <Col span={16}>
-            <InputNumber placeholder="px" />
+            <InputNumber
+              placeholder={unit}
+              value={borderRadius[3]}
+              onChange={onChangeData(3)}
+            />
           </Col>
         </Row>
       </Col>
       <Col span={4} className={s.middle}>
-        <LinkOutlined />
+        <LinkOutlined
+          onClick={toggleLocked}
+          className={locked ? s.locked : undefined}
+        />
       </Col>
       <Col span={10}>
         <Row className={s.row}>
           <Col span={16}>
-            <InputNumber placeholder="px" />
+            <InputNumber
+              placeholder={unit}
+              value={borderRadius[1]}
+              onChange={onChangeData(1)}
+            />
           </Col>
           <Col span={8} className={s.icon}>
             &nbsp;
@@ -60,7 +118,11 @@ const BorderRadius: React.FC<Props> = ({
         </Row>
         <Row className={s.row}>
           <Col span={16}>
-            <InputNumber placeholder="px" />
+            <InputNumber
+              placeholder={unit}
+              value={borderRadius[2]}
+              onChange={onChangeData(2)}
+            />
           </Col>
           <Col span={8} className={s.icon}>
             &nbsp;
