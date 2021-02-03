@@ -1,5 +1,11 @@
-import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  MinusOutlined,
+  PlusOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import { Row, Col, Radio, Divider, Button, Switch } from "antd";
+import classNames from "classnames";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "~/redux/store";
@@ -8,6 +14,7 @@ import NumberInput from "../NumberInput";
 import s from "./Shadow.module.scss";
 
 interface TextShadow {
+  hiddenItem?: boolean;
   shiftRight?: number;
   shiftDown?: number;
   blur?: number;
@@ -15,6 +22,7 @@ interface TextShadow {
 }
 
 interface BoxShadow extends TextShadow {
+  hiddenItem?: any;
   spread?: number;
   inset?: boolean;
 }
@@ -36,32 +44,40 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
   const [textShadowList, setTextShadowList] = useState<TextShadow[]>([]);
   const [boxShadowList, setBoxShadowList] = useState<BoxShadow[]>([]);
   const didMount = useRef(false);
-  const moduleId = useSelector((state: RootState) => state.activationItem.moduleId)
+  const moduleId = useSelector(
+    (state: RootState) => state.activationItem.moduleId
+  );
 
   useEffect(() => {
-      if (!didMount.current) {
-        didMount.current = true;
-        if (defaultValue?.textShadowList) {
-          setTextShadowList(defaultValue.textShadowList);
-        } else {
-          setTextShadowList([]);
-        }
-        if (defaultValue?.boxShadowList) {
-          setBoxShadowList(defaultValue.boxShadowList);
-        } else {
-          setBoxShadowList([]);
-        }
+    if (!didMount.current) {
+      didMount.current = true;
+      if (defaultValue?.textShadowList) {
+        defaultValue.textShadowList.forEach((item) => {
+          item.hiddenItem = false;
+        });
+        setTextShadowList(defaultValue.textShadowList);
+      } else {
+        setTextShadowList([]);
       }
+      if (defaultValue?.boxShadowList) {
+        defaultValue.boxShadowList.forEach((item) => {
+          item.hiddenItem = false;
+        });
+        setBoxShadowList(defaultValue.boxShadowList);
+      } else {
+        setBoxShadowList([]);
+      }
+    }
   }, [defaultValue?.boxShadowList, defaultValue?.textShadowList]);
 
   useEffect(() => {
-      return () => {
-          if (didMount.current === true) {
-            didMount.current = false;
-            setShadowType('box');
-          }
+    return () => {
+      if (didMount.current === true) {
+        didMount.current = false;
+        setShadowType("box");
       }
-  }, [moduleId])
+    };
+  }, [moduleId]);
 
   const onChangeShadowTab = useCallback((e) => {
     setShadowType(e.target.value);
@@ -71,10 +87,10 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
     (type: "box" | "text", values) => {
       if (onChange instanceof Function) {
         if (type === "text") {
-          onChange({ type: "textShadow", values});
+          onChange({ type: "textShadow", values });
         }
         if (type === "box") {
-          onChange({ type: "boxShadow", values});
+          onChange({ type: "boxShadow", values });
         }
       }
     },
@@ -84,12 +100,12 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
   const onPlus = useCallback(
     (type) => () => {
       if (type === "text") {
-        const data = [...textShadowList, {}];
+        const data = [...textShadowList, { hiddenItem: false }];
         setTextShadowList(data);
         onChangeShadow(type, data);
       }
       if (type === "box") {
-        const data = [...boxShadowList, {}];
+        const data = [...boxShadowList, { hiddenItem: false }];
         setBoxShadowList(data);
         onChangeShadow(type, data);
       }
@@ -203,88 +219,118 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
     [boxShadowList, onChangeShadow]
   );
 
+  const onToggleShow = useCallback(
+    (index: number, type: "text" | "box") => () => {
+      if (type === "text") {
+        textShadowList[index].hiddenItem = !!!textShadowList[index].hiddenItem;
+        setTextShadowList([...textShadowList]);
+      }
+      if (type === "box") {
+        boxShadowList[index].hiddenItem = !!!boxShadowList[index].hiddenItem;
+        setBoxShadowList([...boxShadowList]);
+      }
+    },
+    [boxShadowList, textShadowList]
+  );
+
   const renderShadow = (type: "text" | "box") => {
     let data: BoxShadow[] = type === "text" ? textShadowList : boxShadowList;
     return (
       <>
         {data.map((item, i) => (
           <div key={i}>
-            <Divider key={i} dashed orientation="right">
-              <Button
-                size="small"
-                icon={<MinusOutlined onClick={onMinus(shadowType, i)} />}
-              />
-            </Divider>
-            <Row className={s.row}>
-              <Col span={12}>
-                <Color
-                  label="投影颜色"
-                  onChange={onChangeColor(type, i)}
-                  defaultColor={item.color}
+            <div className={s.divide}>
+              <div className={s.title}>投影{i + 1}</div>
+              <div className={s.menu}>
+                <Button
+                  size="small"
+                  icon={<MinusOutlined onClick={onMinus(shadowType, i)} />}
                 />
-              </Col>
-              <Col span={12}>
-                {type !== "text" ? (
-                  <Row>
-                    <Col span={12}></Col>
-                    <Col span={12}>
-                      <Switch
-                        checkedChildren="内阴影"
-                        unCheckedChildren="内阴影"
-                        defaultChecked={item.inset}
-                        onChange={onChangeInset(type, i)}
-                      />
-                    </Col>
-                  </Row>
-                ) : null}
-              </Col>
-            </Row>
-            <Row className={s.row}>
-              <Col span={12}>
-                <NumberInput
-                  label="横向偏移"
-                  unit={unit}
-                  min={-1000}
-                  max={1000}
-                  value={item.shiftRight}
-                  onChange={onChangeshiftRight(type, i)}
+                &nbsp;&nbsp;
+                <Button
+                  size="small"
+                  icon={
+                    item.hiddenItem !== true ? (
+                      <DownOutlined onClick={onToggleShow(i, type)} />
+                    ) : (
+                      <RightOutlined onClick={onToggleShow(i, type)} />
+                    )
+                  }
                 />
-              </Col>
-              <Col span={12}>
-                <NumberInput
-                  label="纵向偏移"
-                  unit={unit}
-                  min={-1000}
-                  max={1000}
-                  value={item.shiftDown}
-                  onChange={onChangeshiftDown(type, i)}
-                />
-              </Col>
-            </Row>
-            <Row className={s.row}>
-              <Col span={12}>
-                <NumberInput
-                  label="模糊"
-                  unit={unit}
-                  min={-1000}
-                  max={1000}
-                  value={item.blur}
-                  onChange={onChangeBlur(type, i)}
-                />
-              </Col>
-              <Col span={12}>
-                {type !== "text" ? (
+              </div>
+            </div>
+            <div className={classNames({ [s.hidden]: item.hiddenItem })}>
+              <Row className={s.row}>
+                <Col span={12}>
+                  <Color
+                    label="投影颜色"
+                    onChange={onChangeColor(type, i)}
+                    defaultColor={item.color}
+                  />
+                </Col>
+                <Col span={12}>
+                  {type !== "text" ? (
+                    <Row>
+                      <Col span={12}></Col>
+                      <Col span={12}>
+                        <Switch
+                          checkedChildren="内阴影"
+                          unCheckedChildren="内阴影"
+                          defaultChecked={item.inset}
+                          onChange={onChangeInset(type, i)}
+                        />
+                      </Col>
+                    </Row>
+                  ) : null}
+                </Col>
+              </Row>
+              <Row className={s.row}>
+                <Col span={12}>
                   <NumberInput
-                    label="扩展"
+                    label="横向偏移"
                     unit={unit}
                     min={-1000}
                     max={1000}
-                    value={item.spread}
-                    onChange={onChangeSpread(type, i)}
+                    value={item.shiftRight}
+                    onChange={onChangeshiftRight(type, i)}
                   />
-                ) : null}
-              </Col>
-            </Row>
+                </Col>
+                <Col span={12}>
+                  <NumberInput
+                    label="纵向偏移"
+                    unit={unit}
+                    min={-1000}
+                    max={1000}
+                    value={item.shiftDown}
+                    onChange={onChangeshiftDown(type, i)}
+                  />
+                </Col>
+              </Row>
+              <Row className={s.row}>
+                <Col span={12}>
+                  <NumberInput
+                    label="模糊"
+                    unit={unit}
+                    min={-1000}
+                    max={1000}
+                    value={item.blur}
+                    onChange={onChangeBlur(type, i)}
+                  />
+                </Col>
+                <Col span={12}>
+                  {type !== "text" ? (
+                    <NumberInput
+                      label="扩展"
+                      unit={unit}
+                      min={-1000}
+                      max={1000}
+                      value={item.spread}
+                      onChange={onChangeSpread(type, i)}
+                    />
+                  ) : null}
+                </Col>
+              </Row>
+            </div>
           </div>
         ))}
       </>
