@@ -11,6 +11,7 @@ import useMergeAppData from "~/hooks/useMergeAppData";
 import s from "./Controller.module.scss";
 import Shadow from "../Shadow";
 import Border from "../Border";
+import Transform from "../Transfrom";
 
 const { Panel } = Collapse;
 
@@ -64,8 +65,15 @@ const Controller: React.FC<Props> = () => {
 
   const onChangeBorder = useCallback(
     (result: any) => {
-      console.log(result)
       update(result, 'style.basic.border');
+    },
+    [update],
+  )
+
+  const onChangeTransfrom = useCallback(
+    (result: any) => {
+      console.log(result)
+      update(result, 'style.basic.transform');
     },
     [update],
   )
@@ -73,11 +81,11 @@ const Controller: React.FC<Props> = () => {
   return (
     <div className={s.root}>
       <Collapse bordered={false} defaultActiveKey={["1"]}>
-        <Panel header="圆角与描边" key="1">
-          <Border 
+        <Panel header="变换" key="1">
+          <Transform 
             unit={unit}
-            onChange={onChangeBorder}
-            defaultDate={selected?.style?.basic?.border || {}}
+            onChange={onChangeTransfrom}
+            defaultDate={selected?.style?.basic?.transform || {}}
           />
         </Panel>
         <Panel header="布局" key="2">
@@ -110,6 +118,13 @@ const Controller: React.FC<Props> = () => {
               textShadowList: selected?.style?.basic?.textShadow,
               boxShadowList: selected?.style?.basic?.boxShadow,
             }}
+          />
+        </Panel>
+        <Panel header="圆角与描边" key="6">
+          <Border 
+            unit={unit}
+            onChange={onChangeBorder}
+            defaultDate={selected?.style?.basic?.border || {}}
           />
         </Panel>
       </Collapse>

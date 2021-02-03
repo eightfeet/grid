@@ -276,9 +276,7 @@ export const border = function (styleObj: objType): resultType {
     if (element === null || element === undefined) rules.borderRadius[i] = "0";
   });
   const brJoined = rules.borderRadius.join(" ");
-
-  console.log('brJoined', brJoined)
-
+  
   if (brJoined !== "0 0 0 0") {
     result.borderRadius = rules.borderRadius.join(" ");
   }
@@ -436,6 +434,8 @@ export const font = function (styleObj: objType): resultType {
 };
 
 export const transform = function (styleObj: objType): resultType {
+  console.log(33333, styleObj)
+
   // -moz-transform: {scale} {rotate} translate({translateX}, {translateY}) skew({skewX}, {skewY});
   // -webkit-transform: {scale} {rotate} translate({translateX}, {translateY}) skew({skewX}, {skewY});
   // transform: {scale} {rotate} translate({translateX}, {translateY}) skew({skewX}, {skewY});
