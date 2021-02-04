@@ -27,7 +27,6 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
     (state: RootState) => state.activationItem.moduleId
   );
   const ref = useRef(null);
-  const didMount = useRef(false);
 
   const updateGradient = useCallback(
     (colors: string[], valuse: number[], directions?: string) => {
@@ -61,32 +60,20 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
    * didMount
    */
   useEffect(() => {
-    if (!didMount.current) {
-      didMount.current = true;
-      // 取出渐变与渐变方向
-      const { gradient, gradientDirections } = defaultData || {};
-      // 获取默认值与颜色
-      const defValus: number[] = [],
-        defColor: string[] = [];
-      if (Array.isArray(gradient)) {
-        gradient.forEach((item) => {
-          defValus.push(item.transition);
-          defColor.push(item.color);
-        });
-      }
-      // 更新渐变数值
-      updateGradient(defColor, defValus, gradientDirections);
+    // 取出渐变与渐变方向
+    const { gradient, gradientDirections } = defaultData || {};
+    // 获取默认值与颜色
+    const defValus: number[] = [],
+      defColor: string[] = [];
+    if (Array.isArray(gradient)) {
+      gradient.forEach((item) => {
+        defValus.push(item.transition);
+        defColor.push(item.color);
+      });
     }
+    // 更新渐变数值
+    updateGradient(defColor, defValus, gradientDirections);
   }, [defaultData, moduleId, updateGradient]);
-
-  /**
-   * will unmount by props moduleId change
-   */
-  useEffect(() => {
-    return () => {
-      didMount.current = false;
-    };
-  }, [moduleId]);
 
   /**
    * 增加颜色状态标记
@@ -128,7 +115,7 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
   };
 
   const onDoubleClickColor = useCallback(
-    (index) => (e: any) => {
+    (index) => () => {
       let newValuse = valuse.filter((item: number, i) => index !== i);
       let newColor = colorArray.filter((item: string, i) => index !== i);
       if (newValuse.length === 1) newValuse = [];
@@ -156,8 +143,8 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
       const result = updateGradient(colorArray, valuse, value);
       onChangeData(result);
     },
-    [colorArray, onChangeData, updateGradient, valuse],
-  )
+    [colorArray, onChangeData, updateGradient, valuse]
+  );
 
   return (
     <Row className={s.row}>
@@ -204,7 +191,13 @@ const GradientSlider: React.FC<Props> = ({ onChange, defaultData }) => {
         <Select
           label="方向"
           value={gradientDirections}
-          optionsData={{ left: "左右", top: "上下", '45deg': "45度", '-45deg': "-45度", center: "径向" }}
+          optionsData={{
+            left: "左右",
+            top: "上下",
+            "45deg": "45度",
+            "-45deg": "-45度",
+            center: "径向",
+          }}
           onChange={onChangeDirections}
         />
       </Col>

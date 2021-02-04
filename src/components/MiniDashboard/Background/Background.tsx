@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Row, Col, Radio } from "antd";
 import Upload from "../Upload";
 
@@ -14,6 +14,8 @@ import useCssPicker from "~/hooks/useCssPicker";
 import Select from "../Select";
 import QuadrangularSelect from "../QuadrangularSelect";
 import GradientSlider from "../GradientSlider";
+import { useSelector } from "react-redux";
+import { RootState } from "~/redux/store";
 
 interface Props {
   onChange: (result: ResultType) => void;
@@ -33,7 +35,7 @@ type ChangeType =
   | "repeat";
 
 interface ResultType {
-  type: string;
+  type: 'backgroundCommon' | 'backgroundGradient';
   values: AnyObjectType;
 }
 
@@ -43,9 +45,12 @@ const BackgroundCommon: React.FC<Props> = ({
   defaultBGGradient,
   unit,
 }) => {
-  const [resultCommon, pickToResultCommon] = useCssPicker("backgroundCommon");
-  const [tabState, setTabState] = useState("common");
-
+  const moduleId = useSelector(
+    (state: RootState) => state.activationItem.moduleId
+  );
+  
+  // commonBackground
+  const [commonData, setCommonData] = useState<BackgroundCommonTypesOfStyleItems>({});
   const {
     imageUrl,
     backgroundColor,
@@ -54,35 +59,78 @@ const BackgroundCommon: React.FC<Props> = ({
     sizeX,
     sizeY,
     repeat,
-  } = defaultBGCommonData || {};
-
-  const { gradient, gradientDirections } = defaultBGGradient || {};
+  } = commonData;
+  useEffect(() => {
+    const data = { ...(defaultBGCommonData || {}) };
+    setCommonData(data);
+  }, [defaultBGCommonData, moduleId]);
 
   const onChangeBackgroundCommon = useCallback(
-    (type: ChangeType) => (data: any) => {
-      pickToResultCommon(type, data);
+    (type: ChangeType) => (result: any) => {
+      const data:BackgroundCommonTypesOfStyleItems = {...commonData}
+      data[type] = result;
+
+      if (type === 'backgroundColor') {
+        data[type] = `rgba(${result.value.rgb.r}, ${result.value.rgb.g}, ${result.value.rgb.b}, ${result.value.rgb.a})`;
+      }
+
+      if (type === 'imageUrl') {
+        if (!result) {
+          delete data.positionX;
+          delete data.positionY;
+          delete data.repeat;
+          delete data.sizeX;
+          delete data.sizeY;
+        }
+      }
+
+      setCommonData(data)
       if (onChange instanceof Function) {
-        onChange(resultCommon);
+        onChange({
+          type: 'backgroundCommon',
+          values: data
+        });
       }
     },
-    [onChange, pickToResultCommon, resultCommon]
+    [commonData, onChange]
   );
 
-  const onChangeBg = useCallback((data) => {
-    onChangeBackgroundCommon("positionX")(data[0]);
-    onChangeBackgroundCommon("positionY")(data[1]);
-  }, [onChangeBackgroundCommon]);
+  const onChangeBg = useCallback(
+    (result) => {
+      const data:BackgroundCommonTypesOfStyleItems = {...commonData};
+      data.positionX = result[0];
+      data.positionY= result[1];
+      setCommonData(data);
+    },
+    [commonData]
+  );
+
+  // gradientBackground
+  const [gradientData, setGradientData] = useState<BackgroundGradientTypesOfStyleItems>({});
+  useEffect(() => {
+    const data = { ...(defaultBGGradient || {}) };
+    setGradientData(data);
+  }, [defaultBGGradient, moduleId]);
+  const { gradient, gradientDirections } = gradientData || {};
+
+  
+  const [tabState, setTabState] = useState("common");
+  
+
 
   const onChangeTab = useCallback((e) => {
     setTabState(e.target.value);
   }, []);
 
-  const onChangeGradient = useCallback((gradient) => {
-    onChange({
-      type: "backgroundGradient",
-      values: gradient,
-    });
-  }, [onChange]);
+  const onChangeGradient = useCallback(
+    (gradient) => {
+      onChange({
+        type: "backgroundGradient",
+        values: gradient,
+      });
+    },
+    [onChange]
+  );
 
   const renderCommon = () => (
     <>
