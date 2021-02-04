@@ -58,7 +58,6 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
 
   const onChangeFont = useCallback(
     (type: ChangeType) => (data: any) => {
-      console.log(data);
       let value = data;
       if (type === "align" || type === "decoration" || type === "fontWeight") {
         value = data.target.value;

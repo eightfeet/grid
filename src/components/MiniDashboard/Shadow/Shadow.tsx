@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Row, Col, Radio, Button, Switch } from "antd";
 import classNames from "classnames";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "~/redux/store";
 import Color from "../Color";
@@ -43,42 +43,32 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
   const [shadowType, setShadowType] = useState<"text" | "box">("box");
   const [textShadowList, setTextShadowList] = useState<TextShadow[]>([]);
   const [boxShadowList, setBoxShadowList] = useState<BoxShadow[]>([]);
-  const didMount = useRef(false);
   const moduleId = useSelector(
     (state: RootState) => state.activationItem.moduleId
   );
 
-  useEffect(() => {
-    if (!didMount.current) {
-      didMount.current = true;
-      if (defaultValue?.textShadowList) {
-        defaultValue.textShadowList.forEach((item) => {
-          item.hiddenItem = false;
-        });
-        setTextShadowList(defaultValue.textShadowList);
-      } else {
-        setTextShadowList([]);
-      }
-      if (defaultValue?.boxShadowList) {
-        defaultValue.boxShadowList.forEach((item) => {
-          item.hiddenItem = false;
-        });
-        setBoxShadowList(defaultValue.boxShadowList);
-      } else {
-        setBoxShadowList([]);
-      }
-    }
-  }, [defaultValue?.boxShadowList, defaultValue?.textShadowList]);
 
+  // init DefaultData
   useEffect(() => {
-    return () => {
-      if (didMount.current === true) {
-        didMount.current = false;
-        setShadowType("box");
-      }
-    };
-  }, [moduleId]);
+    let textShadowList = [...(defaultValue?.textShadowList || [])];
+    let boxShadowList = [...(defaultValue?.boxShadowList || [])];
 
+    textShadowList = textShadowList.map((item) => {
+      item.hiddenItem = false;
+      return item;
+    });
+
+    boxShadowList = boxShadowList.map((item) => {
+      item.hiddenItem = false;
+      return item;
+    });
+
+    setTextShadowList(textShadowList);
+    setBoxShadowList(boxShadowList);
+    setShadowType("box");
+  }, [defaultValue?.boxShadowList, defaultValue?.textShadowList, moduleId]);
+
+  
   const onChangeShadowTab = useCallback((e) => {
     setShadowType(e.target.value);
   }, []);
