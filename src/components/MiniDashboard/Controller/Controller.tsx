@@ -25,7 +25,7 @@ const Controller: React.FC<Props> = () => {
 
   const onChangeFont = useCallback(
     (result: any) => {
-      update(result.values, 'style.basic.font');
+      update(result, 'style.basic.font');
     },
     [update]
   );
@@ -80,7 +80,7 @@ const Controller: React.FC<Props> = () => {
 
   return (
     <div className={s.root}>
-      <Collapse bordered={false} defaultActiveKey={["1"]}>
+      <Collapse bordered={false} defaultActiveKey={['3']}>
         <Panel header="变换" key="1">
           <Transform 
             unit={unit}

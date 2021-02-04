@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Row, Col } from "antd";
 import { Radio, Checkbox } from "antd";
 
@@ -14,13 +14,14 @@ import {
 import s from "./Font.module.scss";
 import Color from "../Color";
 import NumberInput from "../NumberInput";
-import { AnyObjectType, FontTypesOfStyleItems } from "types/appData";
-import useCssPicker from "~/hooks/useCssPicker";
+import { FontTypesOfStyleItems } from "types/appData";
+import { useSelector } from "react-redux";
+import { RootState } from "~/redux/store";
 
 interface Props {
-  onChange: (result: ResultType) => void;
+  onChange: (result: FontTypesOfStyleItems) => void;
   defaultData?: FontTypesOfStyleItems;
-  unit?: string
+  unit?: string;
 }
 
 type ChangeType =
@@ -34,23 +35,58 @@ type ChangeType =
   | "fontStyle"
   | "align";
 
-interface ResultType {
-  type: string;
-  values: AnyObjectType;
-}
-
 const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
-  const [result, pickToResult] = useCssPicker("font");
-  const { fontSize, align, lineHeight, letterSP, fontWeight, fontStyle, color, decoration } = defaultData || {};
+  const [fontData, setFontData] = useState<FontTypesOfStyleItems>({});
+  const {
+    fontSize,
+    align,
+    lineHeight,
+    letterSP,
+    fontWeight,
+    fontStyle,
+    color,
+    decoration,
+  } = fontData;
+  const moduleId = useSelector(
+    (state: RootState) => state.activationItem.moduleId
+  );
+
+  useEffect(() => {
+    const data: FontTypesOfStyleItems = { ...(defaultData || {}) };
+    setFontData(data);
+  }, [defaultData, moduleId]);
 
   const onChangeFont = useCallback(
     (type: ChangeType) => (data: any) => {
-      pickToResult(type, data);
+      console.log(data);
+      let value = data;
+      if (type === "align" || type === "decoration" || type === "fontWeight") {
+        value = data.target.value;
+      }
+      if (type === "fontWeight") {
+        if (data.target.checked) {
+          value = "bold";
+        } else {
+          value = "normal";
+        }
+      }
+      if (type === "fontStyle") {
+        if (data.target.checked) {
+          value = "italic";
+        } else {
+          value = "normal";
+        }
+      }
+      if (type === "color") {
+        value = `rgba(${data.value.rgb.r}, ${data.value.rgb.g}, ${data.value.rgb.b}, ${data.value.rgb.a})`;
+      }
+      fontData[type] = value;
+      setFontData({ ...fontData });
       if (onChange instanceof Function) {
-        onChange(result);
+        onChange(fontData);
       }
     },
-    [onChange, pickToResult, result]
+    [fontData, onChange]
   );
 
   return (
@@ -83,12 +119,16 @@ const Font: React.FC<Props> = ({ onChange, defaultData, unit }) => {
         <Col span={8}>
           <Checkbox
             className={s.Checkbox}
-            checked={fontWeight === 'bold'}
+            checked={fontWeight === "bold"}
             onChange={onChangeFont("fontWeight")}
           >
             <BoldOutlined />
           </Checkbox>
-          <Checkbox className={s.Checkbox} checked={fontStyle === 'italic'} onChange={onChangeFont("fontStyle")}>
+          <Checkbox
+            className={s.Checkbox}
+            checked={fontStyle === "italic"}
+            onChange={onChangeFont("fontStyle")}
+          >
             <ItalicOutlined />
           </Checkbox>
         </Col>
