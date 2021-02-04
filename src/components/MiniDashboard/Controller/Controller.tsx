@@ -32,7 +32,7 @@ const Controller: React.FC<Props> = () => {
 
   const onChangeDisplay = useCallback(
     (result: any) => {
-      update(result.values, 'style.basic.display');
+      update(result, 'style.basic.display');
     },
     [update]
   );

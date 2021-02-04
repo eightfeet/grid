@@ -3,18 +3,14 @@ import { Row, Col } from "antd";
 import Select from './../Select'
 import s from "./Display.module.scss";
 import NumberInput from "../NumberInput";
-import { AnyObjectType, DisplayTypesOfStyleItems } from "types/appData";
-import useCssPicker from "~/hooks/useCssPicker";
+import { DisplayTypesOfStyleItems } from "types/appData";
+import { useSelector } from "react-redux";
+import { RootState } from "~/redux/store";
 
 interface Props {
-  onChange: (result: ResultType) => void;
+  onChange: (result: DisplayTypesOfStyleItems) => void;
   defaultData?: DisplayTypesOfStyleItems;
   unit?: string;
-}
-
-interface ResultType {
-  type: string;
-  values: AnyObjectType;
 }
 
 type ChangeType =
@@ -29,38 +25,30 @@ type ChangeType =
 
 const Display: React.FC<Props> = ({onChange, defaultData, unit }) => {
 
-  const [relative, setrelative] = useState(true);
+  const [displayData, setDisplayData] = useState<DisplayTypesOfStyleItems>({});
+  const moduleId = useSelector((state:RootState) => state.activationItem.moduleId)
 
-  const [result, pickToResult] = useCssPicker("display");
-  const { width, height, zIndex, position, left, right, top, bottom } = defaultData || {};
+  const { width, height, zIndex, position, left, right, top, bottom } = displayData;
 
   useEffect(() => {
-    if (position === 'absolute') {
-      setrelative(false)
-    }
-    if (position === 'relative') {
-      setrelative(true)
-    }
-    if (position === undefined) {
-      setrelative(true)
-    }
-  }, [position])
+    setDisplayData({...(defaultData)})
+  }, [defaultData, moduleId])
 
   const onChangeDisplay = useCallback(
     (type: ChangeType) => (data: any) => {
-      if (data === 'absolute') {
-        setrelative(false)
+      displayData[type] = data;
+      if (type === 'position' && data === 'relative') {
+        delete displayData.left;
+        delete displayData.right;
+        delete displayData.top;
+        delete displayData.bottom;
       }
-      if (data === 'relative') {
-        setrelative(true)
-      }
-      pickToResult(type, data);
+      setDisplayData({...displayData});
       if (onChange instanceof Function) {
-        console.log('result',  result)
-        onChange(result);
+        onChange(displayData);
       }
     },
-    [onChange, pickToResult, result]
+    [displayData, onChange]
   );
 
   return (<>
@@ -80,20 +68,20 @@ const Display: React.FC<Props> = ({onChange, defaultData, unit }) => {
             <NumberInput label="层级" min={1} max={100000} value={zIndex} onChange={onChangeDisplay("zIndex")}/>
       </Col>
     </Row>
-    {!relative ? <Row className={s.row}>
+    {position === 'absolute' ? <Row className={s.row}>
       <Col span={12}>
-            <NumberInput label="左边距" unit={unit} min={-100000} max={100000} value={relative? undefined : left} onChange={onChangeDisplay("left")}/>
+            <NumberInput label="左边距" unit={unit} min={-100000} max={100000} value={left} onChange={onChangeDisplay("left")}/>
       </Col>
       <Col span={12}>
-            <NumberInput label="右边距" unit={unit} min={-100000} max={100000} value={relative? undefined : right} onChange={onChangeDisplay("right")}/>
+            <NumberInput label="右边距" unit={unit} min={-100000} max={100000} value={right} onChange={onChangeDisplay("right")}/>
       </Col>
     </Row> : null}
-    {!relative ? <Row className={s.row}>
+    {position === 'absolute' ? <Row className={s.row}>
       <Col span={12}>
-            <NumberInput label="上边距" unit={unit} min={-100000} max={100000} value={relative? undefined : top} onChange={onChangeDisplay("top")}/>
+            <NumberInput label="上边距" unit={unit} min={-100000} max={100000} value={top} onChange={onChangeDisplay("top")}/>
       </Col>
       <Col span={12}>
-            <NumberInput label="下边距" unit={unit} min={-100000} max={100000} value={relative? undefined : bottom} onChange={onChangeDisplay("bottom")}/>
+            <NumberInput label="下边距" unit={unit} min={-100000} max={100000} value={bottom} onChange={onChangeDisplay("bottom")}/>
       </Col>
     </Row> : null}
     </>
