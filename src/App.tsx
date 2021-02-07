@@ -6,7 +6,7 @@ import { Layout as LayoutDataType } from "react-grid-layout";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Layout from "./Layout";
 import data from "./mockdata/appData";
-import Dashboard from '~/components/MiniDashboard/Dashboard';
+import MiniDashboard from '~/components/MiniDashboard';
 import "./App.scss";
 
 type StateProps = ReturnType<typeof mapState>;
@@ -95,7 +95,7 @@ const App: React.FC<StateProps & DispatchProps & CompProps> = ({
         onChange={onChange}
       />
     </div>
-    {showEditor && designModal && activationItem.moduleId ? <div style={{height: '400px'}}><Dashboard /></div> : null}
+    {showEditor && designModal && activationItem.moduleId ? <div style={{height: '400px'}}><MiniDashboard /></div> : null}
     </>
   );
 };

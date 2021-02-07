@@ -65,8 +65,11 @@ const Shadow: React.FC<Props> = ({ unit, onChange, defaultValue }) => {
 
     setTextShadowList(textShadowList);
     setBoxShadowList(boxShadowList);
-    setShadowType("box");
   }, [defaultValue?.boxShadowList, defaultValue?.textShadowList, moduleId]);
+
+  useEffect(() => {
+    setShadowType("box");
+  }, [moduleId])
 
   
   const onChangeShadowTab = useCallback((e) => {
