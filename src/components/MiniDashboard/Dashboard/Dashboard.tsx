@@ -1,19 +1,46 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import Controller from "./../Controller";
 import s from "./Dashboard.module.scss";
-import { Menu } from 'antd';
+import { Menu, Button } from "antd";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+} from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { RootState } from "~/redux/store";
 const { Item } = Menu;
 
 interface Props {}
 
 const Dashboard: React.FC<Props> = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const style = useSelector((state: RootState) => state.activationItem.style)
+  const toggleCollapsed = useCallback(() => {
+    setCollapsed(!collapsed);
+  }, [collapsed]);
   return (
-    <div className={s.root}>
-      <Menu className={s.tab}>
-          <Item key="1">基本</Item>
-          <Item key="2">xxx</Item>
-      </Menu>
-      <Controller />
+    <div className={s.root} style={collapsed ? {width: '80px', maxHeight: '40px'} : {width: '550px', maxHeight: '440px'}}>
+      <div className={s.menu}>
+        <Button
+          className={s.menuicon}
+          type="primary"
+          onClick={toggleCollapsed}
+        >
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
+          )}
+        </Button>
+        <Menu
+          className={s.tab}
+          mode="inline"
+          inlineCollapsed={collapsed}
+        >
+          {Object.keys(style).map((key: string) => <Item key={key}>{key}</Item>)}
+        </Menu>
+      </div>
+      <div className={s.dashboard}  >
+        <Controller />
+      </div>
     </div>
   );
 };
