@@ -16,119 +16,124 @@ import Transform from "../Transfrom";
 const { Panel } = Collapse;
 
 interface Props {
-  path: string
+  path: string;
 }
 
-const Controller: React.FC<Props> = () => {
+const Controller: React.FC<Props> = ({ path }) => {
   const selected = useSelector((state: RootState) => state.activationItem);
   const unit = useSelector((state: RootState) => state.controller.unit);
   const update = useMergeAppData();
+  const rootStyle = `style.${path}`;
 
   const onChangeFont = useCallback(
     (result: any) => {
-      update(result, 'style.basic.font');
+      update(result, `${rootStyle}.font`);
     },
-    [update]
+    [rootStyle, update]
   );
 
   const onChangeDisplay = useCallback(
     (result: any) => {
-      update(result, 'style.basic.display');
+      update(result, `${rootStyle}.display`);
     },
-    [update]
+    [rootStyle, update]
   );
 
   const onChangeBackgroundCommon = useCallback(
     (result: any) => {
-      if (result.type === 'backgroundCommon') {
-        update(result.values, 'style.basic.backgroundCommon');
+      if (result.type === "backgroundCommon") {
+        update(result.values, `${rootStyle}.backgroundCommon`);
       }
-      if (result.type === 'backgroundGradient') {
-        update(result.values, 'style.basic.backgroundGradient');
+      if (result.type === "backgroundGradient") {
+        update(result.values, `${rootStyle}.backgroundGradient`);
       }
-      
     },
-    [update]
+    [rootStyle, update]
   );
 
   const onChangeShadow = useCallback(
     (result: any) => {
-      if (result.type === 'boxShadow') {
-        update(result.values, 'style.basic.boxShadow');
+      if (result.type === "boxShadow") {
+        update(result.values, `${rootStyle}.boxShadow`);
       }
-      if (result.type === 'textShadow') {
-        update(result.values, 'style.basic.textShadow');
+      if (result.type === "textShadow") {
+        update(result.values, `${rootStyle}.textShadow`);
       }
-      
     },
-    [update],
-  )
+    [rootStyle, update]
+  );
 
   const onChangeBorder = useCallback(
     (result: any) => {
-      update(result, 'style.basic.border');
+      update(result, `${rootStyle}.border`);
     },
-    [update],
-  )
+    [rootStyle, update]
+  );
 
   const onChangeTransfrom = useCallback(
     (result: any) => {
-      console.log(result)
-      update(result, 'style.basic.transform');
+      console.log(result);
+      update(result, `${rootStyle}.transform`);
     },
-    [update],
-  )
+    [rootStyle, update]
+  );
 
   return (
     <div className={s.root}>
-      <Collapse bordered={false} defaultActiveKey={['3']}>
-        <Panel header="变换" key="1">
-          <Transform 
-            unit={unit}
-            onChange={onChangeTransfrom}
-            defaultDate={selected?.style?.basic?.transform || {}}
-          />
-        </Panel>
-        <Panel header="布局" key="2">
-          <Display
-            unit={unit}
-            onChange={onChangeDisplay}
-            defaultData={selected?.style?.basic?.display || {}}
-          />
-        </Panel>
-        <Panel header="文字" key="3">
-          <Font
-            unit={unit}
-            onChange={onChangeFont}
-            defaultData={selected?.style?.basic?.font || {}}
-          />
-        </Panel>
-        <Panel header="背景" key="4">
-          <Background
-            unit={unit}
-            onChange={onChangeBackgroundCommon}
-            defaultBGCommonData={selected?.style?.basic?.backgroundCommon || {}}
-            defaultBGGradient={selected?.style?.basic?.backgroundGradient || {}}
-          />
-        </Panel>
-        <Panel header="投影" key="5">
-          <Shadow 
-            unit={unit}
-            onChange={onChangeShadow}
-            defaultValue={{
-              textShadowList: selected?.style?.basic?.textShadow,
-              boxShadowList: selected?.style?.basic?.boxShadow,
-            }}
-          />
-        </Panel>
-        <Panel header="圆角与描边" key="6">
-          <Border 
-            unit={unit}
-            onChange={onChangeBorder}
-            defaultDate={selected?.style?.basic?.border || {}}
-          />
-        </Panel>
-      </Collapse>
+      {path ? (
+        <Collapse bordered={false}>
+          <Panel header="布局" key="1">
+            <Display
+              unit={unit}
+              onChange={onChangeDisplay}
+              defaultData={selected?.style?.[path]?.display || {}}
+            />
+          </Panel>
+          <Panel header="文字" key="2">
+            <Font
+              unit={unit}
+              onChange={onChangeFont}
+              defaultData={selected?.style?.[path]?.font || {}}
+            />
+          </Panel>
+          <Panel header="圆角与描边" key="3">
+            <Border
+              unit={unit}
+              onChange={onChangeBorder}
+              defaultDate={selected?.style?.[path]?.border || {}}
+            />
+          </Panel>
+          <Panel header="投影" key="4">
+            <Shadow
+              unit={unit}
+              onChange={onChangeShadow}
+              defaultValue={{
+                textShadowList: selected?.style?.[path]?.textShadow,
+                boxShadowList: selected?.style?.[path]?.boxShadow,
+              }}
+            />
+          </Panel>
+          <Panel header="背景" key="5">
+            <Background
+              unit={unit}
+              onChange={onChangeBackgroundCommon}
+              defaultBGCommonData={
+                selected?.style?.[path]?.backgroundCommon || {}
+              }
+              defaultBGGradient={
+                selected?.style?.[path]?.backgroundGradient || {}
+              }
+            />
+          </Panel>
+          <Panel header="变换" key="6">
+            <Transform
+              unit={unit}
+              onChange={onChangeTransfrom}
+              defaultDate={selected?.style?.[path]?.transform || {}}
+            />
+          </Panel>
+        </Collapse>
+      ) : null}
     </div>
   );
 };

@@ -47,7 +47,7 @@ const Dashboard: React.FC<Props> = () => {
         </Menu>
       </div>
       <div className={s.dashboard}  >
-        {stylePath ? <Controller path={stylePath} /> : null}
+        <Controller path={stylePath} />
       </div>
     </div>
   );
