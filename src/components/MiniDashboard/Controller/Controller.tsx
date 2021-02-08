@@ -16,6 +16,7 @@ import Transform from "../Transfrom";
 const { Panel } = Collapse;
 
 interface Props {
+  path: string
 }
 
 const Controller: React.FC<Props> = () => {

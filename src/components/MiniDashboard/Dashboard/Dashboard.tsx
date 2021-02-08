@@ -14,10 +14,17 @@ interface Props {}
 
 const Dashboard: React.FC<Props> = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const style = useSelector((state: RootState) => state.activationItem.style)
+  const style = useSelector((state: RootState) => state.activationItem.style);
+  const [stylePath, setStylePath] = useState('');
   const toggleCollapsed = useCallback(() => {
     setCollapsed(!collapsed);
   }, [collapsed]);
+  const onSelectStylePath = useCallback(
+    (e) => {
+      setStylePath(e.key)
+    },
+    [],
+  )
   return (
     <div className={s.root} style={collapsed ? {width: '80px', maxHeight: '40px'} : {width: '550px', maxHeight: '440px'}}>
       <div className={s.menu}>
@@ -34,12 +41,13 @@ const Dashboard: React.FC<Props> = () => {
           className={s.tab}
           mode="inline"
           inlineCollapsed={collapsed}
+          onSelect={onSelectStylePath}
         >
           {Object.keys(style).map((key: string) => <Item key={key}>{key}</Item>)}
         </Menu>
       </div>
       <div className={s.dashboard}  >
-        <Controller />
+        {stylePath ? <Controller path={stylePath} /> : null}
       </div>
     </div>
   );
