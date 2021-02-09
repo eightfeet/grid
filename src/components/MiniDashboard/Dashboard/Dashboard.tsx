@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Controller from "./../Controller";
 import s from "./Dashboard.module.scss";
 import { Menu, Button } from "antd";
@@ -15,6 +15,8 @@ interface Props {}
 const Dashboard: React.FC<Props> = () => {
   const [collapsed, setCollapsed] = useState(false);
   const style = useSelector((state: RootState) => state.activationItem.style);
+  const moduleId = useSelector((state: RootState) => state.activationItem.moduleId);
+
   const [stylePath, setStylePath] = useState('');
   const toggleCollapsed = useCallback(() => {
     setCollapsed(!collapsed);
@@ -25,6 +27,11 @@ const Dashboard: React.FC<Props> = () => {
     },
     [],
   )
+  // 更换模板时初始化选择
+  useEffect(() => {
+    setStylePath('')
+  }, [moduleId])
+
   return (
     <div className={s.root} style={collapsed ? {width: '80px', maxHeight: '40px'} : {width: '550px', maxHeight: '440px'}}>
       <div className={s.menu}>
@@ -39,6 +46,7 @@ const Dashboard: React.FC<Props> = () => {
         </Button>
         <Menu
           className={s.tab}
+          selectedKeys={[stylePath]}
           mode="inline"
           inlineCollapsed={collapsed}
           onSelect={onSelectStylePath}
